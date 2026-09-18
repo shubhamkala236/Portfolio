@@ -60,7 +60,27 @@ blocks: [
 ];
 ```
 
-Available blocks: `meta`, `prose`, `quote-cluster`, `statement`, `media`.
+Available blocks:
+
+| Block              | Used for                                                 |
+| ------------------ | -------------------------------------------------------- |
+| `meta`             | The PROJECT / ROLE / TIMELINE / SCOPE row                |
+| `prose`            | A labelled run of paragraphs                             |
+| `heading`          | A centred chapter break, optionally over a figure        |
+| `statement`        | Muted eyebrow above a display-serif pull quote           |
+| `quote-cluster`    | Quote chips orbiting a central figure                    |
+| `feature-grid`     | Staggered three-column feature cards                     |
+| `image-row`        | Bottom-aligned visuals at their Figma proportions        |
+| `annotated-figure` | An exported screen walkthrough plus its callout text     |
+| `tab-bar`          | A still of the app's own tab bar                         |
+| `media`            | A full-width visual, or the grey placeholder when `null` |
+
+Composite artwork (the solution illustrations, the annotated walkthroughs) is
+exported from Figma as PNG rather than rebuilt node-by-node — those are
+hand-placed illustrations, not layouts, and no responsive grid would reproduce
+them faithfully. Where an export bakes text into pixels, `annotated-figure`
+repeats that text below the image: readable on a phone, and available to screen
+readers and search engines.
 
 **To add a project:** write `src/content/projects/<slug>.ts` and list it in
 `src/content/projects/index.ts`. That creates the route, the listing card and the

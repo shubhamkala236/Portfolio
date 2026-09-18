@@ -68,6 +68,9 @@ export type CaseStudyBlock =
       type: "heading";
       text: string;
       figure?: ImageAsset;
+      /** Rendered size of the figure in px. Defaults to 134. */
+      figureSize?: number;
+      size?: "lg" | "md";
     }
   /**
    * A still of the app's own tab bar, naming the sections the walkthrough
@@ -104,6 +107,22 @@ export type CaseStudyBlock =
       description?: string;
       frameWidth?: number;
       items: readonly { image: ImageAsset; bordered?: boolean }[];
+    }
+  /**
+   * An annotated screen walkthrough. The figure is a single exported image
+   * because the callouts are hand-placed; `annotations` repeats their text so
+   * it stays readable on small screens and available to assistive tech.
+   */
+  | {
+      type: "annotated-figure";
+      eyebrow?: string;
+      title?: string;
+      description?: string;
+      /** Optional heading for one figure within a larger section. */
+      subtitle?: string;
+      image: ImageAsset;
+      /** Each callout needs at least one of the two. */
+      annotations: readonly { title?: string; text?: string }[];
     }
   /** Centred pull-quote: muted eyebrow above a large display line. */
   | {

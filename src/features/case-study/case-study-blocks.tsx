@@ -1,4 +1,5 @@
 import type { CaseStudyBlock } from "@/content/types";
+import { AnnotatedFigureBlock } from "@/features/case-study/blocks/annotated-figure-block";
 import { FeatureGridBlock } from "@/features/case-study/blocks/feature-grid-block";
 import { HeadingBlock } from "@/features/case-study/blocks/heading-block";
 import { ImageRowBlock } from "@/features/case-study/blocks/image-row-block";
@@ -26,6 +27,8 @@ function renderBlock(block: CaseStudyBlock) {
       return <ImageRowBlock {...block} />;
     case "tab-bar":
       return <TabBarBlock {...block} />;
+    case "annotated-figure":
+      return <AnnotatedFigureBlock {...block} />;
     case "meta":
       return <MetaBlock {...block} />;
     case "prose":
