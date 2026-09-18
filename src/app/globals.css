@@ -1,26 +1,123 @@
 @import "tailwindcss";
 
+/* ---------------------------------------------------------------------------
+ * Design tokens — the single source of truth for the visual language.
+ *
+ * Map Figma variables/styles onto these names and nothing else in the codebase
+ * needs to change. Components only ever reference semantic tokens
+ * (bg-surface, text-muted, rounded-card), never raw hex values.
+ * ------------------------------------------------------------------------- */
+
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Palette — replace these with the raw values from Figma. */
+  --palette-white: #ffffff;
+  --palette-ink-50: #f7f7f8;
+  --palette-ink-100: #ededf0;
+  --palette-ink-200: #d9dae0;
+  --palette-ink-400: #8b8d98;
+  --palette-ink-600: #55575f;
+  --palette-ink-900: #16171a;
+  --palette-ink-950: #0b0c0e;
+  --palette-accent: #4f46e5;
+  --palette-accent-hover: #4338ca;
+
+  /* Semantic tokens — what components actually consume. */
+  --bg: var(--palette-white);
+  --bg-subtle: var(--palette-ink-50);
+  --surface: var(--palette-white);
+  --surface-hover: var(--palette-ink-50);
+  --fg: var(--palette-ink-900);
+  --fg-muted: var(--palette-ink-600);
+  --fg-subtle: var(--palette-ink-400);
+  --border: var(--palette-ink-200);
+  --accent: var(--palette-accent);
+  --accent-hover: var(--palette-accent-hover);
+  --accent-fg: var(--palette-white);
+  --ring: var(--palette-accent);
+}
+
+[data-theme="dark"] {
+  --bg: var(--palette-ink-950);
+  --bg-subtle: #121316;
+  --surface: #131418;
+  --surface-hover: #1b1c21;
+  --fg: var(--palette-ink-50);
+  --fg-muted: #a1a3ad;
+  --fg-subtle: #6e707a;
+  --border: #292a30;
+  --accent: #6d63ff;
+  --accent-hover: #837aff;
+  --accent-fg: var(--palette-white);
+  --ring: #6d63ff;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  /* Colors */
+  --color-bg: var(--bg);
+  --color-bg-subtle: var(--bg-subtle);
+  --color-surface: var(--surface);
+  --color-surface-hover: var(--surface-hover);
+  --color-fg: var(--fg);
+  --color-muted: var(--fg-muted);
+  --color-subtle: var(--fg-subtle);
+  --color-border: var(--border);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-fg: var(--accent-fg);
+  --color-ring: var(--ring);
+
+  /* Typography */
+  --font-sans: var(--font-sans-var), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-mono-var), ui-monospace, monospace;
+
+  /* Fluid display sizes — one value covers mobile through desktop. */
+  --text-display: clamp(2.5rem, 1.4rem + 5.5vw, 5rem);
+  --text-display--line-height: 1.04;
+  --text-display--letter-spacing: -0.03em;
+  --text-headline: clamp(1.75rem, 1.2rem + 2.4vw, 3rem);
+  --text-headline--line-height: 1.12;
+  --text-headline--letter-spacing: -0.02em;
+
+  /* Radii */
+  --radius-card: 1rem;
+  --radius-pill: 9999px;
+
+  /* Section rhythm */
+  --spacing-section: clamp(4rem, 2rem + 8vw, 8rem);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  * {
+    border-color: var(--color-border);
   }
-}
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--color-bg);
+    color: var(--color-fg);
+    font-family: var(--font-sans);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-ring);
+    outline-offset: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
 }

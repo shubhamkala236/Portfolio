@@ -1,36 +1,80 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Portfolio
 
-## Getting Started
-
-First, run the development server:
+Personal portfolio built with Next.js 16 (App Router), React 19, TypeScript and
+Tailwind CSS v4.
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm run dev          # http://localhost:3000
+npm run build        # production build
+npm run typecheck    # tsc --noEmit
+npm run lint         # eslint
+npm run format       # prettier --write .
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## How the code is organised
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```
+src/
+  app/            Routes only. Pages compose sections; they hold no markup of their own.
+    layout.tsx      Fonts, metadata, header/footer, theme script
+    page.tsx        Home — composes the feature sections
+    projects/       Project index + [slug] detail page (static at build time)
+    sitemap.ts      Generated from the content layer
+    robots.ts
+    globals.css     Design tokens (see below)
+  components/
+    ui/           Design-system primitives: Container, Section, Button, Tag
+    layout/       Site chrome: header, footer, mobile nav, theme toggle
+  features/       One folder per page section, self-contained
+    hero/ about/ projects/ experience/ contact/
+  content/        All editable copy and data, typed
+    types.ts        Shapes every content file is checked against
+    site.ts         Name, role, nav, socials, email
+    projects.ts     Project data + query helpers
+    experience.ts   Roles and skill groups
+  lib/            cn(), fonts, SEO metadata builder, formatters
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Three rules keep it maintainable:
 
-## Learn More
+1. **Content never lives in components.** Everything editable sits in
+   `src/content/*.ts` and is checked with `satisfies` against `types.ts`, so a
+   missing field is a compile error, not a blank space on the live site.
+2. **Components never hard-code colours, fonts or spacing.** They use semantic
+   tokens (`bg-surface`, `text-muted`, `rounded-card`, `py-section`) defined once
+   in `globals.css`.
+3. **Routes only compose.** Markup belongs to a feature or a UI primitive, which
+   makes sections reorderable and reusable across pages.
 
-To learn more about Next.js, take a look at the following resources:
+## Editing content
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+| To change                  | Edit                        |
+| -------------------------- | --------------------------- |
+| Name, nav, socials, email  | `src/content/site.ts`       |
+| Projects (and their pages) | `src/content/projects.ts`   |
+| Work history, skills       | `src/content/experience.ts` |
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Adding an object to `projects.ts` automatically creates `/projects/<slug>`, adds
+the card to the listing, and adds the URL to the sitemap. Put cover images in
+`public/projects/` and set their real `width`/`height`.
 
-## Deploy on Vercel
+## Applying the Figma design
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+`globals.css` is the only file that needs to change to re-skin the site:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- `--palette-*` — raw values copied from the Figma variables.
+- semantic tokens (`--bg`, `--fg`, `--accent`, `--border`, …) — which palette
+  value each role uses, in light and in dark.
+- `@theme inline` — maps those onto Tailwind utility names.
+- `--text-display` / `--text-headline` — fluid type scale using `clamp()`, so one
+  value covers the mobile and desktop frames.
+
+Typefaces are set in `src/lib/fonts.ts`; the page gutter and max width in
+`src/components/ui/container.tsx`.
+
+## Theming
+
+Theme is stored on `<html data-theme="light|dark">`, applied before first paint
+by the inline script in `src/components/layout/theme-script.tsx` (no flash of the
+wrong theme), and persisted to `localStorage`. Style dark variants with Tailwind's
+`dark:` prefix.

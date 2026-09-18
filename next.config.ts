@@ -1,7 +1,10 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  // Add remote image domains here if project covers move off /public.
+  images: {
+    remotePatterns: [],
+  },
 };
 
 export default nextConfig;
