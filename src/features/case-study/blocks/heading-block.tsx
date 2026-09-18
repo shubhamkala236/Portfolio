@@ -15,10 +15,15 @@ export function HeadingBlock({
   text,
   figure,
   figureSize = 134,
+  figureGap = 16,
+  maxWidth,
   size = "lg",
 }: HeadingBlockProps) {
   return (
-    <div className="flex flex-col items-center gap-10">
+    <div
+      className="flex flex-col items-center"
+      style={{ gap: `calc(var(--gap-scale, 1) * ${figureGap}px)` }}
+    >
       {figure && (
         <Image
           src={figure.src}
@@ -32,9 +37,10 @@ export function HeadingBlock({
       )}
       <p
         className={cn(
-          "max-w-[46rem] text-center font-display text-balance text-fg",
+          "text-center font-display text-balance text-fg",
           sizes[size],
         )}
+        style={maxWidth ? { maxWidth } : undefined}
       >
         {text}
       </p>

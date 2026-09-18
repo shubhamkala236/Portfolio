@@ -44,6 +44,15 @@ export type ImageAsset = {
  * TypeScript will flag the missing case for you.
  */
 export type CaseStudyBlock =
+  /**
+   * A tighter cluster of blocks, mirroring a nested frame in Figma.
+   * `gap` is the Figma gap in px; it scales down with the rest of the page.
+   */
+  | {
+      type: "group";
+      gap: number;
+      blocks: readonly CaseStudyBlock[];
+    }
   /** The PROJECT / ROLE / TIMELINE / SCOPE row, framed by hairline rules. */
   | {
       type: "meta";
@@ -62,6 +71,10 @@ export type CaseStudyBlock =
       intro?: string;
       quotes: readonly string[];
       figure: ImageAsset;
+      /** How many chips sit in each row. Figma: 3 / 2 / 2. */
+      rows?: readonly number[];
+      /** Gap between chips within each row, in px. Figma: 27 / 271 / 388. */
+      rowGaps?: readonly number[];
     }
   /** A large centred display line used as a chapter break. */
   | {
@@ -70,6 +83,10 @@ export type CaseStudyBlock =
       figure?: ImageAsset;
       /** Rendered size of the figure in px. Defaults to 134. */
       figureSize?: number;
+      /** Figma gap between figure and text, in px. Defaults to 16. */
+      figureGap?: number;
+      /** Figma text width in px, so line breaks fall where they do in the file. */
+      maxWidth?: number;
       size?: "lg" | "md";
     }
   /**

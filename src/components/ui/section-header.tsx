@@ -8,7 +8,8 @@ type SectionHeaderProps = {
 
 /**
  * The eyebrow / display title / supporting paragraph stack that opens most
- * sections of a case study.
+ * sections. Figma sets 16px below the eyebrow and 12px between title and
+ * paragraph, so the two are nested rather than evenly spaced.
  */
 export function SectionHeader({
   eyebrow,
@@ -20,13 +21,17 @@ export function SectionHeader({
   return (
     <header className="flex flex-col gap-4">
       {eyebrow && <Eyebrow>{eyebrow}</Eyebrow>}
-      {title && (
-        <h2 className="font-display text-statement text-balance text-fg">
-          {title}
-        </h2>
-      )}
-      {description && (
-        <p className="text-pretty text-fg-strong">{description}</p>
+      {(title || description) && (
+        <div className="flex flex-col gap-3">
+          {title && (
+            <h2 className="font-display text-statement text-balance text-fg">
+              {title}
+            </h2>
+          )}
+          {description && (
+            <p className="text-pretty text-fg-strong">{description}</p>
+          )}
+        </div>
       )}
     </header>
   );
