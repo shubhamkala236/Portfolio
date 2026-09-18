@@ -7,8 +7,8 @@ type ContainerProps<T extends ElementType> = {
 } & ComponentPropsWithoutRef<T>;
 
 /**
- * The one place the page gutter and max width are defined. Match the content
- * width from the Figma frames here rather than per section.
+ * The one place the page gutter and content width are defined.
+ * Figma: 1258px content inside a 1512px frame.
  */
 export function Container<T extends ElementType = "div">({
   as,
@@ -19,7 +19,7 @@ export function Container<T extends ElementType = "div">({
 
   return (
     <Component
-      className={cn("mx-auto w-full max-w-6xl px-6 md:px-8", className)}
+      className={cn("mx-auto w-full max-w-[1258px] px-6 md:px-8", className)}
       {...props}
     />
   );

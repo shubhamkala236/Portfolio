@@ -1,19 +1,20 @@
-import { Geist, Geist_Mono } from "next/font/google";
+import { Gloock, Quicksand } from "next/font/google";
 
 /**
- * Swap these for the typefaces in the Figma file. The CSS variable names are
- * consumed by globals.css, so only this file changes.
+ * The two typefaces in the Figma file. The CSS variable names are consumed by
+ * globals.css, so swapping a typeface only touches this file.
  */
-export const fontSans = Geist({
+export const fontDisplay = Gloock({
+  variable: "--font-display-var",
+  subsets: ["latin"],
+  weight: "400",
+  display: "swap",
+});
+
+export const fontSans = Quicksand({
   variable: "--font-sans-var",
   subsets: ["latin"],
   display: "swap",
 });
 
-export const fontMono = Geist_Mono({
-  variable: "--font-mono-var",
-  subsets: ["latin"],
-  display: "swap",
-});
-
-export const fontVariables = `${fontSans.variable} ${fontMono.variable}`;
+export const fontVariables = `${fontDisplay.variable} ${fontSans.variable}`;

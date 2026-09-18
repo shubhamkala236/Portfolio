@@ -4,9 +4,9 @@ import { siteConfig } from "@/content/site";
 
 export function HeroSection() {
   return (
-    <section className="py-section">
+    <section className="py-block">
       <Container>
-        <p className="mb-6 font-mono text-sm tracking-widest text-subtle uppercase">
+        <p className="mb-6 text-label text-muted uppercase">
           {siteConfig.location}
         </p>
         <h1 className="max-w-4xl text-display font-semibold text-balance">

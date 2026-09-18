@@ -9,7 +9,7 @@ export function Tag({ className, ...props }: TagProps) {
   return (
     <span
       className={cn(
-        "rounded-pill border border-border px-3 py-1 text-xs font-medium text-muted",
+        "rounded-round border border-border px-3 py-1 text-xs font-medium text-muted",
         className,
       )}
       {...props}

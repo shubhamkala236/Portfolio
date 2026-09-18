@@ -5,7 +5,7 @@ export function SiteFooter() {
   return (
     <footer className="mt-auto border-t border-border py-10">
       <Container className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <p className="text-sm text-subtle">
+        <p className="text-sm text-muted">
           © {new Date().getFullYear()} {siteConfig.name}
         </p>
         <ul className="flex flex-wrap gap-6">

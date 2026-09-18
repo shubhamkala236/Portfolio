@@ -8,7 +8,7 @@ export function ExperienceSection() {
       id="experience"
       eyebrow="Experience"
       title="Where I've worked"
-      className="bg-bg-subtle"
+      className="bg-surface-sunken"
     >
       <ol className="divide-y divide-border border-t border-border">
         {experience.map((item) => (
@@ -16,9 +16,7 @@ export function ExperienceSection() {
             key={`${item.company}-${item.start}`}
             className="grid gap-4 py-8 md:grid-cols-[12rem_1fr] md:gap-10"
           >
-            <p className="font-mono text-sm text-subtle">
-              {formatDateRange(item)}
-            </p>
+            <p className="text-label text-muted">{formatDateRange(item)}</p>
 
             <div>
               <h3 className="text-lg font-semibold">
@@ -34,7 +32,7 @@ export function ExperienceSection() {
               <ul className="mt-4 space-y-2 text-muted">
                 {item.highlights.map((highlight) => (
                   <li key={highlight} className="flex gap-3 leading-relaxed">
-                    <span aria-hidden="true" className="text-subtle">
+                    <span aria-hidden="true" className="text-muted">
                       —
                     </span>
                     <span className="text-pretty">{highlight}</span>

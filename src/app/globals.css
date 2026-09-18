@@ -1,111 +1,112 @@
 @import "tailwindcss";
 
 /* ---------------------------------------------------------------------------
- * Design tokens — the single source of truth for the visual language.
+ * Design tokens — mirrored from the Figma variables.
  *
- * Map Figma variables/styles onto these names and nothing else in the codebase
- * needs to change. Components only ever reference semantic tokens
- * (bg-surface, text-muted, rounded-card), never raw hex values.
+ * The Figma variable name is noted beside each palette entry so the two stay
+ * traceable. Components only consume the semantic tokens below; nothing else
+ * in the codebase contains a raw hex value.
  * ------------------------------------------------------------------------- */
 
-@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
-
 :root {
-  /* Palette — replace these with the raw values from Figma. */
-  --palette-white: #ffffff;
-  --palette-ink-50: #f7f7f8;
-  --palette-ink-100: #ededf0;
-  --palette-ink-200: #d9dae0;
-  --palette-ink-400: #8b8d98;
-  --palette-ink-600: #55575f;
-  --palette-ink-900: #16171a;
-  --palette-ink-950: #0b0c0e;
-  --palette-accent: #4f46e5;
-  --palette-accent-hover: #4338ca;
+  /* Palette */
+  --palette-page: #1a1a1a;
+  --palette-ink-900: #1b1b1b;
+  --palette-ink-850: #1f1f1f;
+  --palette-ink-800: #2d2d2d; /* Background/dark Bg II */
+  --palette-ink-600: #585858; /* Background/dark Bg III, Neutrals/Colour 400 */
+  --palette-grey-300: #b9b9b9; /* Text colour/Dark Secondary */
+  --palette-off-white: #f4f4f4; /* Text colour/Off white, Dark primary */
+  --palette-white: #ffffff; /* Background/Bg I */
+  --palette-grey-100: #e2e2e2; /* Background/Bg III */
+  --palette-accent: #fd5100; /* Icon colours/Accent, Background/Bg accent */
 
-  /* Semantic tokens — what components actually consume. */
-  --bg: var(--palette-white);
-  --bg-subtle: var(--palette-ink-50);
-  --surface: var(--palette-white);
-  --surface-hover: var(--palette-ink-50);
-  --fg: var(--palette-ink-900);
-  --fg-muted: var(--palette-ink-600);
-  --fg-subtle: var(--palette-ink-400);
-  --border: var(--palette-ink-200);
+  /* Semantic roles */
+  --bg: var(--palette-page);
+  --surface: var(--palette-ink-850);
+  --surface-raised: var(--palette-ink-800);
+  --surface-sunken: var(--palette-ink-900);
+  --media-placeholder: #c9c9c9;
+  --fg: var(--palette-off-white);
+  --fg-strong: var(--palette-white);
+  --fg-muted: var(--palette-grey-300);
+  --border: var(--palette-ink-600);
   --accent: var(--palette-accent);
-  --accent-hover: var(--palette-accent-hover);
   --accent-fg: var(--palette-white);
   --ring: var(--palette-accent);
-}
-
-[data-theme="dark"] {
-  --bg: var(--palette-ink-950);
-  --bg-subtle: #121316;
-  --surface: #131418;
-  --surface-hover: #1b1c21;
-  --fg: var(--palette-ink-50);
-  --fg-muted: #a1a3ad;
-  --fg-subtle: #6e707a;
-  --border: #292a30;
-  --accent: #6d63ff;
-  --accent-hover: #837aff;
-  --accent-fg: var(--palette-white);
-  --ring: #6d63ff;
 }
 
 @theme inline {
   /* Colors */
   --color-bg: var(--bg);
-  --color-bg-subtle: var(--bg-subtle);
   --color-surface: var(--surface);
-  --color-surface-hover: var(--surface-hover);
+  --color-surface-raised: var(--surface-raised);
+  --color-surface-sunken: var(--surface-sunken);
+  --color-media: var(--media-placeholder);
   --color-fg: var(--fg);
+  --color-fg-strong: var(--fg-strong);
   --color-muted: var(--fg-muted);
-  --color-subtle: var(--fg-subtle);
   --color-border: var(--border);
   --color-accent: var(--accent);
-  --color-accent-hover: var(--accent-hover);
   --color-accent-fg: var(--accent-fg);
   --color-ring: var(--ring);
 
-  /* Typography */
+  /* Typefaces */
+  --font-display: var(--font-display-var), ui-serif, Georgia, serif;
   --font-sans: var(--font-sans-var), ui-sans-serif, system-ui, sans-serif;
-  --font-mono: var(--font-mono-var), ui-monospace, monospace;
 
-  /* Fluid display sizes — one value covers mobile through desktop. */
-  --text-display: clamp(2.5rem, 1.4rem + 5.5vw, 5rem);
-  --text-display--line-height: 1.04;
-  --text-display--letter-spacing: -0.03em;
-  --text-headline: clamp(1.75rem, 1.2rem + 2.4vw, 3rem);
-  --text-headline--line-height: 1.12;
-  --text-headline--letter-spacing: -0.02em;
+  /* Type scale — Figma desktop value is the upper bound of each clamp, so one
+   * declaration covers mobile through the 1512px frame. Tracking is a uniform
+   * 0.06em across the design. */
+  --text-display: clamp(2.75rem, 1.6rem + 4.6vw, 5rem); /* 80px */
+  --text-display--line-height: 1.1;
+  --text-display--letter-spacing: 0.06em;
+
+  --text-title: clamp(2rem, 1.3rem + 2.8vw, 3.5rem); /* 56px */
+  --text-title--line-height: 1.2;
+  --text-title--letter-spacing: 0.06em;
+
+  --text-lead: clamp(1.5rem, 1.1rem + 1.6vw, 2.75rem); /* 44px */
+  --text-lead--line-height: 1.25;
+
+  --text-statement: clamp(1.375rem, 1.1rem + 0.9vw, 1.75rem); /* 28px */
+  --text-statement--line-height: 1.35;
+  --text-statement--letter-spacing: 0.06em;
+
+  --text-body: clamp(1rem, 0.95rem + 0.25vw, 1.25rem); /* 20px */
+  --text-body--line-height: 1.55;
+
+  --text-label: 1rem; /* 16px */
+  --text-label--letter-spacing: 0.06em;
 
   /* Radii */
-  --radius-card: 1rem;
-  --radius-pill: 9999px;
+  --radius-chip: 12px;
+  --radius-round: 99px;
 
-  /* Section rhythm */
-  --spacing-section: clamp(4rem, 2rem + 8vw, 8rem);
+  /* Rhythm — the gaps the Figma layout repeats. */
+  --spacing-block: clamp(3.5rem, 2rem + 6vw, 6.25rem); /* 100px */
+  --spacing-hero: clamp(5rem, 2rem + 12vw, 12.5rem); /* 200px */
 }
 
 @layer base {
-  * {
-    border-color: var(--color-border);
-  }
-
   html {
     scroll-behavior: smooth;
+    /* The design is dark-only; tell the browser so form controls and
+     * scrollbars match rather than rendering light chrome. */
+    color-scheme: dark;
   }
 
   body {
     background-color: var(--color-bg);
     color: var(--color-fg);
     font-family: var(--font-sans);
+    font-size: var(--text-body);
+    line-height: 1.55;
   }
 
   :focus-visible {
     outline: 2px solid var(--color-ring);
-    outline-offset: 2px;
+    outline-offset: 3px;
   }
 
   @media (prefers-reduced-motion: reduce) {

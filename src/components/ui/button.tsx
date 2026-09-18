@@ -7,12 +7,12 @@ export type ButtonVariant = "primary" | "secondary" | "ghost";
 export type ButtonSize = "sm" | "md" | "lg";
 
 const base =
-  "inline-flex items-center justify-center gap-2 rounded-pill font-medium transition-colors disabled:pointer-events-none disabled:opacity-50";
+  "inline-flex items-center justify-center gap-2 rounded-round font-medium transition-colors disabled:pointer-events-none disabled:opacity-50";
 
 const variants: Record<ButtonVariant, string> = {
   primary: "bg-accent text-accent-fg hover:bg-accent-hover",
-  secondary: "border border-border bg-surface text-fg hover:bg-surface-hover",
-  ghost: "text-muted hover:bg-surface-hover hover:text-fg",
+  secondary: "border border-border bg-surface text-fg hover:bg-surface-raised",
+  ghost: "text-muted hover:bg-surface-raised hover:text-fg",
 };
 
 const sizes: Record<ButtonSize, string> = {

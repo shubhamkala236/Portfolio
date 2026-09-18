@@ -3,8 +3,8 @@ import { Container } from "@/components/ui/container";
 
 export default function NotFound() {
   return (
-    <Container className="py-section text-center">
-      <h1 className="text-headline font-semibold">Page not found</h1>
+    <Container className="py-block text-center">
+      <h1 className="text-title font-semibold">Page not found</h1>
       <p className="mt-4 text-muted">
         That link does not point anywhere on this site.
       </p>

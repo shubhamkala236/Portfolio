@@ -31,20 +31,18 @@ export function Section({
     <section
       id={id}
       aria-labelledby={title ? headingId : undefined}
-      className={cn("scroll-mt-24 py-section", className)}
+      className={cn("scroll-mt-24 py-block", className)}
     >
       <Container>
         {(eyebrow || title || description) && (
           <header className="mb-10 max-w-2xl md:mb-14">
             {eyebrow && (
-              <p className="mb-3 font-mono text-sm tracking-widest text-subtle uppercase">
-                {eyebrow}
-              </p>
+              <p className="mb-3 text-label text-muted uppercase">{eyebrow}</p>
             )}
             {title && (
               <h2
                 id={headingId}
-                className="text-headline font-semibold text-balance"
+                className="text-title font-semibold text-balance"
               >
                 {title}
               </h2>

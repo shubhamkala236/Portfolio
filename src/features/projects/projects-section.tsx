@@ -14,7 +14,7 @@ export function ProjectsSection({ projects }: ProjectsSectionProps) {
       eyebrow="Selected work"
       title="Things I've built"
       description="A few projects that show how I think about problems, not just what I can wire together."
-      className="bg-bg-subtle"
+      className="bg-surface-sunken"
     >
       <div className="grid gap-6 md:grid-cols-2">
         {projects.map((project, index) => (
