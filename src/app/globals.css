@@ -30,7 +30,9 @@
   --fg: var(--palette-off-white);
   --fg-strong: var(--palette-white);
   --fg-muted: var(--palette-grey-300);
+  --fg-subtle: var(--palette-ink-600);
   --border: var(--palette-ink-600);
+  --border-strong: #414141;
   --accent: var(--palette-accent);
   --accent-fg: var(--palette-white);
   --ring: var(--palette-accent);
@@ -46,7 +48,9 @@
   --color-fg: var(--fg);
   --color-fg-strong: var(--fg-strong);
   --color-muted: var(--fg-muted);
+  --color-subtle: var(--fg-subtle);
   --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
   --color-accent: var(--accent);
   --color-accent-fg: var(--accent-fg);
   --color-ring: var(--ring);

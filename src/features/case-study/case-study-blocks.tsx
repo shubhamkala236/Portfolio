@@ -1,8 +1,12 @@
 import type { CaseStudyBlock } from "@/content/types";
+import { FeatureGridBlock } from "@/features/case-study/blocks/feature-grid-block";
+import { HeadingBlock } from "@/features/case-study/blocks/heading-block";
+import { ImageRowBlock } from "@/features/case-study/blocks/image-row-block";
 import { MediaBlock } from "@/features/case-study/blocks/media-block";
 import { MetaBlock } from "@/features/case-study/blocks/meta-block";
 import { ProseBlock } from "@/features/case-study/blocks/prose-block";
 import { QuoteClusterBlock } from "@/features/case-study/blocks/quote-cluster-block";
+import { TabBarBlock } from "@/features/case-study/blocks/tab-bar-block";
 import { StatementBlock } from "@/features/case-study/blocks/statement-block";
 
 /**
@@ -14,6 +18,14 @@ import { StatementBlock } from "@/features/case-study/blocks/statement-block";
  */
 function renderBlock(block: CaseStudyBlock) {
   switch (block.type) {
+    case "heading":
+      return <HeadingBlock {...block} />;
+    case "feature-grid":
+      return <FeatureGridBlock {...block} />;
+    case "image-row":
+      return <ImageRowBlock {...block} />;
+    case "tab-bar":
+      return <TabBarBlock {...block} />;
     case "meta":
       return <MetaBlock {...block} />;
     case "prose":

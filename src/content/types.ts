@@ -63,6 +63,48 @@ export type CaseStudyBlock =
       quotes: readonly string[];
       figure: ImageAsset;
     }
+  /** A large centred display line used as a chapter break. */
+  | {
+      type: "heading";
+      text: string;
+      figure?: ImageAsset;
+    }
+  /**
+   * A still of the app's own tab bar, naming the sections the walkthrough
+   * steps through. Illustrative, not navigation.
+   */
+  | {
+      type: "tab-bar";
+      items: readonly string[];
+      activeIndex?: number;
+    }
+  /**
+   * Feature cards on a three-column grid. Pairs of cards alternate across the
+   * grid and flip their caption above/below the art — see the renderer.
+   */
+  | {
+      type: "feature-grid";
+      eyebrow?: string;
+      title?: string;
+      description?: string;
+      items: readonly {
+        title: string;
+        description: string;
+        image: ImageAsset;
+      }[];
+    }
+  /**
+   * A bottom-aligned row of visuals kept at their Figma proportions.
+   * Widths are expressed as a share of `frameWidth` (the design frame).
+   */
+  | {
+      type: "image-row";
+      eyebrow?: string;
+      title?: string;
+      description?: string;
+      frameWidth?: number;
+      items: readonly { image: ImageAsset; bordered?: boolean }[];
+    }
   /** Centred pull-quote: muted eyebrow above a large display line. */
   | {
       type: "statement";
