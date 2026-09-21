@@ -198,7 +198,13 @@ export type CaseStudyBlock =
       description?: string;
       /** Optional heading for one figure within a larger section. */
       subtitle?: string;
+      /** Figma's 2x export of the frame. */
       image: ImageAsset;
+      /**
+       * Figma's 1x export of the same frame. When set, the figure is served as
+       * Figma's own 1x/2x renders, losslessly, instead of being resampled.
+       */
+      image1x?: string;
       /** Each callout needs at least one of the two. */
       annotations: readonly { title?: string; text?: string }[];
     }

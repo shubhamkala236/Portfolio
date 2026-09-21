@@ -283,6 +283,7 @@ export const elements = {
         width: 2516,
         height: 1340,
       },
+      image1x: "/case-studies/elements/final-home-screen@1x.png",
       annotations: [
         { title: "Search bar" },
         { title: "Sale & Banner Updates" },

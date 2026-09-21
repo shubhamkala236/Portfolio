@@ -24,6 +24,7 @@ export function AnnotatedFigureBlock({
   description,
   subtitle,
   image,
+  image1x,
   annotations,
 }: AnnotatedFigureBlockProps) {
   return (
@@ -39,14 +40,33 @@ export function AnnotatedFigureBlock({
           <h3 className="font-display text-statement text-fg">{subtitle}</h3>
         )}
 
-        <Image
-          src={image.src}
-          alt={image.alt}
-          width={image.width}
-          height={image.height}
-          sizes="(min-width: 1258px) 1258px, 100vw"
-          className="h-auto w-full"
-        />
+        {image1x ? (
+          // Figma's own 1x and 2x renders, served untouched. The optimiser
+          // would resample the 2x export to a stock width (1920) and the
+          // browser would shrink it again, softening the baked-in 16px labels,
+          // then compress it at q75. `image` is the 2x export, so its
+          // intrinsic size in CSS px is half its pixel size.
+          // eslint-disable-next-line @next/next/no-img-element -- deliberate: pixel-exact density pair
+          <img
+            src={image1x}
+            srcSet={`${image1x} 1x, ${image.src} 2x`}
+            alt={image.alt}
+            width={image.width / 2}
+            height={image.height / 2}
+            loading="lazy"
+            decoding="async"
+            className="h-auto w-full"
+          />
+        ) : (
+          <Image
+            src={image.src}
+            alt={image.alt}
+            width={image.width}
+            height={image.height}
+            sizes="(min-width: 1258px) 1258px, 100vw"
+            className="h-auto w-full"
+          />
+        )}
 
         {annotations.length > 0 && (
           <figcaption className="lg:sr-only">
