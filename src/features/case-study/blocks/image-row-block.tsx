@@ -6,14 +6,21 @@ import type { CaseStudyBlock } from "@/content/types";
 
 type ImageRowBlockProps = Extract<CaseStudyBlock, { type: "image-row" }>;
 
+/** Tailwind needs literal class names, so border tones are looked up. */
+const borderTone = {
+  frame: "border-border-frame",
+  device: "border-border-device",
+} as const;
+
 /**
- * A bottom-aligned row of visuals at their Figma proportions — a wide board
- * beside narrow phone screens, say.
+ * A bottom-aligned row of visuals (Figma 4127:17219) — a wide board beside
+ * narrow phone screens.
  *
- * Each item keeps its share of the design frame width, so the row matches the
- * file at desktop size. Narrow viewports would shrink a phone screen to an
- * unreadable sliver, so below `lg` the row scales up and scrolls sideways
- * instead.
+ * Each item is drawn in its exact Figma box: its share of the frame width, its
+ * aspect ratio, corner radius and inside stroke, with the image cropped by
+ * `object-fit: cover` exactly as Figma's fill does. Narrow viewports would
+ * shrink a phone screen to an unreadable sliver, so below `lg` the row scales
+ * up and scrolls sideways instead.
  */
 export function ImageRowBlock({
   eyebrow,
@@ -34,21 +41,25 @@ export function ImageRowBlock({
         {items.map((item) => (
           <div
             key={item.image.src}
-            className="shrink-0"
+            className={cn(
+              "relative shrink-0 overflow-hidden",
+              item.border && borderTone[item.border.tone],
+            )}
             style={{
-              width: `calc(var(--row-scale) * ${(item.image.width / frameWidth) * 100}%)`,
+              width: `calc(var(--row-scale) * ${(item.box.width / frameWidth) * 100}%)`,
+              aspectRatio: `${item.box.width} / ${item.box.height}`,
+              borderRadius: item.radius,
+              borderWidth: item.border?.width ?? 0,
+              borderStyle: item.border ? "solid" : undefined,
             }}
           >
             <Image
               src={item.image.src}
               alt={item.image.alt}
-              width={item.image.width}
-              height={item.image.height}
+              fill
               sizes="(min-width: 1024px) 50vw, 90vw"
-              className={cn(
-                "h-auto w-full rounded-[0.9rem]",
-                item.bordered && "border border-border",
-              )}
+              className="object-cover"
+              style={{ objectPosition: item.position }}
             />
           </div>
         ))}

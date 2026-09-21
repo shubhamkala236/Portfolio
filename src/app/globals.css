@@ -34,6 +34,8 @@
   --border: var(--palette-ink-600);
   --border-strong: #414141;
   --border-faint: #191919;
+  --border-frame: #313131; /* Wireframe board outline */
+  --border-device: #626262; /* Phone screen outline */
   --accent: var(--palette-accent);
   --accent-fg: var(--palette-white);
   --ring: var(--palette-accent);
@@ -69,6 +71,8 @@
   --color-border: var(--border);
   --color-border-strong: var(--border-strong);
   --color-border-faint: var(--border-faint);
+  --color-border-frame: var(--border-frame);
+  --color-border-device: var(--border-device);
   --color-accent: var(--accent);
   --color-accent-fg: var(--accent-fg);
   --color-ring: var(--ring);
@@ -84,8 +88,9 @@
   --text-display--line-height: 1.1;
   --text-display--letter-spacing: 0.06em;
 
-  --text-title: clamp(2rem, 1.5053rem + 2.1108vw, 3.5rem); /* 56px */
-  --text-title--line-height: 1.2;
+  /* Chapter breaks ("Nothing to wear?", "The ideas took shape."). */
+  --text-title: clamp(2.25rem, 1.6728rem + 2.4626vw, 4rem); /* 64px */
+  --text-title--line-height: var(--leading-display);
   --text-title--letter-spacing: 0.06em;
 
   --text-lead: clamp(1.5rem, 1.0877rem + 1.759vw, 2.75rem); /* 44px */

@@ -28,8 +28,9 @@ export const elements = {
     // 4127:16348
     {
       type: "heading",
-      text: "Nothing to wear? Look again.",
-      maxWidth: 726,
+      text: ["Nothing to wear?", "Look again."],
+      lineGap: 20,
+      tone: "strong",
     },
     // 4127:16350 — inner stack at 100px
     {
@@ -176,38 +177,51 @@ export const elements = {
       description:
         "I used quick sketches and low-fi screens to work through the structure, then refined the interface through different visual explorations, eventually landing on the light and dark direction for Elements.",
       items: [
+        // 4127:17180 — image overfills the box and is bottom-aligned
         {
-          bordered: true,
+          box: { width: 612, height: 415 },
+          radius: 17.207,
+          border: { width: 1, tone: "frame" },
+          position: "bottom",
           image: {
             src: "/case-studies/elements/exploration-wireframes.png",
             alt: "Board of low-fidelity wireframe sketches for the app",
-            width: 612,
-            height: 415,
+            width: 2360,
+            height: 1640,
           },
         },
+        // 4127:17215
         {
+          box: { width: 190.973, height: 414.018 },
+          radius: 14.69,
           image: {
             src: "/case-studies/elements/exploration-ui-1.png",
             alt: "Early visual exploration of the app interface",
-            width: 191,
-            height: 414,
+            width: 786,
+            height: 1704,
           },
         },
+        // 4127:17216
         {
+          box: { width: 190.973, height: 414.018 },
+          radius: 14.69,
           image: {
             src: "/case-studies/elements/exploration-ui-2.png",
             alt: "Second visual exploration of the app interface",
-            width: 191,
-            height: 414,
+            width: 786,
+            height: 1704,
           },
         },
+        // 4127:17218
         {
-          bordered: true,
+          box: { width: 190.973, height: 414.999 },
+          radius: 14.69,
+          border: { width: 0.459, tone: "device" },
           image: {
             src: "/case-studies/elements/exploration-ui-3.png",
             alt: "The chosen dark visual direction for the app",
-            width: 191,
-            height: 414,
+            width: 786,
+            height: 1704,
           },
         },
       ],
@@ -215,15 +229,33 @@ export const elements = {
     // 4127:17258
     {
       type: "heading",
-      text: "The ideas took shape. Now, meet Elements.",
-      maxWidth: 932,
-      figureSize: 134,
+      text: ["The ideas took shape.", "Now, meet Elements."],
       figureGap: 16,
-      figure: {
-        src: "/case-studies/elements/meet-elements-mark.png",
-        alt: "The Elements app mark",
-        width: 1373,
-        height: 1373,
+      // Group 50 (4127:17259): circle 4127:17260, sparkle 4127:17261
+      mark: {
+        box: { width: 134, height: 135 },
+        circle: { size: 132, x: 2, y: 3 },
+        sprite: {
+          src: "/case-studies/elements/memoji-sprite-star-eyes.png",
+          alt: "Illustrated avatar with star-struck eyes",
+          crop: {
+            insetTop: "14.79%",
+            insetRight: "16.58%",
+            insetBottom: "14.79%",
+            insetLeft: "16.2%",
+            imageLeft: "-146.25%",
+            imageTop: "-10.3%",
+            imageWidth: "394.09%",
+            imageHeight: "120.61%",
+          },
+        },
+        sparkle: {
+          src: "/case-studies/elements/sparkle.svg",
+          size: 34,
+          canvas: 457.36,
+          x: 0,
+          y: 0,
+        },
       },
     },
     // 4127:17571

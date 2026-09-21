@@ -35,6 +35,37 @@ export type ImageAsset = {
 };
 
 /**
+ * The "circ kriti" memoji badge, described with Figma's own geometry so it can
+ * be rebuilt exactly. All px values are Figma px.
+ */
+export type MemojiMark = {
+  /** Layout size of the group. */
+  box: { width: number; height: number };
+  /** The dark circle, positioned inside the group. */
+  circle: { size: number; x: number; y: number };
+  /** A sprite sheet, and the crop Figma applies to show one frame of it. */
+  sprite: {
+    src: string;
+    alt: string;
+    crop: {
+      insetTop: string;
+      insetRight: string;
+      insetBottom: string;
+      insetLeft: string;
+      imageLeft: string;
+      imageTop: string;
+      imageWidth: string;
+      imageHeight: string;
+    };
+  };
+  /**
+   * A glowing sparkle. `size` is the glyph's box, `canvas` the exported SVG's
+   * box (glyph plus glow), centred on it.
+   */
+  sparkle?: { src: string; size: number; canvas: number; x: number; y: number };
+};
+
+/**
  * A case study is a sequence of blocks rather than a fixed template, because
  * every project tells its story in a different order. Adding a section to a
  * write-up means adding an entry to `blocks` — not editing a page component.
@@ -79,8 +110,13 @@ export type CaseStudyBlock =
   /** A large centred display line used as a chapter break. */
   | {
       type: "heading";
-      text: string;
+      /** One string, or one per line where Figma breaks the text explicitly. */
+      text: string | readonly string[];
+      /** Extra space between explicit lines, in Figma px. */
+      lineGap?: number;
       figure?: ImageAsset;
+      /** A rebuilt memoji badge, used instead of `figure`. */
+      mark?: MemojiMark;
       /** Rendered size of the figure in px. Defaults to 134. */
       figureSize?: number;
       /** Figma gap between figure and text, in px. Defaults to 16. */
@@ -88,6 +124,8 @@ export type CaseStudyBlock =
       /** Figma text width in px, so line breaks fall where they do in the file. */
       maxWidth?: number;
       size?: "lg" | "md";
+      /** "strong" is pure white; the default is the off-white text colour. */
+      tone?: "default" | "strong";
     }
   /**
    * A still of the app's own tab bar, naming the sections the walkthrough
@@ -135,7 +173,18 @@ export type CaseStudyBlock =
       title?: string;
       description?: string;
       frameWidth?: number;
-      items: readonly { image: ImageAsset; bordered?: boolean }[];
+      items: readonly {
+        /** The exported asset, at its real pixel size. */
+        image: ImageAsset;
+        /** The Figma box the image is shown in, in px. */
+        box: { width: number; height: number };
+        /** Corner radius in px. */
+        radius: number;
+        /** Inside stroke, as in Figma. */
+        border?: { width: number; tone: "frame" | "device" };
+        /** CSS object-position when the image is cropped to its box. */
+        position?: string;
+      }[];
     }
   /**
    * An annotated screen walkthrough. The figure is a single exported image
