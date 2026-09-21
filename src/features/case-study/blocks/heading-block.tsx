@@ -37,7 +37,10 @@ export function HeadingBlock({
       )}
       <p
         className={cn(
-          "text-center font-display text-balance text-fg",
+          "text-center font-display text-fg",
+          // With a Figma width the measure already fixes the line breaks;
+          // balancing would move them. Without one, balance the lines.
+          !maxWidth && "text-balance",
           sizes[size],
         )}
         style={maxWidth ? { maxWidth } : undefined}

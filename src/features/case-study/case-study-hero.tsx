@@ -18,7 +18,7 @@ export function CaseStudyHero({ title, subtitle, media }: CaseStudyHeroProps) {
 
       {/* Still an empty frame in Figma — render the placeholder until there is
           a real export to drop in. */}
-      <div className="relative aspect-[1512/1000] w-full bg-media">
+      <div className="relative aspect-1512/1000 w-full bg-media">
         {media && (
           <Image
             src={media.src}

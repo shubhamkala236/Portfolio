@@ -33,6 +33,7 @@
   --fg-subtle: var(--palette-ink-600);
   --border: var(--palette-ink-600);
   --border-strong: #414141;
+  --border-faint: #191919;
   --accent: var(--palette-accent);
   --accent-fg: var(--palette-white);
   --ring: var(--palette-accent);
@@ -59,6 +60,7 @@
   --color-subtle: var(--fg-subtle);
   --color-border: var(--border);
   --color-border-strong: var(--border-strong);
+  --color-border-faint: var(--border-faint);
   --color-accent: var(--accent);
   --color-accent-fg: var(--accent-fg);
   --color-ring: var(--ring);
@@ -94,6 +96,20 @@
 
   --text-label: 1rem; /* 16px */
   --text-label--letter-spacing: 0.06em;
+
+  /* Chip copy: 16px with the font's own line height and no tracking —
+   * unlike the uppercase labels. */
+  --text-chip: 1rem; /* 16px */
+  --text-chip--line-height: normal;
+
+  /* The larger, untracked eyebrow above a pull quote. */
+  --text-kicker: 1.25rem; /* 20px */
+  --text-kicker--line-height: normal;
+
+  /* Content width: 1258px inside the 1512px Figma frame. */
+  --container-page: 1258px;
+  /* Measure of the display-serif pull quote (Figma 4127:16392). */
+  --container-statement: 786px;
 
   /* Radii */
   --radius-chip: 12px;
