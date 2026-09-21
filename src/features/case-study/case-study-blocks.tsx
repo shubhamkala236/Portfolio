@@ -3,6 +3,9 @@ import { Fragment } from "react";
 import { cn } from "@/lib/cn";
 import type { CaseStudyBlock } from "@/content/types";
 import { AnnotatedFigureBlock } from "@/features/case-study/blocks/annotated-figure-block";
+import { ChapterBlock } from "@/features/case-study/blocks/chapter-block";
+import { PageTitleBlock } from "@/features/case-study/blocks/page-title-block";
+import { SequenceBlock } from "@/features/case-study/blocks/sequence-block";
 import { FeatureGridBlock } from "@/features/case-study/blocks/feature-grid-block";
 import { HeadingBlock } from "@/features/case-study/blocks/heading-block";
 import { ImageRowBlock } from "@/features/case-study/blocks/image-row-block";
@@ -50,6 +53,12 @@ function renderBlock(block: CaseStudyBlock) {
       return <NavStructureBlock {...block} />;
     case "walkthrough":
       return <WalkthroughBlock {...block} />;
+    case "page-title":
+      return <PageTitleBlock {...block} />;
+    case "chapter":
+      return <ChapterBlock {...block} />;
+    case "sequence":
+      return <SequenceBlock {...block} />;
     case "quote-cluster":
       return <QuoteClusterBlock {...block} />;
     case "statement":

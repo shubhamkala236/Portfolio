@@ -17,6 +17,7 @@ export function ProseBlock({
   paragraphs,
   size = "body",
   paragraphGap = 25,
+  quote,
 }: ProseBlockProps) {
   const body = (
     <div
@@ -42,6 +43,17 @@ export function ProseBlock({
         </div>
       ) : (
         body
+      )}
+      {/* Pull quote (Hotstuff 4253:22729): indented 16px, a 2×44 bar 12px
+          from the text. */}
+      {quote && (
+        <blockquote className="flex items-center gap-3 pl-4">
+          <span
+            aria-hidden
+            className="h-11 w-0.5 shrink-0 rounded-[1px] bg-quote-rule"
+          />
+          <p className="font-quote text-quote text-fg-quote italic">{quote}</p>
+        </blockquote>
       )}
     </div>
   );

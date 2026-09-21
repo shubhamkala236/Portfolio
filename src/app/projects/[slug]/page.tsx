@@ -47,6 +47,7 @@ export default async function ProjectPage({
         title={project.title}
         subtitle={project.subtitle}
         media={project.heroMedia}
+        render={project.heroRender}
       />
 
       <Container className="pt-hero">

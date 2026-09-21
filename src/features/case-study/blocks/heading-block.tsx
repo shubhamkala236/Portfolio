@@ -29,9 +29,12 @@ export function HeadingBlock({
   maxWidth,
   size = "lg",
   tone = "default",
+  description,
 }: HeadingBlockProps) {
   const lines = typeof text === "string" ? [text] : text;
   const explicitLines = lines.length > 1;
+  // With a description this opens a section, so it is a real heading.
+  const Title = description ? "h2" : "p";
 
   return (
     <div
@@ -52,7 +55,7 @@ export function HeadingBlock({
       )}
       {/* `relative` keeps the text above the mark's glow, as in the file's
           layer order. */}
-      <p
+      <Title
         className={cn(
           "relative flex flex-col text-center font-display",
           tone === "strong" ? "text-fg-strong" : "text-fg",
@@ -69,7 +72,12 @@ export function HeadingBlock({
         {lines.map((line) => (
           <span key={line}>{line}</span>
         ))}
-      </p>
+      </Title>
+      {description && (
+        <p className="relative text-center text-fg-strong" style={{ maxWidth }}>
+          {description}
+        </p>
+      )}
     </div>
   );
 }

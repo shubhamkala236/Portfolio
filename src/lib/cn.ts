@@ -28,6 +28,7 @@ const twMerge = extendTailwindMerge({
             "flow-lg",
             "flow",
             "body-lg",
+            "quote",
           ],
         },
       ],

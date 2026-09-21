@@ -44,6 +44,20 @@ export type FigmaRender = {
   alt: string;
   width: number;
   height: number;
+  /**
+   * When content hangs outside the frame (floating badges, say), the render
+   * is larger than the frame. `bleed` places it: `x`/`y` is the render's
+   * top-left relative to the frame's (so usually negative), `width`/`height`
+   * its size — all CSS px. The frame box keeps `width`×`height` for layout.
+   */
+  bleed?: { x: number; y: number; width: number; height: number };
+};
+
+/** A chapter visual: a render, plus any separately placed renders over it. */
+export type ChapterVisual = {
+  render: FigmaRender;
+  /** Positioned in the visual's frame coordinates, in CSS px. */
+  overlays?: readonly { render: FigmaRender; x: number; y: number }[];
 };
 
 /** A callout on an annotated figure. Each needs at least one of the two. */
@@ -124,6 +138,51 @@ export type CaseStudyBlock =
   | {
       type: "meta";
       items: readonly { label: string; value: string }[];
+      /**
+       * "gap" puts 80px between columns; "spread" spaces them across the full
+       * width (justify-between), as Hotstuff's row does. Defaults to "gap".
+       */
+      layout?: "gap" | "spread";
+      /** Rule gradient: the ELEMENTS/Sistem one, or Hotstuff's centred one. */
+      rule?: "default" | "centred";
+    }
+  /** A left-aligned page title: display-size title over lead-size lines. */
+  | {
+      type: "page-title";
+      title: string;
+      /** One entry per line, where Figma breaks the subtitle explicitly. */
+      subtitle: readonly string[];
+    }
+  /**
+   * A numbered chapter: eyebrow, title, optional keyword row and paragraphs,
+   * then its visuals. Every gap is the Figma value in px.
+   */
+  | {
+      type: "chapter";
+      eyebrow?: string;
+      title: string;
+      /** Figma sets `text-transform: uppercase` on some titles. */
+      uppercase?: boolean;
+      keywords?: readonly string[];
+      paragraphs: readonly string[];
+      size?: "body" | "lg";
+      /** Between paragraphs. Defaults to 12 (Figma's column gap). */
+      paragraphGap?: number;
+      visuals?: readonly ChapterVisual[];
+      /** From the header to the first visual. Defaults to 80. */
+      headerGap?: number;
+      /** Between visuals. Defaults to 80. */
+      visualGap?: number;
+    }
+  /**
+   * Frames shown one at a time on a loop with hard cuts, from Figma's
+   * keyframes: each frame holds for `frameMs`, then the next replaces it.
+   */
+  | {
+      type: "sequence";
+      frames: readonly FigmaRender[];
+      frameMs: number;
+      label: string;
     }
   /** A labelled run of paragraphs — the workhorse block. */
   | {
@@ -136,6 +195,8 @@ export type CaseStudyBlock =
       size?: "body" | "lg";
       /** Figma gap between paragraphs in px. Defaults to 25 (one empty line). */
       paragraphGap?: number;
+      /** A pull quote after the paragraphs, set in the quote face. */
+      quote?: string;
     }
   /** Equal cards, each an illustration over a title and description. */
   | {
@@ -208,6 +269,8 @@ export type CaseStudyBlock =
       size?: "lg" | "md";
       /** "strong" is pure white; the default is the off-white text colour. */
       tone?: "default" | "strong";
+      /** A centred paragraph under the heading, 16px below it. */
+      description?: string;
     }
   /**
    * A still of the app's own tab bar, naming the sections the walkthrough
@@ -338,6 +401,12 @@ export type Project = {
   cover: ImageAsset | null;
   /** Full-bleed image under the case study title. */
   heroMedia: ImageAsset | null;
+  /**
+   * A full-bleed Figma render used as the whole hero, with no title above it
+   * (the title then lives in the blocks, as a `page-title`). Overrides the
+   * default title-over-media hero.
+   */
+  heroRender?: FigmaRender;
   blocks: readonly CaseStudyBlock[];
 };
 

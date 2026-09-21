@@ -1,5 +1,4 @@
-import { Fragment } from "react";
-
+import { DotList } from "@/components/ui/dot-list";
 import { SectionHeader } from "@/components/ui/section-header";
 import type { CaseStudyBlock } from "@/content/types";
 
@@ -48,25 +47,11 @@ export function NavStructureBlock({
               </h3>
             </div>
 
-            <ul className="flex flex-wrap items-center font-medium text-muted lg:flex-nowrap lg:whitespace-nowrap">
-              {row.items.map((item, index) => (
-                <Fragment key={item}>
-                  {index > 0 && (
-                    // Figma draws the separator with the font's own "•" glyph,
-                    // centred in a 31px gap. Chrome's disc marker is a larger
-                    // geometric dot, so the glyph is set directly instead.
-                    <li
-                      aria-hidden
-                      className="text-center"
-                      style={{ width: SEPARATOR_WIDTH }}
-                    >
-                      •
-                    </li>
-                  )}
-                  <li>{item}</li>
-                </Fragment>
-              ))}
-            </ul>
+            <DotList
+              items={row.items}
+              gap={SEPARATOR_WIDTH}
+              className="font-medium text-muted lg:flex-nowrap lg:whitespace-nowrap"
+            />
           </section>
         ))}
       </div>

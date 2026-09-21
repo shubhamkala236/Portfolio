@@ -1,7 +1,7 @@
-import { Gloock, Quicksand } from "next/font/google";
+import { Gloock, Nunito, Quicksand } from "next/font/google";
 
 /**
- * The two typefaces in the Figma file. The CSS variable names are consumed by
+ * The typefaces in the Figma file. The CSS variable names are consumed by
  * globals.css, so swapping a typeface only touches this file.
  */
 export const fontDisplay = Gloock({
@@ -17,4 +17,13 @@ export const fontSans = Quicksand({
   display: "swap",
 });
 
-export const fontVariables = `${fontDisplay.variable} ${fontSans.variable}`;
+/** Pull quotes (Hotstuff 4253:22731): Nunito ExtraLight Italic only. */
+export const fontQuote = Nunito({
+  variable: "--font-quote-var",
+  subsets: ["latin"],
+  weight: "200",
+  style: "italic",
+  display: "swap",
+});
+
+export const fontVariables = `${fontDisplay.variable} ${fontSans.variable} ${fontQuote.variable}`;

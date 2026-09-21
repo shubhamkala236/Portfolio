@@ -36,6 +36,8 @@
   --border-faint: #191919;
   --border-frame: #313131; /* Wireframe board outline */
   --border-device: #626262; /* Phone screen outline */
+  --quote-rule: #9d9d9d; /* Pull-quote bar (Hotstuff 4253:22730) */
+  --fg-quote: #f6f6f6; /* Pull-quote text */
   --accent: var(--palette-accent);
   --accent-fg: var(--palette-white);
   --ring: var(--palette-accent);
@@ -55,6 +57,15 @@
     #3b3b3b 74.08%,
     #2e2e2e 97.86%
   );
+  /* Hotstuff's rule (4253:22709): brightest near the middle. Its SVG gradient
+   * runs x 1258.5 -> -40.2; stops 0.0507 / 0.5244 / 0.9123 of that span,
+   * mapped onto the 1258px element, land at 5.23% / 54.13% / 94.18%. */
+  --gradient-rule-centred: linear-gradient(
+    270deg,
+    rgba(33, 33, 33, 0.38) 5.23%,
+    #3b3b3b 54.13%,
+    #2e2e2e 94.18%
+  );
 }
 
 @theme inline {
@@ -73,6 +84,8 @@
   --color-border-faint: var(--border-faint);
   --color-border-frame: var(--border-frame);
   --color-border-device: var(--border-device);
+  --color-quote-rule: var(--quote-rule);
+  --color-fg-quote: var(--fg-quote);
   --color-accent: var(--accent);
   --color-accent-fg: var(--accent-fg);
   --color-ring: var(--ring);
@@ -80,12 +93,13 @@
   /* Typefaces */
   --font-display: var(--font-display-var), ui-serif, Georgia, serif;
   --font-sans: var(--font-sans-var), ui-sans-serif, system-ui, sans-serif;
+  --font-quote: var(--font-quote-var), ui-serif, Georgia, serif;
 
   /* Type scale — each clamp reaches its Figma value exactly at the 1512px
    * frame width (and holds it above), scaling linearly down to a 375px phone.
    * Tracking is a uniform 0.06em across the design. */
   --text-display: clamp(2.75rem, 2.0079rem + 3.1662vw, 5rem); /* 80px */
-  --text-display--line-height: 1.1;
+  --text-display--line-height: var(--leading-display); /* 80 -> 96, as drawn */
   --text-display--letter-spacing: 0.06em;
 
   /* Chapter breaks ("Nothing to wear?", "The ideas took shape."). */
@@ -111,7 +125,9 @@
     1.2513rem + 0.5277vw,
     1.75rem
   ); /* 28px */
-  --text-section-title--line-height: var(--leading-display);
+  /* Figma draws Gloock at 28px in a 34px box (1.2 would give 33.6, and the
+   * shortfall adds up across Hotstuff's twelve chapters). */
+  --text-section-title--line-height: 1.2143;
   --text-section-title--letter-spacing: 0.06em;
 
   /* Feature card titles: 20px Gloock, untracked. */
@@ -147,6 +163,12 @@
   /* The larger, untracked eyebrow above a pull quote. */
   --text-kicker: 1.25rem; /* 20px */
   --text-kicker--line-height: var(--leading-sans);
+
+  /* Pull quotes: Nunito ExtraLight Italic at the body size. Nunito's own
+   * line height is 1.364 (20px -> 27.3), which is what Figma draws. */
+  --text-quote: clamp(1rem, 0.9175rem + 0.3518vw, 1.25rem); /* 20px */
+  --text-quote--line-height: 1.364;
+  --text-quote--font-weight: 200;
 
   /* Tab bar labels: a fixed 20px — it's a still of the app's own UI. */
   --text-tab: 1.25rem; /* 20px */
@@ -185,6 +207,13 @@
   border-style: solid;
   border-width: 1px 0;
   border-image-source: var(--gradient-rule);
+  border-image-slice: 1;
+}
+
+@utility border-y-gradient-centred {
+  border-style: solid;
+  border-width: 1px 0;
+  border-image-source: var(--gradient-rule-centred);
   border-image-slice: 1;
 }
 

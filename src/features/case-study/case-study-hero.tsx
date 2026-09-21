@@ -1,14 +1,35 @@
 import Image from "next/image";
 
-import type { ImageAsset } from "@/content/types";
+import { FigmaRender } from "@/components/ui/figma-render";
+import type {
+  FigmaRender as FigmaRenderSpec,
+  ImageAsset,
+} from "@/content/types";
 
 type CaseStudyHeroProps = {
   title: string;
   subtitle: string;
   media: ImageAsset | null;
+  /** A full-bleed Figma render that replaces the title-over-media hero. */
+  render?: FigmaRenderSpec;
 };
 
-export function CaseStudyHero({ title, subtitle, media }: CaseStudyHeroProps) {
+export function CaseStudyHero({
+  title,
+  subtitle,
+  media,
+  render,
+}: CaseStudyHeroProps) {
+  // Render-only hero: the frame is the whole hero, edge to edge, and the
+  // page's <h1> moves into the body (a `page-title` block).
+  if (render) {
+    return (
+      <header>
+        <FigmaRender render={render} className="w-full" eager />
+      </header>
+    );
+  }
+
   return (
     <header className="flex flex-col items-center gap-hero pt-24">
       <div className="flex flex-col items-center gap-4 px-6 text-center">
