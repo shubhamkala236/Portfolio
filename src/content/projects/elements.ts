@@ -250,7 +250,7 @@ export const elements = {
           },
         },
         sparkle: {
-          src: "/case-studies/elements/sparkle.svg",
+          src: "/case-studies/elements/sparkle-34.svg",
           size: 34,
           canvas: 457.36,
           x: 0,
@@ -465,14 +465,33 @@ export const elements = {
       type: "heading",
       text: "Thanks for reading",
       size: "md",
-      maxWidth: 458,
-      figureSize: 320,
       figureGap: 40,
-      figure: {
-        src: "/case-studies/elements/thanks-avatar.png",
-        alt: "Illustrated avatar waving goodbye",
-        width: 1080,
-        height: 1080,
+      // circ kriti 4133:4644 at (69, 0) of the 458px frame; sparkle 4133:4646
+      // at (293, 7) of the frame, i.e. (224, 7) relative to the circle.
+      mark: {
+        box: { width: 320, height: 320 },
+        circle: { size: 320, x: 0, y: 0 },
+        sprite: {
+          src: "/case-studies/elements/memoji-sprite-fist-bump.png",
+          alt: "Illustrated avatar giving a fist bump",
+          crop: {
+            insetTop: "14.79%",
+            insetRight: "16.58%",
+            insetBottom: "14.79%",
+            insetLeft: "16.2%",
+            imageLeft: "-2.97%",
+            imageTop: "-14.85%",
+            imageWidth: "118.64%",
+            imageHeight: "126.97%",
+          },
+        },
+        sparkle: {
+          src: "/case-studies/elements/sparkle-40.svg",
+          size: 40,
+          canvas: 463.36,
+          x: 224,
+          y: 7,
+        },
       },
     },
   ],

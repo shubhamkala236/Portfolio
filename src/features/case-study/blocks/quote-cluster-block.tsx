@@ -78,7 +78,7 @@ export function QuoteClusterBlock({
         className="relative flex flex-col items-center gap-7 py-6"
         style={vars}
       >
-        <div className="relative h-(--figure-h) w-(--figure-w) shrink-0 rounded-round border border-border-faint bg-surface-sunken lg:absolute lg:top-(--figure-top) lg:left-1/2 lg:-translate-x-1/2">
+        <div className="relative h-(--figure-h) w-(--figure-w) shrink-0 rounded-full border border-border-faint bg-surface-sunken lg:absolute lg:top-(--figure-top) lg:left-1/2 lg:-translate-x-1/2">
           <div
             className="absolute overflow-hidden"
             style={{

@@ -29,7 +29,9 @@ export function MemojiMark({ mark }: MemojiMarkProps) {
       style={{ width: box.width, height: box.height }}
     >
       <div
-        className="absolute overflow-hidden rounded-round bg-surface"
+        // rounded-full, not the 99px `round` token: that only closes a
+        // circle up to 198px, and this badge is also used at 320px.
+        className="absolute overflow-hidden rounded-full bg-surface"
         style={{
           left: circle.x,
           top: circle.y,
@@ -55,12 +57,9 @@ export function MemojiMark({ mark }: MemojiMarkProps) {
               height: sprite.crop.imageHeight,
             }}
           >
-            <Image
-              src={sprite.src}
-              alt={sprite.alt}
-              fill
-              sizes={`${Math.round(circle.size * 4)}px`}
-            />
+            {/* unoptimized: the sprites are small originals, and Figma renders
+                from the original — recompressing them only loses detail. */}
+            <Image src={sprite.src} alt={sprite.alt} fill unoptimized />
           </div>
         </div>
       </div>
