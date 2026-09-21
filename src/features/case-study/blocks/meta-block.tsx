@@ -13,7 +13,7 @@ export function MetaBlock({ items }: MetaBlockProps) {
       {items.map((item) => (
         <div key={item.label} className="flex flex-col gap-3">
           <dt className={eyebrowStyles}>{item.label}</dt>
-          <dd className="text-xl text-fg-strong">{item.value}</dd>
+          <dd className="text-body text-fg-strong">{item.value}</dd>
         </div>
       ))}
     </dl>

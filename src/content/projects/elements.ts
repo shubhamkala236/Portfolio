@@ -149,6 +149,24 @@ export const elements = {
           },
         },
       ],
+      // Vectors 4127:16575 and 4127:16576, positioned from their exports.
+      frame: { width: 1258, height: 1262 },
+      decorations: [
+        {
+          src: "/case-studies/elements/solution-star-left.svg",
+          x: -314.167,
+          y: 668.28,
+          width: 704.603,
+          height: 640.309,
+        },
+        {
+          src: "/case-studies/elements/solution-star-right.svg",
+          x: 982.51,
+          y: 254.51,
+          width: 476.398,
+          height: 425.305,
+        },
+      ],
     },
     // 4127:16577
     {

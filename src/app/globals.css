@@ -10,7 +10,7 @@
 
 :root {
   /* Palette */
-  --palette-page: #1a1a1a;
+  --palette-page: #191919; /* Root frame fill */
   --palette-ink-900: #1b1b1b;
   --palette-ink-850: #1f1f1f;
   --palette-ink-800: #2d2d2d; /* Background/dark Bg II */
@@ -37,6 +37,14 @@
   --accent: var(--palette-accent);
   --accent-fg: var(--palette-white);
   --ring: var(--palette-accent);
+
+  /* Figma's "normal" line height for each face, as a fixed ratio.
+   * Browsers resolve `normal` from platform font metrics and land a pixel or
+   * more off (Quicksand at 20px gave 24px, Figma draws 25px), so the ratio
+   * Figma renders with is set explicitly. Quicksand: 16→20, 20→25.
+   * Gloock: 20→24, 28→34. */
+  --leading-sans: 1.25;
+  --leading-display: 1.2;
 
   /* Hairline rule that fades out towards the right. */
   --gradient-rule: linear-gradient(
@@ -69,42 +77,58 @@
   --font-display: var(--font-display-var), ui-serif, Georgia, serif;
   --font-sans: var(--font-sans-var), ui-sans-serif, system-ui, sans-serif;
 
-  /* Type scale — Figma desktop value is the upper bound of each clamp, so one
-   * declaration covers mobile through the 1512px frame. Tracking is a uniform
-   * 0.06em across the design. */
-  --text-display: clamp(2.75rem, 1.6rem + 4.6vw, 5rem); /* 80px */
+  /* Type scale — each clamp reaches its Figma value exactly at the 1512px
+   * frame width (and holds it above), scaling linearly down to a 375px phone.
+   * Tracking is a uniform 0.06em across the design. */
+  --text-display: clamp(2.75rem, 2.0079rem + 3.1662vw, 5rem); /* 80px */
   --text-display--line-height: 1.1;
   --text-display--letter-spacing: 0.06em;
 
-  --text-title: clamp(2rem, 1.3rem + 2.8vw, 3.5rem); /* 56px */
+  --text-title: clamp(2rem, 1.5053rem + 2.1108vw, 3.5rem); /* 56px */
   --text-title--line-height: 1.2;
   --text-title--letter-spacing: 0.06em;
 
-  --text-lead: clamp(1.5rem, 1.1rem + 1.6vw, 2.75rem); /* 44px */
+  --text-lead: clamp(1.5rem, 1.0877rem + 1.759vw, 2.75rem); /* 44px */
   --text-lead--line-height: 1.25;
 
-  --text-heading: clamp(1.75rem, 1.3rem + 1.6vw, 2.5rem); /* 40px */
+  --text-heading: clamp(1.75rem, 1.5026rem + 1.0554vw, 2.5rem); /* 40px */
   --text-heading--line-height: 1.2;
   --text-heading--letter-spacing: 0.06em;
 
-  --text-statement: clamp(1.375rem, 1.1rem + 0.9vw, 1.75rem); /* 28px */
+  /* The display-serif pull quote — the one 28px style with a set leading. */
+  --text-statement: clamp(1.375rem, 1.2513rem + 0.5277vw, 1.75rem); /* 28px */
   --text-statement--line-height: 1.35;
   --text-statement--letter-spacing: 0.06em;
 
-  --text-body: clamp(1rem, 0.95rem + 0.25vw, 1.25rem); /* 20px */
-  --text-body--line-height: 1.55;
+  /* Section titles ("Helping your wardrobe do more"): 28px, font leading. */
+  --text-section-title: clamp(
+    1.375rem,
+    1.2513rem + 0.5277vw,
+    1.75rem
+  ); /* 28px */
+  --text-section-title--line-height: var(--leading-display);
+  --text-section-title--letter-spacing: 0.06em;
+
+  /* Feature card titles: 20px Gloock, untracked. */
+  --text-card-title: 1.25rem; /* 20px */
+  --text-card-title--line-height: var(--leading-display);
+
+  /* Figma sets body copy to the font's own ("normal") line height. */
+  --text-body: clamp(1rem, 0.9175rem + 0.3518vw, 1.25rem); /* 20px */
+  --text-body--line-height: var(--leading-sans);
 
   --text-label: 1rem; /* 16px */
+  --text-label--line-height: var(--leading-sans);
   --text-label--letter-spacing: 0.06em;
 
   /* Chip copy: 16px with the font's own line height and no tracking —
    * unlike the uppercase labels. */
   --text-chip: 1rem; /* 16px */
-  --text-chip--line-height: normal;
+  --text-chip--line-height: var(--leading-sans);
 
   /* The larger, untracked eyebrow above a pull quote. */
   --text-kicker: 1.25rem; /* 20px */
-  --text-kicker--line-height: normal;
+  --text-kicker--line-height: var(--leading-sans);
 
   /* Content width: 1258px inside the 1512px Figma frame. */
   --container-page: 1258px;
@@ -116,8 +140,8 @@
   --radius-round: 99px;
 
   /* Rhythm — the gaps the Figma layout repeats. */
-  --spacing-block: clamp(3.5rem, 2rem + 6vw, 6.25rem); /* 100px */
-  --spacing-hero: clamp(5rem, 2rem + 12vw, 12.5rem); /* 200px */
+  --spacing-block: clamp(3.5rem, 2.593rem + 3.8698vw, 6.25rem); /* 100px */
+  --spacing-hero: clamp(5rem, 2.5264rem + 10.5541vw, 12.5rem); /* 200px */
 }
 
 /* Gradient rules above and below an element. `border-image-slice` is
@@ -142,7 +166,7 @@
     color: var(--color-fg);
     font-family: var(--font-sans);
     font-size: var(--text-body);
-    line-height: 1.55;
+    line-height: var(--leading-sans);
   }
 
   :focus-visible {

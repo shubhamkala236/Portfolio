@@ -1,5 +1,35 @@
 import { clsx, type ClassValue } from "clsx";
-import { twMerge } from "tailwind-merge";
+import { extendTailwindMerge } from "tailwind-merge";
+
+/**
+ * tailwind-merge only knows Tailwind's built-in font sizes. Without this, a
+ * custom size like `text-label` is mistaken for a colour, so `text-label
+ * text-muted` "conflicts" and the size is silently dropped. Keep this list in
+ * step with the `--text-*` tokens in globals.css.
+ */
+const twMerge = extendTailwindMerge({
+  extend: {
+    classGroups: {
+      "font-size": [
+        {
+          text: [
+            "display",
+            "title",
+            "lead",
+            "heading",
+            "statement",
+            "section-title",
+            "card-title",
+            "body",
+            "label",
+            "chip",
+            "kicker",
+          ],
+        },
+      ],
+    },
+  },
+});
 
 /** Merge conditional class names, with later Tailwind utilities winning. */
 export function cn(...inputs: ClassValue[]): string {

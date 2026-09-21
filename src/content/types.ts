@@ -112,6 +112,18 @@ export type CaseStudyBlock =
         description: string;
         image: ImageAsset;
       }[];
+      /**
+       * Decorative art drawn over the section at `lg` and up. Coordinates are
+       * Figma px relative to the section frame, whose size is `frame`.
+       */
+      decorations?: readonly {
+        src: string;
+        x: number;
+        y: number;
+        width: number;
+        height: number;
+      }[];
+      frame?: { width: number; height: number };
     }
   /**
    * A bottom-aligned row of visuals kept at their Figma proportions.

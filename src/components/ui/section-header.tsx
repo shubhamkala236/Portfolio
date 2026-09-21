@@ -24,13 +24,11 @@ export function SectionHeader({
       {(title || description) && (
         <div className="flex flex-col gap-3">
           {title && (
-            <h2 className="font-display text-statement text-balance text-fg">
-              {title}
-            </h2>
+            <h2 className="font-display text-section-title text-fg">{title}</h2>
           )}
-          {description && (
-            <p className="text-pretty text-fg-strong">{description}</p>
-          )}
+          {/* No text-balance/pretty: plain wrapping at the Figma width is
+              what reproduces the file's line breaks. */}
+          {description && <p className="text-fg-strong">{description}</p>}
         </div>
       )}
     </header>

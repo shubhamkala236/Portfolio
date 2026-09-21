@@ -40,7 +40,9 @@ export default async function ProjectPage({
   );
 
   return (
-    <article className="pb-block">
+    // overflow-x-clip: decorations bleed past the viewport edge as they do in
+    // Figma; clip (not hidden) so no scroll container breaks the sticky header.
+    <article className="overflow-x-clip pb-block">
       <CaseStudyHero
         title={project.title}
         subtitle={project.subtitle}
