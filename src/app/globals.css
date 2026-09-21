@@ -135,6 +135,10 @@
   --text-kicker: 1.25rem; /* 20px */
   --text-kicker--line-height: var(--leading-sans);
 
+  /* Tab bar labels: a fixed 20px — it's a still of the app's own UI. */
+  --text-tab: 1.25rem; /* 20px */
+  --text-tab--line-height: var(--leading-sans);
+
   /* Content width: 1258px inside the 1512px Figma frame. */
   --container-page: 1258px;
   /* Measure of the display-serif pull quote (Figma 4127:16392). */
@@ -143,6 +147,12 @@
   /* Radii */
   --radius-chip: 12px;
   --radius-round: 99px;
+
+  /* Tab bar drop shadows (Figma 4127:17571). Filters, not box-shadows: on the
+   * inactive tabs the shadow follows the label's glyphs as a faint glow. */
+  --drop-shadow-tab-bar: 0 0 5px rgba(0, 0, 0, 0.2);
+  --drop-shadow-tab-active: 0 0 4px rgba(17, 17, 17, 0.6);
+  --drop-shadow-tab: 0 0 4px rgba(110, 110, 110, 0.25);
 
   /* Rhythm — the gaps the Figma layout repeats. */
   --spacing-block: clamp(3.5rem, 2.593rem + 3.8698vw, 6.25rem); /* 100px */

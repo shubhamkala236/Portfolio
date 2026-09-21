@@ -24,6 +24,7 @@ const twMerge = extendTailwindMerge({
             "label",
             "chip",
             "kicker",
+            "tab",
           ],
         },
       ],
