@@ -35,6 +35,42 @@ export type ImageAsset = {
 };
 
 /**
+ * A frame exported from Figma at 1x and 2x, served untouched as a density
+ * pair. `width`/`height` are CSS px — the 1x render's pixel size.
+ */
+export type FigmaRender = {
+  src1x: string;
+  src2x: string;
+  alt: string;
+  width: number;
+  height: number;
+};
+
+/** A callout on an annotated figure. Each needs at least one of the two. */
+export type Annotation = { title?: string; text?: string };
+
+/** One flow of a walkthrough: a titled run of annotated steps. */
+export type WalkthroughFlow = {
+  title?: string;
+  /** "lg" = 40px untracked, "md" = 36px tracked. Defaults to "lg". */
+  titleSize?: "lg" | "md";
+  description?: string;
+  /** Column width in Figma px (1100 for the flows, 1258 full width). */
+  width: number;
+  /** Figma gap between steps, in px. */
+  stepGap: number;
+  /** Numbered list titles ("1. …"). Defaults to true. */
+  numbered?: boolean;
+  steps: readonly {
+    title: string;
+    figure: FigmaRender;
+    /** Text under the canvas, optionally led by a bold phrase. */
+    note?: { lead?: string; text: string };
+    annotations: readonly Annotation[];
+  }[];
+};
+
+/**
  * The "circ kriti" memoji badge, described with Figma's own geometry so it can
  * be rebuilt exactly. All px values are Figma px.
  */
@@ -93,7 +129,53 @@ export type CaseStudyBlock =
   | {
       type: "prose";
       eyebrow?: string;
+      /** Optional display title between eyebrow and paragraphs. */
+      title?: string;
       paragraphs: readonly string[];
+      /** "lg" is 24px copy; the default is the 20px body size. */
+      size?: "body" | "lg";
+      /** Figma gap between paragraphs in px. Defaults to 25 (one empty line). */
+      paragraphGap?: number;
+    }
+  /** Equal cards, each an illustration over a title and description. */
+  | {
+      type: "solution-cards";
+      eyebrow?: string;
+      title?: string;
+      description?: string;
+      /** Row width in Figma px. Defaults to 1100. */
+      width?: number;
+      items: readonly {
+        icon: FigmaRender;
+        title: string;
+        description: string;
+      }[];
+    }
+  /** The app's core sections as staggered, content-width cards. */
+  | {
+      type: "nav-structure";
+      eyebrow?: string;
+      description?: string;
+      width?: number;
+      rows: readonly {
+        /** A 24px SVG icon. */
+        icon: string;
+        title: string;
+        items: readonly string[];
+        /** Indent from the column's left edge, in Figma px. */
+        offset: number;
+      }[];
+    }
+  /** A multi-step, multi-flow screen walkthrough. */
+  | {
+      type: "walkthrough";
+      eyebrow?: string;
+      title?: string;
+      description?: string;
+      descriptionTone?: "strong" | "muted";
+      /** Figma gap between flows, in px. Defaults to 148. */
+      flowGap?: number;
+      flows: readonly WalkthroughFlow[];
     }
   /** Scattered quote chips orbiting a central figure. */
   | {
@@ -196,6 +278,7 @@ export type CaseStudyBlock =
       eyebrow?: string;
       title?: string;
       description?: string;
+      descriptionTone?: "strong" | "muted";
       /** Optional heading for one figure within a larger section. */
       subtitle?: string;
       /** Figma's 2x export of the frame. */
@@ -205,6 +288,11 @@ export type CaseStudyBlock =
        * Figma's own 1x/2x renders, losslessly, instead of being resampled.
        */
       image1x?: string;
+      /**
+       * The frame's true size in Figma px, when its render rounded up a pixel.
+       * Defaults to half the 2x export's size.
+       */
+      frame?: { width: number; height: number };
       /** Each callout needs at least one of the two. */
       annotations: readonly { title?: string; text?: string }[];
     }

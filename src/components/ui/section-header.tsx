@@ -1,9 +1,13 @@
 import { Eyebrow } from "@/components/ui/eyebrow";
+import { cn } from "@/lib/cn";
 
-type SectionHeaderProps = {
+export type SectionHeaderProps = {
   eyebrow?: string;
   title?: string;
   description?: string;
+  /** Figma varies this per section: white on some, #b9b9b9 on others. */
+  descriptionTone?: "strong" | "muted";
+  descriptionWeight?: "regular" | "medium";
 };
 
 /**
@@ -15,11 +19,13 @@ export function SectionHeader({
   eyebrow,
   title,
   description,
+  descriptionTone = "strong",
+  descriptionWeight = "regular",
 }: SectionHeaderProps) {
   if (!eyebrow && !title && !description) return null;
 
   return (
-    <header className="flex flex-col gap-4">
+    <header className="flex w-full flex-col gap-4">
       {eyebrow && <Eyebrow>{eyebrow}</Eyebrow>}
       {(title || description) && (
         <div className="flex flex-col gap-3">
@@ -28,7 +34,16 @@ export function SectionHeader({
           )}
           {/* No text-balance/pretty: plain wrapping at the Figma width is
               what reproduces the file's line breaks. */}
-          {description && <p className="text-fg-strong">{description}</p>}
+          {description && (
+            <p
+              className={cn(
+                descriptionTone === "strong" ? "text-fg-strong" : "text-muted",
+                descriptionWeight === "medium" && "font-medium",
+              )}
+            >
+              {description}
+            </p>
+          )}
         </div>
       )}
     </header>

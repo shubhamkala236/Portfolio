@@ -1,5 +1,6 @@
 import Image from "next/image";
 
+import { FigmaRender } from "@/components/ui/figma-render";
 import { SectionHeader } from "@/components/ui/section-header";
 import type { CaseStudyBlock } from "@/content/types";
 
@@ -22,9 +23,11 @@ export function AnnotatedFigureBlock({
   eyebrow,
   title,
   description,
+  descriptionTone,
   subtitle,
   image,
   image1x,
+  frame,
   annotations,
 }: AnnotatedFigureBlockProps) {
   return (
@@ -33,6 +36,7 @@ export function AnnotatedFigureBlock({
         eyebrow={eyebrow}
         title={title}
         description={description}
+        descriptionTone={descriptionTone}
       />
 
       <figure className="flex flex-col gap-10">
@@ -41,21 +45,18 @@ export function AnnotatedFigureBlock({
         )}
 
         {image1x ? (
-          // Figma's own 1x and 2x renders, served untouched. The optimiser
-          // would resample the 2x export to a stock width (1920) and the
-          // browser would shrink it again, softening the baked-in 16px labels,
-          // then compress it at q75. `image` is the 2x export, so its
-          // intrinsic size in CSS px is half its pixel size.
-          // eslint-disable-next-line @next/next/no-img-element -- deliberate: pixel-exact density pair
-          <img
-            src={image1x}
-            srcSet={`${image1x} 1x, ${image.src} 2x`}
-            alt={image.alt}
-            width={image.width / 2}
-            height={image.height / 2}
-            loading="lazy"
-            decoding="async"
-            className="h-auto w-full"
+          // Figma's own 1x and 2x renders, served untouched (see FigmaRender).
+          // `image` is the 2x export, so the frame is half its pixel size
+          // unless the frame is given exactly.
+          <FigmaRender
+            render={{
+              src1x: image1x,
+              src2x: image.src,
+              alt: image.alt,
+              width: frame?.width ?? image.width / 2,
+              height: frame?.height ?? image.height / 2,
+            }}
+            className="w-full"
           />
         ) : (
           <Image

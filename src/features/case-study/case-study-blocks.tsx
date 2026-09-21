@@ -8,10 +8,13 @@ import { HeadingBlock } from "@/features/case-study/blocks/heading-block";
 import { ImageRowBlock } from "@/features/case-study/blocks/image-row-block";
 import { MediaBlock } from "@/features/case-study/blocks/media-block";
 import { MetaBlock } from "@/features/case-study/blocks/meta-block";
+import { NavStructureBlock } from "@/features/case-study/blocks/nav-structure-block";
 import { ProseBlock } from "@/features/case-study/blocks/prose-block";
 import { QuoteClusterBlock } from "@/features/case-study/blocks/quote-cluster-block";
+import { SolutionCardsBlock } from "@/features/case-study/blocks/solution-cards-block";
 import { StatementBlock } from "@/features/case-study/blocks/statement-block";
 import { TabBarBlock } from "@/features/case-study/blocks/tab-bar-block";
+import { WalkthroughBlock } from "@/features/case-study/blocks/walkthrough-block";
 
 /** Gap between top-level sections in the Figma frame. */
 const ROOT_GAP = 200;
@@ -41,6 +44,12 @@ function renderBlock(block: CaseStudyBlock) {
       return <MetaBlock {...block} />;
     case "prose":
       return <ProseBlock {...block} />;
+    case "solution-cards":
+      return <SolutionCardsBlock {...block} />;
+    case "nav-structure":
+      return <NavStructureBlock {...block} />;
+    case "walkthrough":
+      return <WalkthroughBlock {...block} />;
     case "quote-cluster":
       return <QuoteClusterBlock {...block} />;
     case "statement":

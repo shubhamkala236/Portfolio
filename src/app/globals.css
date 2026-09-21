@@ -118,6 +118,19 @@
   --text-card-title: 1.25rem; /* 20px */
   --text-card-title--line-height: var(--leading-display);
 
+  /* Walkthrough flow titles. The file styles its two flows differently —
+   * "Add Transaction Flow" 40px untracked, "Group Expense Management Flow"
+   * 36px tracked — and both are reproduced as drawn. */
+  --text-flow-lg: clamp(1.75rem, 1.5026rem + 1.0554vw, 2.5rem); /* 40px */
+  --text-flow-lg--line-height: var(--leading-display);
+  --text-flow: clamp(1.625rem, 1.4189rem + 0.8795vw, 2.25rem); /* 36px */
+  --text-flow--line-height: var(--leading-display);
+  --text-flow--letter-spacing: 0.06em;
+
+  /* Larger body copy (Sistem's conclusion, 4106:6268). */
+  --text-body-lg: clamp(1.125rem, 1.0013rem + 0.5277vw, 1.5rem); /* 24px */
+  --text-body-lg--line-height: var(--leading-sans);
+
   /* Figma sets body copy to the font's own ("normal") line height. */
   --text-body: clamp(1rem, 0.9175rem + 0.3518vw, 1.25rem); /* 20px */
   --text-body--line-height: var(--leading-sans);
@@ -146,6 +159,7 @@
 
   /* Radii */
   --radius-chip: 12px;
+  --radius-card: 20px; /* Rounded corners/X-large */
   --radius-round: 99px;
 
   /* Tab bar drop shadows (Figma 4127:17571). Filters, not box-shadows: on the
@@ -156,6 +170,12 @@
 
   /* Rhythm — the gaps the Figma layout repeats. */
   --spacing-block: clamp(3.5rem, 2.593rem + 3.8698vw, 6.25rem); /* 100px */
+  /* Padding inside a pair of 1px rules. Figma draws its hairlines centred on
+   * the frame edge, adding no height; a CSS border adds 1px, so the 40px pad
+   * drops to 39px to keep the frame's 137px. */
+  --spacing-ruled: 39px;
+  /* Fixed height of a solution card's text box (Figma 4106:5335). */
+  --spacing-card-text: 165px;
   --spacing-hero: clamp(5rem, 2.5264rem + 10.5541vw, 12.5rem); /* 200px */
 }
 
