@@ -273,13 +273,21 @@ export type CaseStudyBlock =
       description?: string;
     }
   /**
-   * A still of the app's own tab bar, naming the sections the walkthrough
-   * steps through. Illustrative, not navigation.
+   * The app's tab bar as in-page navigation: it floats under the site header
+   * while its sections scroll past, links to each, and highlights the one in
+   * view. It stops floating once the last section ends.
    */
   | {
-      type: "tab-bar";
-      items: readonly string[];
-      activeIndex?: number;
+      type: "section-nav";
+      /** Accessible name for the nav landmark. */
+      label: string;
+      sections: readonly {
+        /** Anchor id, used in the URL hash. */
+        id: string;
+        /** Tab text, verbatim from the file. */
+        label: string;
+        block: CaseStudyBlock;
+      }[];
     }
   /**
    * Feature cards on a three-column grid. Pairs of cards alternate across the

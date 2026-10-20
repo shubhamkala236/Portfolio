@@ -199,6 +199,11 @@
   /* Fixed height of a solution card's text box (Figma 4106:5335). */
   --spacing-card-text: 165px;
   --spacing-hero: clamp(5rem, 2.5264rem + 10.5541vw, 12.5rem); /* 200px */
+  /* The floating section tab bar (ELEMENTS 4286:7185): it sticks 16px under
+   * the 64px site header, and a section it links to lands 40px under the
+   * bar's 55px pill (80 + 55 + 40). */
+  --spacing-section-nav: 5rem; /* 80px */
+  --spacing-section-anchor: 10.9375rem; /* 175px */
 }
 
 /* Gradient rules above and below an element. `border-image-slice` is

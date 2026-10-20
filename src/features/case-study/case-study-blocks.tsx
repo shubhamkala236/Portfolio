@@ -14,9 +14,9 @@ import { MetaBlock } from "@/features/case-study/blocks/meta-block";
 import { NavStructureBlock } from "@/features/case-study/blocks/nav-structure-block";
 import { ProseBlock } from "@/features/case-study/blocks/prose-block";
 import { QuoteClusterBlock } from "@/features/case-study/blocks/quote-cluster-block";
+import { SectionNavBlock } from "@/features/case-study/blocks/section-nav-block";
 import { SolutionCardsBlock } from "@/features/case-study/blocks/solution-cards-block";
 import { StatementBlock } from "@/features/case-study/blocks/statement-block";
-import { TabBarBlock } from "@/features/case-study/blocks/tab-bar-block";
 import { WalkthroughBlock } from "@/features/case-study/blocks/walkthrough-block";
 
 /** Gap between top-level sections in the Figma frame. */
@@ -41,8 +41,25 @@ function renderBlock(block: CaseStudyBlock) {
       return <ImageRowBlock {...block} />;
     case "annotated-figure":
       return <AnnotatedFigureBlock {...block} />;
-    case "tab-bar":
-      return <TabBarBlock {...block} />;
+    case "section-nav":
+      return (
+        <SectionNavBlock
+          label={block.label}
+          sections={block.sections}
+          gap={ROOT_GAP}
+        >
+          {block.sections.map((section) => (
+            // The anchor margin lands a section just under the floating bar.
+            <section
+              key={section.id}
+              id={section.id}
+              className="scroll-mt-section-anchor"
+            >
+              {renderBlock(section.block)}
+            </section>
+          ))}
+        </SectionNavBlock>
+      );
     case "meta":
       return <MetaBlock {...block} />;
     case "prose":

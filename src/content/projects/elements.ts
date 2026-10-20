@@ -278,205 +278,226 @@ export const elements = {
         },
       },
     },
-    // 4127:17571
+    // 4286:7185 — the tab bar floats over its six sections and links to them
     {
-      type: "tab-bar",
-      items: [
-        "Home",
-        "Shopping",
-        "Wardrobe",
-        "Aura",
-        "Flip",
-        "Virtual avatar & Statistics",
-      ],
-    },
-    // 4127:17506
-    {
-      type: "annotated-figure",
-      eyebrow: "Final Design",
-      title: "Home Screen",
-      description:
-        "The Home screen brings today’s outfit, shopping updates and featured collections together, with quick access to key actions and sections.",
-      image: {
-        src: "/case-studies/elements/final-home-screen.png",
-        alt: "Annotated Home screen showing the search bar, sale banners, featured collections, today’s outfit, floating action button and navigation bar",
-        width: 2516,
-        height: 1340,
-      },
-      image1x: "/case-studies/elements/final-home-screen@1x.png",
-      annotations: [
-        { title: "Search bar" },
-        { title: "Sale & Banner Updates" },
-        { title: "Featured Brands & Collections" },
+      type: "section-nav",
+      label: "Final design screens",
+      sections: [
         {
-          title: "Today’s Outfit",
-          text: "Quickly see and revisit what you’ve planned for the day.",
-        },
-        {
-          title: "Floating button",
-          text: "Add clothes, create outfits, get AI styling ideas, or edit your avatar.",
-        },
-        { title: "Navigation bar" },
-      ],
-    },
-    // 4127:17534
-    {
-      type: "annotated-figure",
-      eyebrow: "Final Design",
-      title: "Shopping",
-      description:
-        "Shopping in Elements goes beyond browsing. Users can explore new pieces, see how they work with clothes they already own, try combinations on their avatar, and get styling ideas before deciding what to buy.",
-      image: {
-        src: "/case-studies/elements/final-shopping.png",
-        alt: "Annotated shopping flow showing category browsing, wish list and try-on buttons, mix and match, and the Aura AI styling button",
-        width: 2516,
-        height: 3300,
-      },
-      annotations: [
-        { text: "Browse through different clothing categories." },
-        { text: "Like button adds it to the wish list" },
-        { text: "Tag button to add it to try-on feature" },
-        { text: "Try on button pops up when you tap the tag on the card" },
-        {
-          title: "Mix & Match",
-          text: "Add pieces from your wardrobe to see how they work with something new before buying it.",
-        },
-        {
-          title: "The Aura AI button",
-          text: "Once Aura is used, its tab appears in the navigation for quick access to AI-generated outfits.",
-        },
-        {
-          text: "Creates outfits around a selected piece by mixing clothes from your wardrobe or with new pieces from the store.",
-        },
-      ],
-    },
-    // 4127:17678 — two sub-figures 80px apart
-    {
-      type: "group",
-      gap: 80,
-      blocks: [
-        {
-          type: "annotated-figure",
-          eyebrow: "Final Design",
-          title: "Wardrobe",
-          description:
-            "Browse categorised items, track wear and outfit stats, and explore new ways to style your wardrobe with Aura and Flip.",
-          subtitle: "Dashboard & Add Items",
-          image: {
-            src: "/case-studies/elements/final-wardrobe-dashboard.png",
-            alt: "Annotated wardrobe dashboard showing category cards, streaks and points, saved outfits, and the add-item flow",
-            width: 2200,
-            height: 2892,
+          id: "home",
+          label: "Home",
+          // 4127:17506
+          block: {
+            type: "annotated-figure",
+            eyebrow: "Final Design",
+            title: "Home Screen",
+            description:
+              "The Home screen brings today’s outfit, shopping updates and featured collections together, with quick access to key actions and sections.",
+            image: {
+              src: "/case-studies/elements/final-home-screen.png",
+              alt: "Annotated Home screen showing the search bar, sale banners, featured collections, today’s outfit, floating action button and navigation bar",
+              width: 2516,
+              height: 1340,
+            },
+            image1x: "/case-studies/elements/final-home-screen@1x.png",
+            annotations: [
+              { title: "Search bar" },
+              { title: "Sale & Banner Updates" },
+              { title: "Featured Brands & Collections" },
+              {
+                title: "Today’s Outfit",
+                text: "Quickly see and revisit what you’ve planned for the day.",
+              },
+              {
+                title: "Floating button",
+                text: "Add clothes, create outfits, get AI styling ideas, or edit your avatar.",
+              },
+              { title: "Navigation bar" },
+            ],
           },
-          annotations: [
-            {
-              text: "Browse, sort and filter your wardrobe, with quick-add actions for new pieces.",
-            },
-            {
-              title: "Streaks & Points",
-              text: "Track outfit streaks and reward points, encouraging users to make more use of their wardrobe.",
-            },
-            {
-              text: "Each card shows the category, item count and recently added pieces, with a quick + button to add more.",
-            },
-            {
-              text: "Saved outfits show wear count and can be quickly added to your calendar or marked as worn.",
-            },
-            {
-              text: "Shows all clothing categories in one place for easy browsing and organisation.",
-            },
-            {
-              text: "Lets users add clothes and fill in or edit their details before saving them to the wardrobe.",
-            },
-            {
-              text: "Shows all tops in the wardrobe, along with how many times each piece has been worn.",
-            },
-            {
-              text: "Quickly add items to outfits or update their wear count.",
-            },
-          ],
         },
         {
-          type: "annotated-figure",
-          subtitle: "OOTD- Outfit of the day",
-          image: {
-            src: "/case-studies/elements/final-wardrobe-ootd.png",
-            alt: "Annotated outfit-of-the-day flow showing the calendar, outfit canvas and Aura AI generation",
-            width: 2200,
-            height: 1072,
+          id: "shopping",
+          label: "Shopping",
+          // 4127:17534
+          block: {
+            type: "annotated-figure",
+            eyebrow: "Final Design",
+            title: "Shopping",
+            description:
+              "Shopping in Elements goes beyond browsing. Users can explore new pieces, see how they work with clothes they already own, try combinations on their avatar, and get styling ideas before deciding what to buy.",
+            image: {
+              src: "/case-studies/elements/final-shopping.png",
+              alt: "Annotated shopping flow showing category browsing, wish list and try-on buttons, mix and match, and the Aura AI styling button",
+              width: 2516,
+              height: 3300,
+            },
+            annotations: [
+              { text: "Browse through different clothing categories." },
+              { text: "Like button adds it to the wish list" },
+              { text: "Tag button to add it to try-on feature" },
+              {
+                text: "Try on button pops up when you tap the tag on the card",
+              },
+              {
+                title: "Mix & Match",
+                text: "Add pieces from your wardrobe to see how they work with something new before buying it.",
+              },
+              {
+                title: "The Aura AI button",
+                text: "Once Aura is used, its tab appears in the navigation for quick access to AI-generated outfits.",
+              },
+              {
+                text: "Creates outfits around a selected piece by mixing clothes from your wardrobe or with new pieces from the store.",
+              },
+            ],
           },
-          annotations: [
-            {
-              text: "Users can create a new outfit or tap a specific day to plan one directly on the calendar.",
+        },
+        {
+          id: "wardrobe",
+          label: "Wardrobe",
+          // 4127:17678 — two sub-figures 80px apart
+          block: {
+            type: "group",
+            gap: 80,
+            blocks: [
+              {
+                type: "annotated-figure",
+                eyebrow: "Final Design",
+                title: "Wardrobe",
+                description:
+                  "Browse categorised items, track wear and outfit stats, and explore new ways to style your wardrobe with Aura and Flip.",
+                subtitle: "Dashboard & Add Items",
+                image: {
+                  src: "/case-studies/elements/final-wardrobe-dashboard.png",
+                  alt: "Annotated wardrobe dashboard showing category cards, streaks and points, saved outfits, and the add-item flow",
+                  width: 2200,
+                  height: 2892,
+                },
+                annotations: [
+                  {
+                    text: "Browse, sort and filter your wardrobe, with quick-add actions for new pieces.",
+                  },
+                  {
+                    title: "Streaks & Points",
+                    text: "Track outfit streaks and reward points, encouraging users to make more use of their wardrobe.",
+                  },
+                  {
+                    text: "Each card shows the category, item count and recently added pieces, with a quick + button to add more.",
+                  },
+                  {
+                    text: "Saved outfits show wear count and can be quickly added to your calendar or marked as worn.",
+                  },
+                  {
+                    text: "Shows all clothing categories in one place for easy browsing and organisation.",
+                  },
+                  {
+                    text: "Lets users add clothes and fill in or edit their details before saving them to the wardrobe.",
+                  },
+                  {
+                    text: "Shows all tops in the wardrobe, along with how many times each piece has been worn.",
+                  },
+                  {
+                    text: "Quickly add items to outfits or update their wear count.",
+                  },
+                ],
+              },
+              {
+                type: "annotated-figure",
+                subtitle: "OOTD- Outfit of the day",
+                image: {
+                  src: "/case-studies/elements/final-wardrobe-ootd.png",
+                  alt: "Annotated outfit-of-the-day flow showing the calendar, outfit canvas and Aura AI generation",
+                  width: 2200,
+                  height: 1072,
+                },
+                annotations: [
+                  {
+                    text: "Users can create a new outfit or tap a specific day to plan one directly on the calendar.",
+                  },
+                  {
+                    text: "A canvas opens to build the outfit, with a date bar below for quickly switching between days.",
+                  },
+                  { text: "Click on Aura AI button to generate outfits" },
+                ],
+              },
+            ],
+          },
+        },
+        {
+          id: "aura",
+          label: "Aura",
+          // 4127:18602
+          block: {
+            type: "annotated-figure",
+            eyebrow: "Final Design",
+            title: "Aura AI",
+            description:
+              "Aura creates personalised outfits based on the user’s mood, occasion and style preferences. Depending on their choices, it can style pieces from their wardrobe, suggest new pieces, or combine both. Users can answer as much or as little as they want and regenerate until they find a look they like.",
+            image: {
+              src: "/case-studies/elements/final-aura-ai.png",
+              alt: "Annotated Aura AI flow showing the progress bar, preference questions, swappable cards and the generate button",
+              width: 2516,
+              height: 944,
             },
-            {
-              text: "A canvas opens to build the outfit, with a date bar below for quickly switching between days.",
+            annotations: [
+              {
+                text: "The progress bar updates with each selection, showing choices and current progress.",
+              },
+              {
+                text: "Users answer a few questions to shape their outfit suggestions.",
+              },
+              { text: "Swappable cards let users visually select preferences" },
+              {
+                text: "The “Generate” button works anytime, even without answering questions.",
+              },
+            ],
+          },
+        },
+        {
+          id: "flip",
+          label: "Flip",
+          // 4133:4193
+          block: {
+            type: "annotated-figure",
+            eyebrow: "Final Design",
+            title: "Flip",
+            description:
+              "Flip lets users swipe through different styles, saving outfits they like to their wishlist for later.",
+            image: {
+              src: "/case-studies/elements/final-flip.png",
+              alt: "The Flip feature showing outfits being swiped through and saved to a wishlist",
+              width: 2516,
+              height: 910,
             },
-            { text: "Click on Aura AI button to generate outfits" },
-          ],
-        },
-      ],
-    },
-    // 4127:18602
-    {
-      type: "annotated-figure",
-      eyebrow: "Final Design",
-      title: "Aura AI",
-      description:
-        "Aura creates personalised outfits based on the user’s mood, occasion and style preferences. Depending on their choices, it can style pieces from their wardrobe, suggest new pieces, or combine both. Users can answer as much or as little as they want and regenerate until they find a look they like.",
-      image: {
-        src: "/case-studies/elements/final-aura-ai.png",
-        alt: "Annotated Aura AI flow showing the progress bar, preference questions, swappable cards and the generate button",
-        width: 2516,
-        height: 944,
-      },
-      annotations: [
-        {
-          text: "The progress bar updates with each selection, showing choices and current progress.",
+            annotations: [],
+          },
         },
         {
-          text: "Users answer a few questions to shape their outfit suggestions.",
-        },
-        { text: "Swappable cards let users visually select preferences" },
-        {
-          text: "The “Generate” button works anytime, even without answering questions.",
-        },
-      ],
-    },
-    // 4133:4193
-    {
-      type: "annotated-figure",
-      eyebrow: "Final Design",
-      title: "Flip",
-      description:
-        "Flip lets users swipe through different styles, saving outfits they like to their wishlist for later.",
-      image: {
-        src: "/case-studies/elements/final-flip.png",
-        alt: "The Flip feature showing outfits being swiped through and saved to a wishlist",
-        width: 2516,
-        height: 910,
-      },
-      annotations: [],
-    },
-    // 4133:4255
-    {
-      type: "annotated-figure",
-      eyebrow: "Final Design",
-      title: "Virtual avatar & Statistics",
-      image: {
-        src: "/case-studies/elements/final-avatar-statistics.png",
-        alt: "Annotated screens showing wardrobe statistics and the personalised virtual avatar",
-        width: 2516,
-        height: 1232,
-      },
-      annotations: [
-        {
-          title: "Wardrobe Statistics",
-          text: "Shows your wardrobe value, usage, total items and outfit wear, giving a quick overview of how much of your wardrobe you actually use.",
-        },
-        {
-          title: "Virtual Avatar",
-          text: "It uses your measurements to create a personalised avatar, helping you visualise how clothes look and fit when styling outfits.",
+          id: "avatar-statistics",
+          label: "Virtual avatar & Statistics",
+          // 4133:4255
+          block: {
+            type: "annotated-figure",
+            eyebrow: "Final Design",
+            title: "Virtual avatar & Statistics",
+            image: {
+              src: "/case-studies/elements/final-avatar-statistics.png",
+              alt: "Annotated screens showing wardrobe statistics and the personalised virtual avatar",
+              width: 2516,
+              height: 1232,
+            },
+            annotations: [
+              {
+                title: "Wardrobe Statistics",
+                text: "Shows your wardrobe value, usage, total items and outfit wear, giving a quick overview of how much of your wardrobe you actually use.",
+              },
+              {
+                title: "Virtual Avatar",
+                text: "It uses your measurements to create a personalised avatar, helping you visualise how clothes look and fit when styling outfits.",
+              },
+            ],
+          },
         },
       ],
     },
