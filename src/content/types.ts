@@ -352,6 +352,17 @@ export type CaseStudyBlock =
       descriptionTone?: "strong" | "muted";
       /** Optional heading for one figure within a larger section. */
       subtitle?: string;
+      /**
+       * The file styles these headings two ways: "md" is 28px untracked,
+       * "lg" 36px tracked (as the flow titles). Defaults to "md".
+       */
+      subtitleSize?: "md" | "lg";
+      /**
+       * Width of the figure column in Figma px, centred in the page — for a
+       * frame narrower than the 1258px content width. The subtitle sits
+       * inside it, as in the file.
+       */
+      width?: number;
       /** Figma's 2x export of the frame. */
       image: ImageAsset;
       /**
@@ -364,6 +375,8 @@ export type CaseStudyBlock =
        * Defaults to half the 2x export's size.
        */
       frame?: { width: number; height: number };
+      /** Where a render larger than its frame sits (see `FigmaRender`). */
+      bleed?: FigmaRender["bleed"];
       /** Each callout needs at least one of the two. */
       annotations: readonly { title?: string; text?: string }[];
     }

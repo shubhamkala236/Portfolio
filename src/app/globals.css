@@ -130,6 +130,15 @@
   --text-section-title--line-height: 1.2143;
   --text-section-title--letter-spacing: 0.06em;
 
+  /* A figure's own heading inside a section ("Dashboard & Add Items",
+   * 4286:7266): the section title's size and 34px box, untracked. */
+  --text-figure-title: clamp(
+    1.375rem,
+    1.2513rem + 0.5277vw,
+    1.75rem
+  ); /* 28px */
+  --text-figure-title--line-height: 1.2143;
+
   /* Feature card titles: 20px Gloock, untracked. */
   --text-card-title: 1.25rem; /* 20px */
   --text-card-title--line-height: var(--leading-display);

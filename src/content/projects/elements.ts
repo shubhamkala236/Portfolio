@@ -286,7 +286,7 @@ export const elements = {
         {
           id: "home",
           label: "Home",
-          // 4127:17506
+          // 4286:7193
           block: {
             type: "annotated-figure",
             eyebrow: "Final Design",
@@ -299,6 +299,7 @@ export const elements = {
               width: 2516,
               height: 1340,
             },
+            // 4286:7199
             image1x: "/case-studies/elements/final-home-screen@1x.png",
             annotations: [
               { title: "Search bar" },
@@ -319,7 +320,7 @@ export const elements = {
         {
           id: "shopping",
           label: "Shopping",
-          // 4127:17534
+          // 4286:7221
           block: {
             type: "annotated-figure",
             eyebrow: "Final Design",
@@ -332,6 +333,9 @@ export const elements = {
               width: 2516,
               height: 3300,
             },
+            // 4286:7227 is 1258 × 1649; Figma renders it a row taller.
+            image1x: "/case-studies/elements/final-shopping@1x.png",
+            frame: { width: 1258, height: 1649 },
             annotations: [
               { text: "Browse through different clothing categories." },
               { text: "Like button adds it to the wish list" },
@@ -356,7 +360,7 @@ export const elements = {
         {
           id: "wardrobe",
           label: "Wardrobe",
-          // 4127:17678 — two sub-figures 80px apart
+          // 4286:7258 — two 1100px figures, centred, 80px apart
           block: {
             type: "group",
             gap: 80,
@@ -368,12 +372,17 @@ export const elements = {
                 description:
                   "Browse categorised items, track wear and outfit stats, and explore new ways to style your wardrobe with Aura and Flip.",
                 subtitle: "Dashboard & Add Items",
+                width: 1100,
                 image: {
                   src: "/case-studies/elements/final-wardrobe-dashboard.png",
                   alt: "Annotated wardrobe dashboard showing category cards, streaks and points, saved outfits, and the add-item flow",
                   width: 2200,
                   height: 2892,
                 },
+                // 4286:7267 is 1100 × 1445; Figma renders it a row taller.
+                image1x:
+                  "/case-studies/elements/final-wardrobe-dashboard@1x.png",
+                frame: { width: 1100, height: 1445 },
                 annotations: [
                   {
                     text: "Browse, sort and filter your wardrobe, with quick-add actions for new pieces.",
@@ -405,12 +414,16 @@ export const elements = {
               {
                 type: "annotated-figure",
                 subtitle: "OOTD- Outfit of the day",
+                subtitleSize: "lg",
+                width: 1100,
                 image: {
                   src: "/case-studies/elements/final-wardrobe-ootd.png",
                   alt: "Annotated outfit-of-the-day flow showing the calendar, outfit canvas and Aura AI generation",
                   width: 2200,
                   height: 1072,
                 },
+                // 4286:7307
+                image1x: "/case-studies/elements/final-wardrobe-ootd@1x.png",
                 annotations: [
                   {
                     text: "Users can create a new outfit or tap a specific day to plan one directly on the calendar.",
@@ -427,7 +440,7 @@ export const elements = {
         {
           id: "aura",
           label: "Aura",
-          // 4127:18602
+          // 4286:7321
           block: {
             type: "annotated-figure",
             eyebrow: "Final Design",
@@ -440,6 +453,9 @@ export const elements = {
               width: 2516,
               height: 944,
             },
+            // 4286:7327 is 1258 × 471; Figma renders it a row taller.
+            image1x: "/case-studies/elements/final-aura-ai@1x.png",
+            frame: { width: 1258, height: 471 },
             annotations: [
               {
                 text: "The progress bar updates with each selection, showing choices and current progress.",
@@ -457,7 +473,7 @@ export const elements = {
         {
           id: "flip",
           label: "Flip",
-          // 4133:4193
+          // 4286:7357
           block: {
             type: "annotated-figure",
             eyebrow: "Final Design",
@@ -470,13 +486,18 @@ export const elements = {
               width: 2516,
               height: 910,
             },
+            // 4286:7363 is 1258 × 453; its arrow and middle phone overhang it
+            // by 1px top and bottom, so the render is 455 tall from y = −1.
+            image1x: "/case-studies/elements/final-flip@1x.png",
+            frame: { width: 1258, height: 453 },
+            bleed: { x: 0, y: -1, width: 1258, height: 455 },
             annotations: [],
           },
         },
         {
           id: "avatar-statistics",
           label: "Virtual avatar & Statistics",
-          // 4133:4255
+          // 4286:7375
           block: {
             type: "annotated-figure",
             eyebrow: "Final Design",
@@ -487,6 +508,8 @@ export const elements = {
               width: 2516,
               height: 1232,
             },
+            // 4286:7380
+            image1x: "/case-studies/elements/final-avatar-statistics@1x.png",
             annotations: [
               {
                 title: "Wardrobe Statistics",
@@ -499,6 +522,16 @@ export const elements = {
             ],
           },
         },
+      ],
+    },
+    // 4286:7388
+    {
+      type: "prose",
+      eyebrow: "Conclusion",
+      title: "Outcome & Learnings",
+      size: "lg",
+      paragraphs: [
+        "Working on Elements showed me that the real challenge wasn’t coming up with more features, but making everything feel simple and connected. It pushed me to think more carefully about how people actually use their clothes, plan what to wear and decide what’s worth buying.",
       ],
     },
     // 4133:4643

@@ -3,6 +3,7 @@ import Image from "next/image";
 import { FigmaRender } from "@/components/ui/figma-render";
 import { SectionHeader } from "@/components/ui/section-header";
 import type { CaseStudyBlock } from "@/content/types";
+import { cn } from "@/lib/cn";
 
 type AnnotatedFigureBlockProps = Extract<
   CaseStudyBlock,
@@ -18,6 +19,9 @@ type AnnotatedFigureBlockProps = Extract<
  * baked into pixels, so they are repeated as real text below: readable on a
  * phone where the image is too small to scan, and available to screen readers
  * and search engines at every size.
+ *
+ * A frame narrower than the page (`width`) is centred, subtitle included,
+ * as Figma lays it out.
  */
 export function AnnotatedFigureBlock({
   eyebrow,
@@ -25,9 +29,12 @@ export function AnnotatedFigureBlock({
   description,
   descriptionTone,
   subtitle,
+  subtitleSize = "md",
+  width,
   image,
   image1x,
   frame,
+  bleed,
   annotations,
 }: AnnotatedFigureBlockProps) {
   return (
@@ -39,9 +46,19 @@ export function AnnotatedFigureBlock({
         descriptionTone={descriptionTone}
       />
 
-      <figure className="flex flex-col gap-10">
+      <figure
+        className="mx-auto flex w-full flex-col gap-10"
+        style={{ maxWidth: width }}
+      >
         {subtitle && (
-          <h3 className="font-display text-statement text-fg">{subtitle}</h3>
+          <h3
+            className={cn(
+              "font-display text-fg",
+              subtitleSize === "lg" ? "text-flow" : "text-figure-title",
+            )}
+          >
+            {subtitle}
+          </h3>
         )}
 
         {image1x ? (
@@ -55,6 +72,7 @@ export function AnnotatedFigureBlock({
               alt: image.alt,
               width: frame?.width ?? image.width / 2,
               height: frame?.height ?? image.height / 2,
+              bleed,
             }}
             className="w-full"
           />
