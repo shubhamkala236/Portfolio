@@ -7,9 +7,8 @@ import type { Project } from "@/content/types";
  * Block order, nesting and gaps mirror the Figma frame tree, and each top-level
  * block notes the frame it came from. Copy is reproduced verbatim from the file.
  *
- * The hero visual is still an empty frame in Figma. It is `null` here on
- * purpose: the page renders a visible placeholder until a real export is
- * dropped into /public/case-studies/elements/.
+ * Everything above the Introduction follows the revised page 4286:6937: a
+ * full-bleed hero render, then the title and meta row opening the body.
  */
 export const elements = {
   slug: "elements",
@@ -24,19 +23,25 @@ export const elements = {
   links: {},
   cover: null,
   heroMedia: null,
+  // 4286:9106 — full-bleed, no title (the title opens the body instead)
+  heroRender: {
+    src1x: "/case-studies/elements/hero@1x.png",
+    src2x: "/case-studies/elements/hero@2x.png",
+    alt: "A hand holding a phone open on the Elements wardrobe screen, against an orange gradient",
+    width: 1512,
+    height: 851,
+  },
   blocks: [
-    // 4127:16348
-    {
-      type: "heading",
-      text: ["Nothing to wear?", "Look again."],
-      lineGap: 20,
-      tone: "strong",
-    },
-    // 4127:16350 — inner stack at 100px
+    // 4286:6961 — title 64px above the meta row
     {
       type: "group",
-      gap: 100,
+      gap: 64,
       blocks: [
+        {
+          type: "page-title",
+          title: "ELEMENTS",
+          subtitle: ["Fashion, Simplified: Organize, Style, and Shop Smarter"],
+        },
         {
           type: "meta",
           items: [
@@ -46,6 +51,21 @@ export const elements = {
             { label: "Scope", value: "Research, User Flows, Prototyping" },
           ],
         },
+      ],
+    },
+    // 4286:6981 — 726px wide, centred
+    {
+      type: "heading",
+      text: ["Nothing to wear?", "Look again."],
+      lineGap: 20,
+      maxWidth: 726,
+      tone: "strong",
+    },
+    // 4286:6982 — inner stack at 100px
+    {
+      type: "group",
+      gap: 100,
+      blocks: [
         {
           type: "prose",
           eyebrow: "Introduction",
