@@ -9,8 +9,8 @@ import type { FigmaRender, Project } from "@/content/types";
  * inconsistencies (the two flow titles are styled differently, and so are the
  * section descriptions) — those are reproduced, not tidied.
  *
- * The hero visual is still an empty frame in Figma, so it renders the
- * placeholder until a real export is added.
+ * Everything above the Introduction follows the revised page 4286:5920: a
+ * full-bleed hero render, then the title and meta row opening the body.
  */
 
 const dir = "/case-studies/sistem-expense";
@@ -42,19 +42,24 @@ export const sistemExpense = {
   links: {},
   cover: null,
   heroMedia: null,
+  // 4286:9152 — full-bleed, no title (the title opens the body instead)
+  heroRender: render(
+    "hero",
+    1512,
+    851,
+    "A hand holding a phone open on the Sistem home screen, against a purple gradient",
+  ),
   blocks: [
-    // 4106:5302
-    {
-      type: "heading",
-      text: "A Simpler way to handle Money",
-      maxWidth: 726,
-      tone: "strong",
-    },
-    // 4106:5304 — inner stack at 100px
+    // 4286:5964 — title 64px above the meta row
     {
       type: "group",
-      gap: 100,
+      gap: 64,
       blocks: [
+        {
+          type: "page-title",
+          title: "SISTEM EXPENSE",
+          subtitle: ["Built around the way you actually manage your money"],
+        },
         {
           type: "meta",
           items: [
@@ -64,6 +69,20 @@ export const sistemExpense = {
             { label: "Scope", value: "UX Research, User Flows, Wireframes" },
           ],
         },
+      ],
+    },
+    // 4286:5984
+    {
+      type: "heading",
+      text: "A Simpler way to handle Money",
+      maxWidth: 726,
+      tone: "strong",
+    },
+    // 4286:5985 — inner stack at 100px
+    {
+      type: "group",
+      gap: 100,
+      blocks: [
         {
           type: "prose",
           eyebrow: "Introduction",
