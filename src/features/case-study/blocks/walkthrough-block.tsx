@@ -25,6 +25,7 @@ export function WalkthroughBlock({
   title,
   description,
   descriptionTone,
+  headerHeight,
   flows,
   flowGap = 148,
 }: WalkthroughBlockProps) {
@@ -35,6 +36,7 @@ export function WalkthroughBlock({
         title={title}
         description={description}
         descriptionTone={descriptionTone}
+        height={headerHeight}
       />
 
       <div

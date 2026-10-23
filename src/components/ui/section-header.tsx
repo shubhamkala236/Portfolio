@@ -8,6 +8,11 @@ export type SectionHeaderProps = {
   /** Figma varies this per section: white on some, #b9b9b9 on others. */
   descriptionTone?: "strong" | "muted";
   descriptionWeight?: "regular" | "medium";
+  /**
+   * A fixed height in px, where Figma fixes the header frame — content may
+   * then overhang it, and what follows keeps Figma's position.
+   */
+  height?: number;
 };
 
 /**
@@ -21,11 +26,12 @@ export function SectionHeader({
   description,
   descriptionTone = "strong",
   descriptionWeight = "regular",
+  height,
 }: SectionHeaderProps) {
   if (!eyebrow && !title && !description) return null;
 
   return (
-    <header className="flex w-full flex-col gap-4">
+    <header className="flex w-full flex-col gap-4" style={{ height }}>
       {eyebrow && <Eyebrow>{eyebrow}</Eyebrow>}
       {(title || description) && (
         <div className="flex flex-col gap-3">

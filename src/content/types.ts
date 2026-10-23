@@ -267,6 +267,8 @@ export type CaseStudyBlock =
       title?: string;
       description?: string;
       descriptionTone?: "strong" | "muted";
+      /** The header's fixed height in px, where Figma fixes it. */
+      headerHeight?: number;
       /** Figma gap between flows, in px. Defaults to 148. */
       flowGap?: number;
       flows: readonly WalkthroughFlow[];
@@ -388,6 +390,8 @@ export type CaseStudyBlock =
       title?: string;
       description?: string;
       descriptionTone?: "strong" | "muted";
+      /** The header's fixed height in px, where Figma fixes it. */
+      headerHeight?: number;
       /** Optional heading for one figure within a larger section. */
       subtitle?: string;
       /**
@@ -466,6 +470,12 @@ export type Project = {
    * default title-over-media hero.
    */
   heroRender?: FigmaRender;
+  /**
+   * The face for every Gloock heading on the page. "brand" sets them in DM
+   * Sans Regular, untracked, at Figma's line boxes (SISTEM EXPENSE
+   * 4506:81328). Defaults to "display".
+   */
+  headings?: "display" | "brand";
   blocks: readonly CaseStudyBlock[];
 };
 

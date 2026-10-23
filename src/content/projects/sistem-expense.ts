@@ -11,6 +11,9 @@ import type { FigmaRender, Project } from "@/content/types";
  *
  * Everything above the Introduction follows the revised page 4286:5920: a
  * full-bleed hero render, then the title and meta row opening the body.
+ *
+ * Type follows 4506:81328: the title is DM Sans SemiBold, tightened 4%, and
+ * every other heading DM Sans Regular, untracked (`headings: "brand"`).
  */
 
 const dir = "/case-studies/sistem-expense";
@@ -42,12 +45,13 @@ export const sistemExpense = {
   links: {},
   cover: null,
   heroMedia: null,
-  // 4286:9152 — full-bleed, no title (the title opens the body instead)
+  headings: "brand",
+  // 4506:81327 — full-bleed, no title (the title opens the body instead)
   heroRender: render(
     "hero",
     1512,
-    851,
-    "A hand holding a phone open on the Sistem home screen, against a purple gradient",
+    800,
+    "A phone showing the Sistem home screen with total spendings, on a lilac textured background",
   ),
   blocks: [
     // 4286:5964 — title 64px above the meta row
@@ -58,7 +62,11 @@ export const sistemExpense = {
         {
           type: "page-title",
           title: "SISTEM EXPENSE",
+          // 4506:81331 — DM Sans SemiBold, -4%; the subtitle is 40px, 20px under.
+          titleStyle: "brand",
           subtitle: ["Built around the way you actually manage your money"],
+          subtitleSize: "md",
+          subtitleGap: 20,
         },
         {
           type: "meta",
@@ -395,11 +403,12 @@ export const sistemExpense = {
         },
       ],
     },
-    // 4106:6175
+    // 4106:6175 — its header frame is fixed at 132px (4506:82206)
     {
       type: "annotated-figure",
       eyebrow: "Wireframes",
       title: "Budgeting",
+      headerHeight: 132,
       description:
         "Budgeting helps users plan their spending before it happens, rather than simply tracking it afterwards. It gives them a clearer sense of where their money is going and how much they have left to spend.",
       descriptionTone: "muted",
@@ -425,11 +434,12 @@ export const sistemExpense = {
         },
       ],
     },
-    // 4106:6196
+    // 4106:6196 — its header frame is fixed at 132px (4506:82227)
     {
       type: "walkthrough",
       eyebrow: "Wireframes",
       title: "Home Screen",
+      headerHeight: 132,
       description:
         "The Home screen acts as a quick financial overview, bringing key spending, budget, group activity, reminders and recent transactions together so users can understand where they stand at a glance.",
       descriptionTone: "muted",
@@ -548,27 +558,35 @@ export const sistemExpense = {
         "While working through transactions, groups, budgets and Home, I learned to think more carefully about what users need first, where extra steps can be removed, and how different flows connect. Wireframing helped me work through these decisions early and explore different approaches before moving into visual design.",
       ],
     },
-    // 4106:6269 — the same badge as ELEMENTS' sign-off, without the sparkle
+    // 4512:102077 — the sign-off between arrows to the neighbouring case
+    // studies, as on Miss Bliss: the arrows centre on the badge, the DM Sans
+    // line sits 40px below; the row is 1254px wide, 2px in from each side.
     {
-      type: "heading",
-      text: "Thanks for reading",
-      size: "md",
-      figureGap: 40,
-      mark: {
-        box: { width: 320, height: 320 },
-        circle: { size: 320, x: 0, y: 0 },
-        sprite: {
-          src: "/case-studies/elements/memoji-sprite-fist-bump.png",
-          alt: "Illustrated avatar giving a fist bump",
-          crop: {
-            insetTop: "14.79%",
-            insetRight: "16.58%",
-            insetBottom: "14.79%",
-            insetLeft: "16.2%",
-            imageLeft: "-2.97%",
-            imageTop: "-14.85%",
-            imageWidth: "118.64%",
-            imageHeight: "126.97%",
+      type: "project-pager",
+      previous: "elements",
+      next: "hotstuff",
+      width: 1254,
+      heading: {
+        text: "Thanks for reading",
+        size: "md",
+        face: "brand",
+        figureGap: 40,
+        mark: {
+          box: { width: 320, height: 320 },
+          circle: { size: 320, x: 0, y: 0 },
+          sprite: {
+            src: "/case-studies/elements/memoji-sprite-fist-bump.png",
+            alt: "Illustrated avatar giving a fist bump",
+            crop: {
+              insetTop: "14.79%",
+              insetRight: "16.58%",
+              insetBottom: "14.79%",
+              insetLeft: "16.2%",
+              imageLeft: "-2.97%",
+              imageTop: "-14.85%",
+              imageWidth: "118.64%",
+              imageHeight: "126.97%",
+            },
           },
         },
       },

@@ -42,7 +42,10 @@ export default async function ProjectPage({
     // overflow-x-clip: decorations bleed past the viewport edge as they do in
     // Figma; clip (not hidden) so no scroll container breaks the sticky nav.
     // pb-hero: the footer starts 200px under the last block, as in Figma.
-    <article className="overflow-x-clip pb-hero">
+    <article
+      className="overflow-x-clip pb-hero"
+      data-headings={project.headings ?? "display"}
+    >
       <CaseStudyHero
         title={project.title}
         subtitle={project.subtitle}

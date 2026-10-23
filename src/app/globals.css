@@ -626,6 +626,40 @@
   translate: -50% 0;
 }
 
+/* Case studies whose headings are set in DM Sans (Project.headings:
+ * "brand"; SISTEM EXPENSE 4506:81328 — "all headings Gloock to DM Sans").
+ * Every Gloock heading becomes DM Sans Regular, untracked, with Figma's
+ * automatic optical sizing (measured: 28px text matches the file at opsz 28,
+ * 20px at 20), in Figma's rounded line boxes for each size. */
+[data-headings="brand"] .font-display {
+  font-family: var(--font-brand);
+  font-weight: 400;
+  letter-spacing: 0;
+  font-optical-sizing: auto;
+  font-variation-settings: normal;
+}
+[data-headings="brand"] .trim-tracking-end {
+  margin-inline-end: 0;
+}
+/* The 64px heading (4506:81349) reports 0% tracking, but Figma spaces its
+ * glyphs 0.5px wider — measured: same letter widths, gaps 0.5px larger
+ * (line 1 648px, "Money" 182px; 636/180 at 0). */
+[data-headings="brand"] .text-title {
+  letter-spacing: 0.0078em;
+}
+[data-headings="brand"] .text-card-title {
+  line-height: 1.3; /* 20 -> 26 */
+}
+[data-headings="brand"] .text-section-title {
+  line-height: 1.2857; /* 28 -> 36 */
+}
+[data-headings="brand"] .text-flow {
+  line-height: 1.3056; /* 36 -> 47 */
+}
+[data-headings="brand"] .text-flow-lg {
+  line-height: 1.3; /* 40 -> 52 */
+}
+
 /* Negative tracking leaves a trailing negative space that pulls centred
  * text right by half of it; Figma centres the glyphs. */
 @utility center-tight-tracking {

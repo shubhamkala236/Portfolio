@@ -28,6 +28,7 @@ export function AnnotatedFigureBlock({
   title,
   description,
   descriptionTone,
+  headerHeight,
   subtitle,
   subtitleSize = "md",
   width,
@@ -44,6 +45,7 @@ export function AnnotatedFigureBlock({
         title={title}
         description={description}
         descriptionTone={descriptionTone}
+        height={headerHeight}
       />
 
       <figure
