@@ -1,0 +1,62 @@
+import { cn } from "@/lib/cn";
+
+/** The glyph's four dots, Figma px in its 24px box (e.g. 4506:82932–82953). */
+const DOTS = [
+  { x: 0, y: 19.2 },
+  { x: 4.8, y: 14.4 },
+  { x: 9.6, y: 9.6 },
+  { x: 14.4, y: 4.8 },
+] as const;
+const DOT_SIZE = 4.8;
+export const ARROW_GLYPH = 24;
+/** Figma staggers each part of the pulse by 140ms. */
+const STEP_MS = 140;
+
+type DottedArrowProps = {
+  /** Pulse tail to head every 12s, as the file animates it. */
+  pulse?: boolean;
+  className?: string;
+};
+
+/**
+ * The portfolio's pixel arrow ↗: four dots running into a corner-shaped
+ * head, on a 24px grid. Its parts can pulse in turn (`animate-arrow-dot`,
+ * 140ms apart); reduced motion drops the pulse. Decorative — the link it
+ * sits in carries the name.
+ */
+export function DottedArrow({ pulse = false, className }: DottedArrowProps) {
+  const motion = pulse && "animate-arrow-dot motion-reduce:animate-none";
+
+  return (
+    <span
+      aria-hidden
+      className={cn("relative block shrink-0", className)}
+      style={{ width: ARROW_GLYPH, height: ARROW_GLYPH }}
+    >
+      {DOTS.map((dot, index) => (
+        <span
+          key={index}
+          className={cn("absolute bg-fg-strong", motion)}
+          style={{
+            left: dot.x,
+            top: dot.y,
+            width: DOT_SIZE,
+            height: DOT_SIZE,
+            animationDelay: pulse ? `${index * STEP_MS}ms` : undefined,
+          }}
+        />
+      ))}
+      {/* eslint-disable-next-line @next/next/no-img-element -- a 24px SVG glyph */}
+      <img
+        src="/ui/arrow-head.svg"
+        alt=""
+        width={ARROW_GLYPH}
+        height={ARROW_GLYPH}
+        className={cn("absolute inset-0", motion)}
+        style={{
+          animationDelay: pulse ? `${DOTS.length * STEP_MS}ms` : undefined,
+        }}
+      />
+    </span>
+  );
+}

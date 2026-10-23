@@ -31,7 +31,7 @@ export function Section({
     <section
       id={id}
       aria-labelledby={title ? headingId : undefined}
-      className={cn("scroll-mt-24 py-block", className)}
+      className={cn("scroll-mt-24 py-section", className)}
     >
       <Container>
         {(eyebrow || title || description) && (

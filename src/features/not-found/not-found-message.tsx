@@ -4,7 +4,7 @@ import { Container } from "@/components/ui/container";
 /** The 404 copy, shared by the site-wide and the case-study not-found pages. */
 export function NotFoundMessage() {
   return (
-    <Container className="py-block text-center">
+    <Container className="py-section text-center">
       <h1 className="text-title font-semibold">Page not found</h1>
       <p className="mt-4 text-muted">
         That link does not point anywhere on this site.

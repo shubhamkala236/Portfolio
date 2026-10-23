@@ -42,7 +42,7 @@ export default async function ProjectPage({
   return (
     // overflow-x-clip: decorations bleed past the viewport edge as they do in
     // Figma; clip (not hidden) so no scroll container breaks the sticky header.
-    <article className="overflow-x-clip pb-block">
+    <article className="overflow-x-clip pb-section">
       <CaseStudyHero
         title={project.title}
         subtitle={project.subtitle}
@@ -54,7 +54,7 @@ export default async function ProjectPage({
         <CaseStudyBlocks blocks={project.blocks} />
 
         {links.length > 0 && (
-          <ul className="mt-block flex flex-wrap gap-6">
+          <ul className="mt-section flex flex-wrap gap-6">
             {links.map(([label, href]) => (
               <li key={label}>
                 <a
@@ -72,7 +72,7 @@ export default async function ProjectPage({
 
         <Link
           href="/projects"
-          className="mt-block inline-flex text-label text-muted transition-colors hover:text-fg"
+          className="mt-section inline-flex text-label text-muted transition-colors hover:text-fg"
         >
           &larr; All projects
         </Link>

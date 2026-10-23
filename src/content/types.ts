@@ -473,3 +473,41 @@ export type SkillGroup = {
   title: string;
   items: readonly string[];
 };
+
+/** The home page (Figma 4512:101365). Copy only; geometry lives with the
+ * components that draw it. */
+export type HomeContent = {
+  nav: {
+    label: string;
+    items: readonly NavItem[];
+    /** The item drawn as the current one. */
+    current: string;
+  };
+  hero: {
+    greeting: string;
+    headline: string;
+    /** The line set along the curve, read as one sentence. */
+    pathText: string;
+  };
+  works: {
+    title: string;
+    items: readonly {
+      /** Case study the card opens. */
+      slug: string;
+      title: string;
+      description: string;
+      render: FigmaRender;
+    }[];
+  };
+  about: {
+    title: string;
+    /** The short lines, each on its own line as drawn. */
+    lines: readonly string[];
+    bio: string;
+    photos: readonly { src: string; alt: string }[];
+  };
+  connect: {
+    title: string;
+    links: readonly { index: string; label: string; href: string }[];
+  };
+};

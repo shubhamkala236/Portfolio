@@ -41,6 +41,11 @@
   --footer-red: #ca3938; /* Footer field (4506:83009) */
   --footer-face: #141414; /* Footer button face and shadow */
   --footer-edge: #363636; /* Footer button edge */
+  --home-greeting: #ff9a9a; /* "HI, I'M KRITI" (4506:84179) */
+  --home-card: #1c1c1c; /* About photo cards (4506:83551) */
+  --home-rule: rgba(255, 255, 255, 0.19); /* Connect list rules */
+  --home-shadow: rgba(13, 13, 13, 0.17); /* About card shadow */
+  --home-shadow-deep: rgba(13, 13, 13, 0.85); /* Leftmost card's shadow */
   --accent: var(--palette-accent);
   --accent-fg: var(--palette-white);
   --ring: var(--palette-accent);
@@ -92,6 +97,9 @@
   --color-footer-red: var(--footer-red);
   --color-footer-face: var(--footer-face);
   --color-footer-edge: var(--footer-edge);
+  --color-home-greeting: var(--home-greeting);
+  --color-home-card: var(--home-card);
+  --color-home-rule: var(--home-rule);
   --color-accent: var(--accent);
   --color-accent-fg: var(--accent-fg);
   --color-ring: var(--ring);
@@ -208,6 +216,26 @@
   --text-footer-button: 1.6648rem; /* 26.636px */
   --text-footer-button--line-height: 1;
 
+  /* Home page (4512:101365). Section titles are DM Sans Black 64px,
+   * tightened 4%, in Figma's rounded 77px box. */
+  --text-home-title: clamp(2.25rem, 1.6728rem + 2.4626vw, 4rem); /* 64px */
+  --text-home-title--line-height: 1.2031;
+  --text-home-title--letter-spacing: -0.04em;
+  --text-home-title--font-weight: 900;
+  /* Work titles: DM Sans SemiBold 40px at its normal leading (52px). */
+  --text-home-work: clamp(1.5rem, 1.1702rem + 1.4072vw, 2.5rem); /* 40px */
+  --text-home-work--line-height: 1.3;
+  --text-home-work--font-weight: 600;
+  /* About copy: DM Sans 24px at 1.2, which Figma rounds to 29px lines. */
+  --text-home-about: clamp(1.125rem, 1.0013rem + 0.5277vw, 1.5rem); /* 24px */
+  --text-home-about--line-height: 1.2083;
+  /* Connect rows: Quicksand SemiBold 40px and the 20px index, both at 1.2. */
+  --text-home-link: clamp(1.5rem, 1.1702rem + 1.4072vw, 2.5rem); /* 40px */
+  --text-home-link--line-height: 1.2;
+  --text-home-link--font-weight: 600;
+  --text-home-index: clamp(1rem, 0.9175rem + 0.3518vw, 1.25rem); /* 20px */
+  --text-home-index--line-height: 1.2;
+
   /* Tab bar labels: a fixed 20px — it's a still of the app's own UI. */
   --text-tab: 1.25rem; /* 20px */
   --text-tab--line-height: var(--leading-sans);
@@ -229,7 +257,9 @@
   --drop-shadow-tab: 0 0 4px rgba(110, 110, 110, 0.25);
 
   /* Rhythm — the gaps the Figma layout repeats. */
-  --spacing-block: clamp(3.5rem, 2.593rem + 3.8698vw, 6.25rem); /* 100px */
+  /* Named `section`, not `block`: a `block` spacing key would also turn
+   * `inline-block` into `inline-size: 100px` in Tailwind v4. */
+  --spacing-section: clamp(3.5rem, 2.593rem + 3.8698vw, 6.25rem); /* 100px */
   /* Padding inside a pair of 1px rules. Figma draws its hairlines centred on
    * the frame edge, adding no height; a CSS border adds 1px, so the 40px pad
    * drops to 39px to keep the frame's 137px. */
@@ -249,6 +279,272 @@
    * 25% and back — 180ms down, 260ms up, ease-in-out — once per 12s loop.
    * Figma staggers the five parts 140ms apart; that is the delay per part. */
   --animate-arrow-dot: arrow-dot 12s ease-in-out infinite;
+
+  /* Home motion (4512:101365) — every loop is the file's 12s timeline. */
+  /* Doodles: -3° then +3° for 0.8s each, twice a loop; each starts at its
+   * own time (its animation-delay). */
+  --animate-doodle-wiggle: doodle-wiggle 12s linear infinite;
+  /* Irises: left, centre, right in 0.6s steps, then rest at centre. */
+  --animate-iris: iris 12s linear infinite;
+  /* The cat (4506:83663) rocks ±12° every 0.4s. */
+  --animate-cat-wobble: cat-wobble 12s linear infinite;
+  /* About photos: stacked until 2.5s, then spring out into the fan. */
+  --animate-photo-fan: photo-fan 12s linear infinite;
+  /* "Email" letters rise 12px into place, 102ms apart (its delay). */
+  --animate-letter-rise: letter-rise 12s ease-out infinite;
+
+  @keyframes doodle-wiggle {
+    0%,
+    6.666% {
+      rotate: -3deg;
+    }
+    6.667%,
+    13.332% {
+      rotate: 3deg;
+    }
+    13.333%,
+    49.999% {
+      rotate: 0deg;
+    }
+    50%,
+    56.666% {
+      rotate: -3deg;
+    }
+    56.667%,
+    63.332% {
+      rotate: 3deg;
+    }
+    63.333%,
+    100% {
+      rotate: 0deg;
+    }
+  }
+
+  /* --iris-step is one 62.022px step, signed per eye. */
+  @keyframes iris {
+    0%,
+    4.99% {
+      translate: 0 0;
+    }
+    5%,
+    9.99% {
+      translate: var(--iris-step) 0;
+    }
+    10%,
+    14.99% {
+      translate: calc(2 * var(--iris-step)) 0;
+    }
+    15%,
+    100% {
+      translate: var(--iris-step) 0;
+    }
+  }
+
+  @keyframes cat-wobble {
+    0%,
+    1.66% {
+      rotate: 0deg;
+    }
+    1.67%,
+    4.99% {
+      rotate: -12deg;
+    }
+    5%,
+    8.32% {
+      rotate: 12deg;
+    }
+    8.33%,
+    11.66% {
+      rotate: -12deg;
+    }
+    11.67%,
+    14.99% {
+      rotate: 12deg;
+    }
+    15%,
+    18.32% {
+      rotate: -12deg;
+    }
+    18.33%,
+    21.66% {
+      rotate: 12deg;
+    }
+    21.67%,
+    24.99% {
+      rotate: -12deg;
+    }
+    25%,
+    28.32% {
+      rotate: 12deg;
+    }
+    28.33%,
+    31.66% {
+      rotate: -12deg;
+    }
+    31.67%,
+    34.99% {
+      rotate: 12deg;
+    }
+    35%,
+    38.32% {
+      rotate: -12deg;
+    }
+    38.33%,
+    41.66% {
+      rotate: 12deg;
+    }
+    41.67%,
+    44.99% {
+      rotate: -12deg;
+    }
+    45%,
+    48.32% {
+      rotate: 12deg;
+    }
+    48.33%,
+    51.66% {
+      rotate: -12deg;
+    }
+    51.67%,
+    54.99% {
+      rotate: 12deg;
+    }
+    55%,
+    58.32% {
+      rotate: -12deg;
+    }
+    58.33%,
+    61.66% {
+      rotate: 12deg;
+    }
+    61.67%,
+    64.99% {
+      rotate: -12deg;
+    }
+    65%,
+    68.32% {
+      rotate: 12deg;
+    }
+    68.33%,
+    71.66% {
+      rotate: -12deg;
+    }
+    71.67%,
+    74.99% {
+      rotate: 12deg;
+    }
+    75%,
+    78.32% {
+      rotate: -12deg;
+    }
+    78.33%,
+    81.66% {
+      rotate: 12deg;
+    }
+    81.67%,
+    84.99% {
+      rotate: -12deg;
+    }
+    85%,
+    88.32% {
+      rotate: 12deg;
+    }
+    88.33%,
+    91.66% {
+      rotate: -12deg;
+    }
+    91.67%,
+    94.99% {
+      rotate: 12deg;
+    }
+    95%,
+    98.32% {
+      rotate: -12deg;
+    }
+    98.33%,
+    99.99% {
+      rotate: 12deg;
+    }
+    100% {
+      rotate: 0deg;
+    }
+  }
+
+  /* Each card sets --fan-x/--fan-y/--fan-r (its offset from its place in the
+   * fan) and --fan-o (whether it shows while stacked). The release uses
+   * Figma's spring, sampled: 1 - e^(-7.68t)(cos 6.57t + 1.17 sin 6.57t). */
+  @keyframes photo-fan {
+    0%,
+    20.83% {
+      translate: var(--fan-x) var(--fan-y);
+      rotate: var(--fan-r);
+      opacity: var(--fan-o);
+      animation-timing-function: linear(
+        0,
+        0.0281,
+        0.0984,
+        0.1939,
+        0.3015,
+        0.4115,
+        0.5176,
+        0.6152,
+        0.702,
+        0.7768,
+        0.8396,
+        0.8908,
+        0.9314,
+        0.9627,
+        0.9859,
+        1.0025,
+        1.0137,
+        1.0206,
+        1.0242,
+        1.0254,
+        1.0248,
+        1.0232,
+        1.0208,
+        1.0181,
+        1.0153,
+        1.0126,
+        1.0101,
+        1.0078,
+        1.0059,
+        1.0043,
+        1.0029,
+        1.0019,
+        1.001,
+        1.0004,
+        1,
+        0.9997,
+        0.9995,
+        0.9994,
+        0.9994,
+        0.9994,
+        1
+      );
+    }
+    20.84% {
+      opacity: 1;
+    }
+    30.42%,
+    100% {
+      translate: 0 0;
+      rotate: 0deg;
+      opacity: 1;
+    }
+  }
+
+  @keyframes letter-rise {
+    0% {
+      translate: 0 12px;
+      opacity: 0;
+    }
+    2.43%,
+    100% {
+      translate: 0 0;
+      opacity: 1;
+    }
+  }
 
   @keyframes arrow-dot {
     0%,
@@ -270,6 +566,38 @@
 /* CSS tracks the space after a line's last letter too, which pushes centred
  * tracked text left by half the tracking; Figma doesn't. Cancelling that
  * trailing 0.06em centres the glyphs where Figma draws them. */
+/* Figma-px units for the home page's scaled compositions: --u is one px of
+ * the 1512px hero frame, --a one px of the 1258px about strip, each as a
+ * share of its container's width. Registered so each resolves where it is
+ * set, not inside nested containers. */
+@property --u {
+  syntax: "<length>";
+  inherits: true;
+  initial-value: 1px;
+}
+
+@property --a {
+  syntax: "<length>";
+  inherits: true;
+  initial-value: 1px;
+}
+
+/* The home nav floats over the hero at Figma's 45px (its wrapper pads
+ * 8px). Applied from md up; below that it sits above the hero. */
+@utility hero-nav-float {
+  position: absolute;
+  left: 50%;
+  top: calc(45 * var(--u) - 0.5rem);
+  z-index: 10;
+  translate: -50% 0;
+}
+
+/* Negative tracking leaves a trailing negative space that pulls centred
+ * text right by half of it; Figma centres the glyphs. */
+@utility center-tight-tracking {
+  translate: -0.02em 0;
+}
+
 /* The footer sets DM Sans at a fixed optical size of 14, as in Figma. */
 @utility font-opsz-14 {
   font-variation-settings: "opsz" 14;
