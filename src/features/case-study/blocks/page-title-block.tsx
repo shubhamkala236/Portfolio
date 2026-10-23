@@ -1,4 +1,5 @@
 import type { CaseStudyBlock } from "@/content/types";
+import { cn } from "@/lib/cn";
 
 type PageTitleBlockProps = Extract<CaseStudyBlock, { type: "page-title" }>;
 
@@ -7,11 +8,21 @@ type PageTitleBlockProps = Extract<CaseStudyBlock, { type: "page-title" }>;
  * used when the hero is a full-bleed visual with no title of its own. It is
  * the page's `<h1>`.
  */
-export function PageTitleBlock({ title, subtitle }: PageTitleBlockProps) {
+export function PageTitleBlock({
+  title,
+  subtitle,
+  subtitleSize = "lg",
+  subtitleGap = 16,
+}: PageTitleBlockProps) {
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col" style={{ gap: subtitleGap }}>
       <h1 className="font-display text-display text-fg">{title}</h1>
-      <p className="flex flex-col text-lead text-muted">
+      <p
+        className={cn(
+          "flex flex-col text-muted",
+          subtitleSize === "md" ? "text-lead-md" : "text-lead",
+        )}
+      >
         {subtitle.map((line) => (
           <span key={line}>{line}</span>
         ))}

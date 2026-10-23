@@ -5,6 +5,7 @@ import type { CaseStudyBlock } from "@/content/types";
 import { AnnotatedFigureBlock } from "@/features/case-study/blocks/annotated-figure-block";
 import { ChapterBlock } from "@/features/case-study/blocks/chapter-block";
 import { PageTitleBlock } from "@/features/case-study/blocks/page-title-block";
+import { ProjectPagerBlock } from "@/features/case-study/blocks/project-pager-block";
 import { SequenceBlock } from "@/features/case-study/blocks/sequence-block";
 import { FeatureGridBlock } from "@/features/case-study/blocks/feature-grid-block";
 import { HeadingBlock } from "@/features/case-study/blocks/heading-block";
@@ -14,6 +15,7 @@ import { MetaBlock } from "@/features/case-study/blocks/meta-block";
 import { NavStructureBlock } from "@/features/case-study/blocks/nav-structure-block";
 import { ProseBlock } from "@/features/case-study/blocks/prose-block";
 import { QuoteClusterBlock } from "@/features/case-study/blocks/quote-cluster-block";
+import { RenderBlock } from "@/features/case-study/blocks/render-block";
 import { SectionNavBlock } from "@/features/case-study/blocks/section-nav-block";
 import { SolutionCardsBlock } from "@/features/case-study/blocks/solution-cards-block";
 import { StatementBlock } from "@/features/case-study/blocks/statement-block";
@@ -72,6 +74,10 @@ function renderBlock(block: CaseStudyBlock) {
       return <WalkthroughBlock {...block} />;
     case "page-title":
       return <PageTitleBlock {...block} />;
+    case "render":
+      return <RenderBlock {...block} />;
+    case "project-pager":
+      return <ProjectPagerBlock {...block} />;
     case "chapter":
       return <ChapterBlock {...block} />;
     case "sequence":

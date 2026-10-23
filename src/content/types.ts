@@ -152,6 +152,28 @@ export type CaseStudyBlock =
       title: string;
       /** One entry per line, where Figma breaks the subtitle explicitly. */
       subtitle: readonly string[];
+      /** "lg" is 44px (the default); "md" 40px, as on Miss Bliss. */
+      subtitleSize?: "lg" | "md";
+      /** Figma px between title and subtitle. Defaults to 16. */
+      subtitleGap?: number;
+    }
+  /** One of Figma's own renders on its own, at the content width. */
+  | {
+      type: "render";
+      render: FigmaRender;
+    }
+  /**
+   * The sign-off between round arrow links to the neighbouring case studies
+   * (Miss Bliss 4506:82921).
+   */
+  | {
+      type: "project-pager";
+      /** Slugs of the case studies the arrows lead to. */
+      previous: string;
+      next: string;
+      /** Row width in Figma px, centred. Defaults to the content width. */
+      width?: number;
+      heading: Omit<Extract<CaseStudyBlock, { type: "heading" }>, "type">;
     }
   /**
    * A numbered chapter: eyebrow, title, optional keyword row and paragraphs,

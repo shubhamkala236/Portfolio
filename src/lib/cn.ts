@@ -16,6 +16,7 @@ const twMerge = extendTailwindMerge({
             "display",
             "title",
             "lead",
+            "lead-md",
             "heading",
             "statement",
             "section-title",

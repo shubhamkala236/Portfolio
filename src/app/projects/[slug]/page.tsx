@@ -72,7 +72,7 @@ export default async function ProjectPage({
 
         <Link
           href="/projects"
-          className="mt-block inline-block text-label text-muted transition-colors hover:text-fg"
+          className="mt-block inline-flex text-label text-muted transition-colors hover:text-fg"
         >
           &larr; All projects
         </Link>

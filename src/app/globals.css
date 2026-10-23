@@ -104,15 +104,21 @@
 
   /* Chapter breaks ("Nothing to wear?", "The ideas took shape."). */
   --text-title: clamp(2.25rem, 1.6728rem + 2.4626vw, 4rem); /* 64px */
-  --text-title--line-height: var(--leading-display);
+  /* Figma rounds each line box to a whole pixel: 64 × 1.2 = 76.8 draws as
+   * 77, so a two-line title is 174 tall, not 173.6. */
+  --text-title--line-height: 1.2031; /* 64 -> 77 */
   --text-title--letter-spacing: 0.06em;
 
   --text-lead: clamp(1.5rem, 1.0877rem + 1.759vw, 2.75rem); /* 44px */
   --text-lead--line-height: 1.25;
 
+  /* Miss Bliss's subtitle (4506:82856) is the lead at 40px. */
+  --text-lead-md: clamp(1.5rem, 1.1702rem + 1.4072vw, 2.5rem); /* 40px */
+  --text-lead-md--line-height: 1.25;
+
   /* Sign-off ("Thanks for reading", 4133:4645): 52px, untracked. */
   --text-heading: clamp(2rem, 1.5878rem + 1.759vw, 3.25rem); /* 52px */
-  --text-heading--line-height: var(--leading-display);
+  --text-heading--line-height: 1.1923; /* 52 -> 62, Figma's rounded box */
 
   /* The display-serif pull quote — the one 28px style with a set leading. */
   --text-statement: clamp(1.375rem, 1.2513rem + 0.5277vw, 1.75rem); /* 28px */
@@ -213,10 +219,36 @@
    * bar's 55px pill (80 + 55 + 40). */
   --spacing-section-nav: 5rem; /* 80px */
   --spacing-section-anchor: 10.9375rem; /* 175px */
+
+  /* The pager arrows' dots and head (Miss Bliss 4506:82925): each dips to
+   * 25% and back — 180ms down, 260ms up, ease-in-out — once per 12s loop.
+   * Figma staggers the five parts 140ms apart; that is the delay per part. */
+  --animate-arrow-dot: arrow-dot 12s ease-in-out infinite;
+
+  @keyframes arrow-dot {
+    0%,
+    1.5% {
+      opacity: 1;
+    }
+    3% {
+      opacity: 0.25;
+    }
+    5.17%,
+    100% {
+      opacity: 1;
+    }
+  }
 }
 
 /* Gradient rules above and below an element. `border-image-slice` is
  * required — without it the gradient border doesn't render at all. */
+/* CSS tracks the space after a line's last letter too, which pushes centred
+ * tracked text left by half the tracking; Figma doesn't. Cancelling that
+ * trailing 0.06em centres the glyphs where Figma draws them. */
+@utility trim-tracking-end {
+  margin-inline-end: -0.06em;
+}
+
 @utility border-y-gradient {
   border-style: solid;
   border-width: 1px 0;

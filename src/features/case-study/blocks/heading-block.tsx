@@ -70,7 +70,10 @@ export function HeadingBlock({
         }}
       >
         {lines.map((line) => (
-          <span key={line}>{line}</span>
+          // The large size is tracked; see `trim-tracking-end`.
+          <span key={line} className={cn(size === "lg" && "trim-tracking-end")}>
+            {line}
+          </span>
         ))}
       </Title>
       {description && (
