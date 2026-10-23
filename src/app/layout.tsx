@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 
 import { SiteFooter } from "@/components/layout/site-footer";
-import { SiteHeader } from "@/components/layout/site-header";
 import { siteConfig } from "@/content/site";
 import { fontVariables } from "@/lib/fonts";
 import { buildMetadata } from "@/lib/seo";
@@ -23,10 +22,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         >
           Skip to content
         </a>
-        <SiteHeader />
-        <main id="main" className="flex-1">
-          {children}
-        </main>
+        {/* Each route group's layout supplies the header (or not) and <main>. */}
+        {children}
         <SiteFooter />
       </body>
     </html>

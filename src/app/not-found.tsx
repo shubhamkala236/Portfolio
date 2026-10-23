@@ -1,16 +1,17 @@
-import { ButtonLink } from "@/components/ui/button";
-import { Container } from "@/components/ui/container";
+import { SiteHeader } from "@/components/layout/site-header";
+import { NotFoundMessage } from "@/features/not-found/not-found-message";
 
+/**
+ * Unmatched URLs. This renders inside the root layout only, so it brings the
+ * header and <main> the route-group layouts would otherwise supply.
+ */
 export default function NotFound() {
   return (
-    <Container className="py-block text-center">
-      <h1 className="text-title font-semibold">Page not found</h1>
-      <p className="mt-4 text-muted">
-        That link does not point anywhere on this site.
-      </p>
-      <ButtonLink href="/" className="mt-8">
-        Back home
-      </ButtonLink>
-    </Container>
+    <>
+      <SiteHeader />
+      <main id="main" className="flex-1">
+        <NotFoundMessage />
+      </main>
+    </>
   );
 }
