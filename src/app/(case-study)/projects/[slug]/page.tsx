@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { Container } from "@/components/ui/container";
@@ -41,8 +40,9 @@ export default async function ProjectPage({
 
   return (
     // overflow-x-clip: decorations bleed past the viewport edge as they do in
-    // Figma; clip (not hidden) so no scroll container breaks the sticky header.
-    <article className="overflow-x-clip pb-section">
+    // Figma; clip (not hidden) so no scroll container breaks the sticky nav.
+    // pb-hero: the footer starts 200px under the last block, as in Figma.
+    <article className="overflow-x-clip pb-hero">
       <CaseStudyHero
         title={project.title}
         subtitle={project.subtitle}
@@ -69,13 +69,6 @@ export default async function ProjectPage({
             ))}
           </ul>
         )}
-
-        <Link
-          href="/projects"
-          className="mt-section inline-flex text-label text-muted transition-colors hover:text-fg"
-        >
-          &larr; All projects
-        </Link>
       </Container>
     </article>
   );
