@@ -25,6 +25,12 @@ export type SiteConfig = {
   location: string;
   nav: readonly NavItem[];
   socials: readonly SocialLink[];
+  /** The site footer (Figma 4506:83007). */
+  footer: {
+    name: string;
+    tagline: string;
+    links: readonly SocialLink[];
+  };
 };
 
 export type ImageAsset = {

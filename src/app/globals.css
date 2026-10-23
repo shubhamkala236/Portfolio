@@ -38,6 +38,9 @@
   --border-device: #626262; /* Phone screen outline */
   --quote-rule: #9d9d9d; /* Pull-quote bar (Hotstuff 4253:22730) */
   --fg-quote: #f6f6f6; /* Pull-quote text */
+  --footer-red: #ca3938; /* Footer field (4506:83009) */
+  --footer-face: #141414; /* Footer button face and shadow */
+  --footer-edge: #363636; /* Footer button edge */
   --accent: var(--palette-accent);
   --accent-fg: var(--palette-white);
   --ring: var(--palette-accent);
@@ -86,6 +89,9 @@
   --color-border-device: var(--border-device);
   --color-quote-rule: var(--quote-rule);
   --color-fg-quote: var(--fg-quote);
+  --color-footer-red: var(--footer-red);
+  --color-footer-face: var(--footer-face);
+  --color-footer-edge: var(--footer-edge);
   --color-accent: var(--accent);
   --color-accent-fg: var(--accent-fg);
   --color-ring: var(--ring);
@@ -94,6 +100,8 @@
   --font-display: var(--font-display-var), ui-serif, Georgia, serif;
   --font-sans: var(--font-sans-var), ui-sans-serif, system-ui, sans-serif;
   --font-quote: var(--font-quote-var), ui-serif, Georgia, serif;
+  --font-brand: var(--font-brand-var), ui-sans-serif, system-ui, sans-serif;
+  --font-button: var(--font-button-var), ui-sans-serif, system-ui, sans-serif;
 
   /* Type scale — each clamp reaches its Figma value exactly at the 1512px
    * frame width (and holds it above), scaling linearly down to a 375px phone.
@@ -185,6 +193,21 @@
   --text-quote--line-height: 1.364;
   --text-quote--font-weight: 200;
 
+  /* Footer (4506:83422): DM Sans Black 80px set solid and tightened 4%,
+   * a 36px tagline at 1.6, and fixed 26.636px Josefin button labels. */
+  --text-footer-name: clamp(2.75rem, 2.0079rem + 3.1662vw, 5rem); /* 80px */
+  --text-footer-name--line-height: 1;
+  --text-footer-name--letter-spacing: -0.04em;
+  --text-footer-name--font-weight: 900;
+  --text-footer-tagline: clamp(
+    1.25rem,
+    0.9202rem + 1.4072vw,
+    2.25rem
+  ); /* 36px */
+  --text-footer-tagline--line-height: 1.6111; /* 36 -> 58, Figma's rounded box */
+  --text-footer-button: 1.6648rem; /* 26.636px */
+  --text-footer-button--line-height: 1;
+
   /* Tab bar labels: a fixed 20px — it's a still of the app's own UI. */
   --text-tab: 1.25rem; /* 20px */
   --text-tab--line-height: var(--leading-sans);
@@ -219,6 +242,8 @@
    * bar's 55px pill (80 + 55 + 40). */
   --spacing-section-nav: 5rem; /* 80px */
   --spacing-section-anchor: 10.9375rem; /* 175px */
+  /* A footer button on the desktop row (4506:83427). */
+  --spacing-footer-button: 18.3125rem; /* 293px */
 
   /* The pager arrows' dots and head (Miss Bliss 4506:82925): each dips to
    * 25% and back — 180ms down, 260ms up, ease-in-out — once per 12s loop.
@@ -245,6 +270,11 @@
 /* CSS tracks the space after a line's last letter too, which pushes centred
  * tracked text left by half the tracking; Figma doesn't. Cancelling that
  * trailing 0.06em centres the glyphs where Figma draws them. */
+/* The footer sets DM Sans at a fixed optical size of 14, as in Figma. */
+@utility font-opsz-14 {
+  font-variation-settings: "opsz" 14;
+}
+
 @utility trim-tracking-end {
   margin-inline-end: -0.06em;
 }

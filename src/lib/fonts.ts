@@ -1,4 +1,10 @@
-import { Gloock, Nunito, Quicksand } from "next/font/google";
+import {
+  DM_Sans,
+  Gloock,
+  Josefin_Sans,
+  Nunito,
+  Quicksand,
+} from "next/font/google";
 
 /**
  * The typefaces in the Figma file. The CSS variable names are consumed by
@@ -26,4 +32,28 @@ export const fontQuote = Nunito({
   display: "swap",
 });
 
-export const fontVariables = `${fontDisplay.variable} ${fontSans.variable} ${fontQuote.variable}`;
+/** The footer's name and tagline (4506:83424): DM Sans, optical size 14. */
+export const fontBrand = DM_Sans({
+  variable: "--font-brand-var",
+  subsets: ["latin"],
+  axes: ["opsz"],
+  display: "swap",
+});
+
+/** The footer's button labels (4506:83427): Josefin Sans Bold only. */
+export const fontButton = Josefin_Sans({
+  variable: "--font-button-var",
+  subsets: ["latin"],
+  weight: "700",
+  display: "swap",
+});
+
+export const fontVariables = [
+  fontDisplay,
+  fontSans,
+  fontQuote,
+  fontBrand,
+  fontButton,
+]
+  .map((font) => font.variable)
+  .join(" ");
