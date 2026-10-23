@@ -10,13 +10,23 @@ type PageTitleBlockProps = Extract<CaseStudyBlock, { type: "page-title" }>;
  */
 export function PageTitleBlock({
   title,
+  titleStyle = "display",
   subtitle,
   subtitleSize = "lg",
   subtitleGap = 16,
 }: PageTitleBlockProps) {
   return (
     <div className="flex flex-col" style={{ gap: subtitleGap }}>
-      <h1 className="font-display text-display text-fg">{title}</h1>
+      <h1
+        className={cn(
+          "text-fg",
+          titleStyle === "brand"
+            ? "font-brand text-brand-title font-opsz-14"
+            : "font-display text-display",
+        )}
+      >
+        {title}
+      </h1>
       <p
         className={cn(
           "flex flex-col text-muted",

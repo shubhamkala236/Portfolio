@@ -118,6 +118,13 @@
   --text-display--line-height: var(--leading-display); /* 80 -> 96, as drawn */
   --text-display--letter-spacing: 0.06em;
 
+  /* The DM Sans page title (Miss Bliss 4506:82855): SemiBold 80px,
+   * tightened 4%, at DM Sans's normal leading — Figma's box is 104px. */
+  --text-brand-title: clamp(2.75rem, 2.0079rem + 3.1662vw, 5rem); /* 80px */
+  --text-brand-title--line-height: 1.3;
+  --text-brand-title--letter-spacing: -0.04em;
+  --text-brand-title--font-weight: 600;
+
   /* Chapter breaks ("Nothing to wear?", "The ideas took shape."). */
   --text-title: clamp(2.25rem, 1.6728rem + 2.4626vw, 4rem); /* 64px */
   /* Figma rounds each line box to a whole pixel: 64 × 1.2 = 76.8 draws as

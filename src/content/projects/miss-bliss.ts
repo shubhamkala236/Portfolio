@@ -55,6 +55,8 @@ export const missBliss = {
         {
           type: "page-title",
           title: "MISS BLISS",
+          // 4506:82855 — DM Sans SemiBold, not the Gloock of the others.
+          titleStyle: "brand",
           subtitle: [
             "A platform for adult creators to connect, express, and grow",
           ],

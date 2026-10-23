@@ -7,13 +7,14 @@ import { extendTailwindMerge } from "tailwind-merge";
  * text-muted` "conflicts" and the size is silently dropped. Keep this list in
  * step with the `--text-*` tokens in globals.css.
  */
-const twMerge = extendTailwindMerge({
+const twMerge = extendTailwindMerge<"font-optical-size">({
   extend: {
     classGroups: {
       "font-size": [
         {
           text: [
             "display",
+            "brand-title",
             "title",
             "lead",
             "lead-md",
@@ -42,6 +43,10 @@ const twMerge = extendTailwindMerge({
           ],
         },
       ],
+      // The custom `font-opsz-14` utility (globals.css) sets the optical
+      // size, not the family; as an unknown `font-*` it would otherwise be
+      // read as a font family and knock out `font-brand`.
+      "font-optical-size": ["font-opsz-14"],
     },
   },
 });

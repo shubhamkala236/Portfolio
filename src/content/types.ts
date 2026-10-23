@@ -156,6 +156,11 @@ export type CaseStudyBlock =
   | {
       type: "page-title";
       title: string;
+      /**
+       * "display" is Gloock, tracked (the default); "brand" is DM Sans
+       * SemiBold, tightened (Miss Bliss 4506:82855).
+       */
+      titleStyle?: "display" | "brand";
       /** One entry per line, where Figma breaks the subtitle explicitly. */
       subtitle: readonly string[];
       /** "lg" is 44px (the default); "md" 40px, as on Miss Bliss. */
