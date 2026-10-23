@@ -26,6 +26,7 @@
   --surface: var(--palette-ink-850);
   --surface-raised: var(--palette-ink-800);
   --surface-sunken: var(--palette-ink-900);
+  --surface-lifted: #292929; /* Miss Bliss's next arrow (4512:101367) */
   --media-placeholder: #c9c9c9;
   --fg: var(--palette-off-white);
   --fg-strong: var(--palette-white);
@@ -82,6 +83,7 @@
   --color-surface: var(--surface);
   --color-surface-raised: var(--surface-raised);
   --color-surface-sunken: var(--surface-sunken);
+  --color-surface-lifted: var(--surface-lifted);
   --color-media: var(--media-placeholder);
   --color-fg: var(--fg);
   --color-fg-strong: var(--fg-strong);
@@ -124,6 +126,14 @@
   --text-brand-title--line-height: 1.3;
   --text-brand-title--letter-spacing: -0.04em;
   --text-brand-title--font-weight: 600;
+
+  /* DM Sans Regular headings (Miss Bliss 4506:82873, 4506:82965): 64px at
+   * 0.9 — Figma rounds each line to 58px — and the 52px sign-off at its
+   * normal leading, a 68px box. Untracked. */
+  --text-brand-heading: clamp(2.25rem, 1.6728rem + 2.4626vw, 4rem); /* 64px */
+  --text-brand-heading--line-height: 0.9063;
+  --text-brand-signoff: clamp(2rem, 1.5878rem + 1.759vw, 3.25rem); /* 52px */
+  --text-brand-signoff--line-height: 1.3077;
 
   /* Chapter breaks ("Nothing to wear?", "The ideas took shape."). */
   --text-title: clamp(2.25rem, 1.6728rem + 2.4626vw, 4rem); /* 64px */
@@ -286,6 +296,23 @@
    * 25% and back — 180ms down, 260ms up, ease-in-out — once per 12s loop.
    * Figma staggers the five parts 140ms apart; that is the delay per part. */
   --animate-arrow-dot: arrow-dot 12s ease-in-out infinite;
+  /* The same dip on a 2s loop (Miss Bliss's pager arrows, 4506:82932):
+   * 180ms down, lowest at 360ms, back by 620ms; same 140ms stagger. */
+  --animate-arrow-dot-quick: arrow-dot-quick 2s ease-in-out infinite;
+
+  @keyframes arrow-dot-quick {
+    0%,
+    9% {
+      opacity: 1;
+    }
+    18% {
+      opacity: 0.25;
+    }
+    31%,
+    100% {
+      opacity: 1;
+    }
+  }
 
   /* Home motion (4512:101365) — every loop is the file's 12s timeline. */
   /* Doodles: -3° then +3° for 0.8s each, twice a loop; each starts at its
@@ -608,6 +635,13 @@
 /* The footer sets DM Sans at a fixed optical size of 14, as in Figma. */
 @utility font-opsz-14 {
   font-variation-settings: "opsz" 14;
+}
+
+/* Miss Bliss's DM Sans Regular headings (4506:82873, 4506:82965) render at
+ * optical size 40 in Figma — measured: 40 reproduces their widths (e.g.
+ * "Thanks for reading" 397px vs Figma's 398px box; 14 gives 442px). */
+@utility font-opsz-40 {
+  font-variation-settings: "opsz" 40;
 }
 
 @utility trim-tracking-end {

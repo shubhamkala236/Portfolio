@@ -7,8 +7,8 @@ import { MemojiMark } from "@/features/case-study/memoji-mark";
 type HeadingBlockProps = Extract<CaseStudyBlock, { type: "heading" }>;
 
 const sizes = {
-  lg: "text-title",
-  md: "text-heading",
+  display: { lg: "text-title", md: "text-heading" },
+  brand: { lg: "text-brand-heading", md: "text-brand-signoff" },
 } as const;
 
 /**
@@ -28,6 +28,7 @@ export function HeadingBlock({
   figureGap = 16,
   maxWidth,
   size = "lg",
+  face = "display",
   tone = "default",
   description,
 }: HeadingBlockProps) {
@@ -57,12 +58,13 @@ export function HeadingBlock({
           layer order. */}
       <Title
         className={cn(
-          "relative flex flex-col text-center font-display",
+          "relative flex flex-col text-center",
+          face === "brand" ? "font-brand font-opsz-40" : "font-display",
           tone === "strong" ? "text-fg-strong" : "text-fg",
           // A Figma width or explicit lines already fix the breaks; balancing
           // would move them. Otherwise, balance.
           !maxWidth && !explicitLines && "text-balance",
-          sizes[size],
+          sizes[face][size],
         )}
         style={{
           maxWidth,
@@ -70,8 +72,13 @@ export function HeadingBlock({
         }}
       >
         {lines.map((line) => (
-          // The large size is tracked; see `trim-tracking-end`.
-          <span key={line} className={cn(size === "lg" && "trim-tracking-end")}>
+          // The large Gloock size is tracked; see `trim-tracking-end`.
+          <span
+            key={line}
+            className={cn(
+              face === "display" && size === "lg" && "trim-tracking-end",
+            )}
+          >
             {line}
           </span>
         ))}

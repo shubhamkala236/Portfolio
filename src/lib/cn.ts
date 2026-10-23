@@ -15,6 +15,8 @@ const twMerge = extendTailwindMerge<"font-optical-size">({
           text: [
             "display",
             "brand-title",
+            "brand-heading",
+            "brand-signoff",
             "title",
             "lead",
             "lead-md",
@@ -46,7 +48,7 @@ const twMerge = extendTailwindMerge<"font-optical-size">({
       // The custom `font-opsz-14` utility (globals.css) sets the optical
       // size, not the family; as an unknown `font-*` it would otherwise be
       // read as a font family and knock out `font-brand`.
-      "font-optical-size": ["font-opsz-14"],
+      "font-optical-size": ["font-opsz-14", "font-opsz-40"],
     },
   },
 });

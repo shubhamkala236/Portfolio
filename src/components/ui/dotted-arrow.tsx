@@ -13,19 +13,27 @@ export const ARROW_GLYPH = 24;
 const STEP_MS = 140;
 
 type DottedArrowProps = {
-  /** Pulse tail to head every 12s, as the file animates it. */
-  pulse?: boolean;
+  /**
+   * Pulse tail to head: once per 12s ("loop", the home page's timeline) or
+   * every 2s ("quick", Miss Bliss's pager). Off by default.
+   */
+  pulse?: false | "loop" | "quick";
   className?: string;
 };
 
+const pulses = {
+  loop: "animate-arrow-dot motion-reduce:animate-none",
+  quick: "animate-arrow-dot-quick motion-reduce:animate-none",
+} as const;
+
 /**
  * The portfolio's pixel arrow ↗: four dots running into a corner-shaped
- * head, on a 24px grid. Its parts can pulse in turn (`animate-arrow-dot`,
- * 140ms apart); reduced motion drops the pulse. Decorative — the link it
- * sits in carries the name.
+ * head, on a 24px grid. Its parts can pulse in turn, 140ms apart; reduced
+ * motion drops the pulse. Decorative — the link it sits in carries the
+ * name.
  */
 export function DottedArrow({ pulse = false, className }: DottedArrowProps) {
-  const motion = pulse && "animate-arrow-dot motion-reduce:animate-none";
+  const motion = pulse && pulses[pulse];
 
   return (
     <span

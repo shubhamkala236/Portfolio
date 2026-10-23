@@ -300,6 +300,11 @@ export type CaseStudyBlock =
       /** Figma text width in px, so line breaks fall where they do in the file. */
       maxWidth?: number;
       size?: "lg" | "md";
+      /**
+       * "display" is Gloock, tracked (the default); "brand" is DM Sans
+       * Regular, untracked, at optical size 40 (Miss Bliss 4506:82873).
+       */
+      face?: "display" | "brand";
       /** "strong" is pure white; the default is the off-white text colour. */
       tone?: "default" | "strong";
       /** A centred paragraph under the heading, 16px below it. */

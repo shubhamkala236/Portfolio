@@ -65,7 +65,7 @@ export function ConnectSection({ title, links }: ConnectSectionProps) {
                     : link.label}
                 </span>
                 {animated ? (
-                  <DottedArrow pulse />
+                  <DottedArrow pulse="loop" />
                 ) : (
                   // eslint-disable-next-line @next/next/no-img-element -- Figma's 24px arrow SVG
                   <img

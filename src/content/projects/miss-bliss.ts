@@ -74,12 +74,13 @@ export const missBliss = {
         },
       ],
     },
-    // 4506:82873 — 726px wide, centred
+    // 4506:82873 — 726px wide, centred, in DM Sans
     {
       type: "heading",
       text: ["Bringing personality", "to empty states"],
       lineGap: 20,
       maxWidth: 726,
+      face: "brand",
       tone: "strong",
     },
     // 4506:82875
@@ -156,9 +157,12 @@ export const missBliss = {
       previous: "hotstuff",
       next: "elements",
       width: 1254,
+      // 4506:82963 — the arrows centre on the badge; the DM Sans line sits
+      // 40px below that row.
       heading: {
         text: "Thanks for reading",
         size: "md",
+        face: "brand",
         figureGap: 40,
         // 4506:82964 — the same badge as SISTEM EXPENSE's sign-off.
         mark: {
