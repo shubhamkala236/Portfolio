@@ -20,5 +20,6 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 - `src/components/ui` is for design-system primitives, `src/components/layout`
   for site chrome, `src/features/<section>` for page sections.
 - Server Components by default. Add `"use client"` only for genuine interactivity
-  (currently the mobile nav, theme toggle and the case-study section nav).
+  (currently the mobile nav, theme toggle, the case-study section nav and
+  the home tab bar).
 - Before finishing: `npm run typecheck && npm run lint && npm run build`.

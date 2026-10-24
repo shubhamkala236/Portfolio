@@ -516,7 +516,10 @@ export type HomeContent = {
   nav: {
     label: string;
     items: readonly NavItem[];
-    /** The item drawn as the current one. */
+    /**
+     * The item raised at the top of the page; further down, the tab of the
+     * section in view is raised instead.
+     */
     current: string;
   };
   hero: {
