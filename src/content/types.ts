@@ -303,14 +303,28 @@ export type CaseStudyBlock =
       maxWidth?: number;
       size?: "lg" | "md";
       /**
+       * "normal" is Figma's default line box for the face (DM Sans 64 -> 83)
+       * where the file leaves the line height unset; the default is the tight
+       * box (64 -> 77).
+       */
+      leading?: "tight" | "normal";
+      /**
+       * Letter spacing in em, where Figma spaces the glyphs wider than the 0%
+       * it reports (measured on SISTEM EXPENSE 4506:81349).
+       */
+      tracking?: number;
+      /**
        * "display" is Gloock, tracked (the default); "brand" is DM Sans
        * Regular, untracked, at optical size 40 (Miss Bliss 4506:82873).
        */
       face?: "display" | "brand";
       /** "strong" is pure white; the default is the off-white text colour. */
       tone?: "default" | "strong";
-      /** A centred paragraph under the heading, 16px below it. */
-      description?: string;
+      /**
+       * A centred paragraph under the heading, 16px below it — one string, or
+       * one per line where Figma's wrap differs from the browser's.
+       */
+      description?: string | readonly string[];
     }
   /**
    * The app's tab bar as in-page navigation: it floats under the site header
@@ -389,6 +403,8 @@ export type CaseStudyBlock =
       eyebrow?: string;
       title?: string;
       description?: string;
+      /** A phrase within the description that Figma sets in SemiBold. */
+      descriptionEmphasis?: string;
       descriptionTone?: "strong" | "muted";
       /** The header's fixed height in px, where Figma fixes it. */
       headerHeight?: number;

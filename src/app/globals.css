@@ -113,6 +113,11 @@
   --font-brand: var(--font-brand-var), ui-sans-serif, system-ui, sans-serif;
   --font-button: var(--font-button-var), ui-sans-serif, system-ui, sans-serif;
 
+  /* Line heights */
+  /* DM Sans 64 -> 83: Figma's "normal" line box, where the file leaves the
+   * line height unset (HOTSTUFF 4506:86270, ELEMENTS 4506:85514). */
+  --leading-brand-normal: 1.2969;
+
   /* Type scale — each clamp reaches its Figma value exactly at the 1512px
    * frame width (and holds it above), scaling linearly down to a 375px phone.
    * Tracking is a uniform 0.06em across the design. */
@@ -641,16 +646,11 @@
 [data-headings="brand"] .trim-tracking-end {
   margin-inline-end: 0;
 }
-/* The 64px heading (4506:81349) reports 0% tracking, but Figma spaces its
- * glyphs 0.5px wider — measured: same letter widths, gaps 0.5px larger
- * (line 1 648px, "Money" 182px; 636/180 at 0). */
-[data-headings="brand"] .text-title {
-  letter-spacing: 0.0078em;
-}
 [data-headings="brand"] .text-card-title {
   line-height: 1.3; /* 20 -> 26 */
 }
-[data-headings="brand"] .text-section-title {
+[data-headings="brand"] .text-section-title,
+[data-headings="brand"] .text-figure-title {
   line-height: 1.2857; /* 28 -> 36 */
 }
 [data-headings="brand"] .text-flow {

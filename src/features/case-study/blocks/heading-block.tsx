@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { Fragment } from "react";
 
 import { cn } from "@/lib/cn";
 import type { CaseStudyBlock } from "@/content/types";
@@ -30,6 +31,8 @@ export function HeadingBlock({
   size = "lg",
   face = "display",
   tone = "default",
+  leading = "tight",
+  tracking,
   description,
 }: HeadingBlockProps) {
   const lines = typeof text === "string" ? [text] : text;
@@ -65,10 +68,12 @@ export function HeadingBlock({
           // would move them. Otherwise, balance.
           !maxWidth && !explicitLines && "text-balance",
           sizes[face][size],
+          leading === "normal" && "leading-brand-normal",
         )}
         style={{
           maxWidth,
           gap: `calc(var(--gap-scale, 1) * ${lineGap}px)`,
+          letterSpacing: tracking === undefined ? undefined : `${tracking}em`,
         }}
       >
         {lines.map((line) => (
@@ -77,6 +82,9 @@ export function HeadingBlock({
             key={line}
             className={cn(
               face === "display" && size === "lg" && "trim-tracking-end",
+              // Figma centres a line with its trailing space, which shifts it
+              // left by half a space; keep the space so the line does too.
+              line.endsWith(" ") && "whitespace-break-spaces",
             )}
           >
             {line}
@@ -85,7 +93,14 @@ export function HeadingBlock({
       </Title>
       {description && (
         <p className="relative text-center text-fg-strong" style={{ maxWidth }}>
-          {description}
+          {typeof description === "string"
+            ? description
+            : description.map((line, i) => (
+                <Fragment key={line}>
+                  {i > 0 && <br />}
+                  {line}
+                </Fragment>
+              ))}
         </p>
       )}
     </div>

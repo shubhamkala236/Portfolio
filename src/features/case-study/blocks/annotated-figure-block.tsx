@@ -27,6 +27,7 @@ export function AnnotatedFigureBlock({
   eyebrow,
   title,
   description,
+  descriptionEmphasis,
   descriptionTone,
   headerHeight,
   subtitle,
@@ -44,6 +45,7 @@ export function AnnotatedFigureBlock({
         eyebrow={eyebrow}
         title={title}
         description={description}
+        descriptionEmphasis={descriptionEmphasis}
         descriptionTone={descriptionTone}
         height={headerHeight}
       />

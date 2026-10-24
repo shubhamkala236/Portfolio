@@ -85,6 +85,10 @@ export const sistemExpense = {
       text: "A Simpler way to handle Money",
       maxWidth: 726,
       tone: "strong",
+      // 4506:81349 reports 0% tracking, but Figma spaces its glyphs 0.5px
+      // wider — measured: same letter widths, gaps 0.5px larger (line 1
+      // 648px, "Money" 182px; 636/180 at 0).
+      tracking: 0.0078,
     },
     // 4286:5985 — inner stack at 100px
     {

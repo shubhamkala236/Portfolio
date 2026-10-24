@@ -9,6 +9,9 @@ import type { Project } from "@/content/types";
  *
  * Everything above the Introduction follows the revised page 4286:6937: a
  * full-bleed hero render, then the title and meta row opening the body.
+ *
+ * Type follows 4506:85290: the title is DM Sans SemiBold, tightened 4%, and
+ * every other heading DM Sans Regular, untracked (`headings: "brand"`).
  */
 export const elements = {
   slug: "elements",
@@ -17,19 +20,20 @@ export const elements = {
   summary:
     "A wardrobe app that helps people get more out of the clothes they already own.",
   year: 2025,
-  role: "UX/UI Designer",
+  role: "Product Designer",
   stack: ["Research", "User Flows", "Prototyping"],
   featured: true,
   links: {},
   cover: null,
   heroMedia: null,
-  // 4286:9106 — full-bleed, no title (the title opens the body instead)
+  headings: "brand",
+  // 4506:85287 — full-bleed, no title (the title opens the body instead)
   heroRender: {
     src1x: "/case-studies/elements/hero@1x.png",
     src2x: "/case-studies/elements/hero@2x.png",
-    alt: "A hand holding a phone open on the Elements wardrobe screen, against an orange gradient",
+    alt: "A phone open on the Elements wardrobe screen with saved outfits, on a peach textured background",
     width: 1512,
-    height: 851,
+    height: 800,
   },
   blocks: [
     // 4286:6961 — title 64px above the meta row
@@ -40,25 +44,29 @@ export const elements = {
         {
           type: "page-title",
           title: "ELEMENTS",
+          // 4506:85293 — DM Sans SemiBold, -4%; the subtitle is 40px, 20px under.
+          titleStyle: "brand",
           subtitle: ["Fashion, Simplified: Organize, Style, and Shop Smarter"],
+          subtitleSize: "md",
+          subtitleGap: 20,
         },
         {
           type: "meta",
           items: [
             { label: "Project", value: "Self-Initiated" },
-            { label: "Role", value: "UX/UI Designer" },
+            { label: "Role", value: "Product Designer" },
             { label: "Timeline", value: "3-4 Weeks" },
             { label: "Scope", value: "Research, User Flows, Prototyping" },
           ],
         },
       ],
     },
-    // 4286:6981 — 726px wide, centred
+    // 4506:85311 — 454px wide, centred
     {
       type: "heading",
       text: ["Nothing to wear?", "Look again."],
       lineGap: 20,
-      maxWidth: 726,
+      maxWidth: 454,
       tone: "strong",
     },
     // 4286:6982 — inner stack at 100px
@@ -249,8 +257,11 @@ export const elements = {
     // 4127:17258
     {
       type: "heading",
-      text: ["The ideas took shape.", "Now, meet Elements."],
+      // The first line keeps the file's trailing space (4506:85514).
+      text: ["The ideas took shape. ", "Now, meet Elements."],
       figureGap: 16,
+      // 4506:85514 — Figma's normal line box (64 -> 83), not the tight one
+      leading: "normal",
       // Group 50 (4127:17259): circle 4127:17260, sparkle 4127:17261
       mark: {
         box: { width: 134, height: 135 },
@@ -447,6 +458,9 @@ export const elements = {
             title: "Aura AI",
             description:
               "Aura creates personalised outfits based on the user’s mood, occasion and style preferences. Depending on their choices, it can style pieces from their wardrobe, suggest new pieces, or combine both. Users can answer as much or as little as they want and regenerate until they find a look they like.",
+            // 4506:85656 — set in SemiBold in the file
+            descriptionEmphasis:
+              "style pieces from their wardrobe, suggest new pieces, or combine both",
             image: {
               src: "/case-studies/elements/final-aura-ai.png",
               alt: "Annotated Aura AI flow showing the progress bar, preference questions, swappable cards and the generate button",
@@ -534,37 +548,37 @@ export const elements = {
         "Working on Elements showed me that the real challenge wasn’t coming up with more features, but making everything feel simple and connected. It pushed me to think more carefully about how people actually use their clothes, plan what to wear and decide what’s worth buying.",
       ],
     },
-    // 4133:4643
+    // 4512:102170 — the sign-off between arrows to the neighbouring case
+    // studies; the row is 1254px wide, 2px in from each side.
     {
-      type: "heading",
-      text: "Thanks for reading",
-      size: "md",
-      figureGap: 40,
-      // circ kriti 4133:4644 at (69, 0) of the 458px frame; sparkle 4133:4646
-      // at (293, 7) of the frame, i.e. (224, 7) relative to the circle.
-      mark: {
-        box: { width: 320, height: 320 },
-        circle: { size: 320, x: 0, y: 0 },
-        sprite: {
-          src: "/case-studies/elements/memoji-sprite-fist-bump.png",
-          alt: "Illustrated avatar giving a fist bump",
-          crop: {
-            insetTop: "14.79%",
-            insetRight: "16.58%",
-            insetBottom: "14.79%",
-            insetLeft: "16.2%",
-            imageLeft: "-2.97%",
-            imageTop: "-14.85%",
-            imageWidth: "118.64%",
-            imageHeight: "126.97%",
+      type: "project-pager",
+      previous: "miss-bliss",
+      next: "sistem-expense",
+      width: 1254,
+      // 4512:102257 — the arrows centre on the badge; the DM Sans line sits
+      // 40px below that row.
+      heading: {
+        text: "Thanks for reading",
+        size: "md",
+        face: "brand",
+        figureGap: 40,
+        mark: {
+          box: { width: 320, height: 320 },
+          circle: { size: 320, x: 0, y: 0 },
+          sprite: {
+            src: "/case-studies/elements/memoji-sprite-fist-bump.png",
+            alt: "Illustrated avatar giving a fist bump",
+            crop: {
+              insetTop: "14.79%",
+              insetRight: "16.58%",
+              insetBottom: "14.79%",
+              insetLeft: "16.2%",
+              imageLeft: "-2.97%",
+              imageTop: "-14.85%",
+              imageWidth: "118.64%",
+              imageHeight: "126.97%",
+            },
           },
-        },
-        sparkle: {
-          src: "/case-studies/elements/sparkle-40.svg",
-          size: 40,
-          canvas: 463.36,
-          x: 224,
-          y: 7,
         },
       },
     },

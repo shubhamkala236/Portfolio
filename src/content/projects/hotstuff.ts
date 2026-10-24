@@ -13,6 +13,9 @@ import type { FigmaRender, MemojiMark, Project } from "@/content/types";
  * outside their frame; those renders are larger than the frame, and `bleed`
  * places them — offsets found by locating each frame's device mockup inside
  * its render.
+ *
+ * Type follows 4506:86237: the title is DM Sans SemiBold, tightened 4%, and
+ * every other heading DM Sans Regular, untracked (`headings: "brand"`).
  */
 
 const dir = "/case-studies/hotstuff";
@@ -105,8 +108,7 @@ const starEyesMark: MemojiMark = {
 export const hotstuff = {
   slug: "hotstuff",
   title: "HOTSTUFF",
-  subtitle:
-    "Home for all capital that actually trades and invests. Open while Wall Street sleeps.",
+  subtitle: "Home for all capital that actually trades and invests.",
   summary:
     "A crypto trading platform bringing trading, investing, portfolios, vaults, competitions, rewards and referrals into one product.",
   year: 2026,
@@ -122,11 +124,12 @@ export const hotstuff = {
   links: {},
   cover: null,
   heroMedia: null,
-  // 4253:22699 — full-bleed, no title (the title opens the body instead)
+  headings: "brand",
+  // 4506:86236 — full-bleed, no title (the title opens the body instead)
   heroRender: render(
     "hero",
-    "Phone showing a wardrobe app, surrounded by clothing cards, on an orange knit texture",
-    { width: 1512, height: 851 },
+    "A tablet showing Hotstuff's Invest explore screen with top movers and newly added assets, on a pale green textured background",
+    { width: 1512, height: 800 },
   ),
   blocks: [
     // 4253:22704 — title 64px above the meta row
@@ -137,10 +140,11 @@ export const hotstuff = {
         {
           type: "page-title",
           title: "HOTSTUFF",
-          subtitle: [
-            "Home for all capital that actually trades and invests.",
-            "Open while Wall Street sleeps.",
-          ],
+          // 4506:86240 — DM Sans SemiBold, -4%; the subtitle is 40px, 20px under.
+          titleStyle: "brand",
+          subtitle: ["Home for all capital that actually trades and invests."],
+          subtitleSize: "md",
+          subtitleGap: 20,
         },
         {
           type: "meta",
@@ -159,7 +163,7 @@ export const hotstuff = {
         },
       ],
     },
-    // 4253:22725
+    // 4506:86259
     {
       type: "heading",
       text: "Trade. Invest. Bank.",
@@ -182,6 +186,8 @@ export const hotstuff = {
       text: "THE PRODUCT",
       maxWidth: 932,
       figureGap: 16,
+      // Figma's normal line box (64 -> 83), not the tight one
+      leading: "normal",
       mark: starEyesMark,
       description:
         "Hotstuff grew into several connected experiences. I worked across the product, from its core financial tools to the more playful systems around progression and rewards.",
@@ -379,9 +385,15 @@ export const hotstuff = {
       text: "BEYOND THE FEATURES",
       maxWidth: 932,
       figureGap: 16,
+      // Figma's normal line box (64 -> 83), not the tight one
+      leading: "normal",
       mark: starEyesMark,
-      description:
-        "The individual features were only one part of the work. Across Hotstuff, I also worked on the systems, interactions and visual layers that connected the product together.",
+      // 4506:86616 — Figma's first line stops short of "systems,": at 932px
+      // it just misses fitting, where the browser fits it.
+      description: [
+        "The individual features were only one part of the work. Across Hotstuff, I also worked on the",
+        "systems, interactions and visual layers that connected the product together.",
+      ],
     },
     // 4253:23083
     {
@@ -474,35 +486,37 @@ export const hotstuff = {
         "Hotstuff shaped the way I work today: think through the details, build for change, and never lose the craft.",
       ],
     },
-    // 4253:23756 — the same sign-off as ELEMENTS, sparkle included
+    // 4512:102263 — the sign-off between arrows to the neighbouring case
+    // studies; the row is 1254px wide, 2px in from each side.
     {
-      type: "heading",
-      text: "Thanks for reading",
-      size: "md",
-      figureGap: 40,
-      mark: {
-        box: { width: 320, height: 320 },
-        circle: { size: 320, x: 0, y: 0 },
-        sprite: {
-          src: "/case-studies/elements/memoji-sprite-fist-bump.png",
-          alt: "Illustrated avatar giving a fist bump",
-          crop: {
-            insetTop: "14.79%",
-            insetRight: "16.58%",
-            insetBottom: "14.79%",
-            insetLeft: "16.2%",
-            imageLeft: "-2.97%",
-            imageTop: "-14.85%",
-            imageWidth: "118.64%",
-            imageHeight: "126.97%",
+      type: "project-pager",
+      previous: "sistem-expense",
+      next: "miss-bliss",
+      width: 1254,
+      // 4512:102350 — the arrows centre on the badge; the DM Sans line sits
+      // 40px below that row.
+      heading: {
+        text: "Thanks for reading",
+        size: "md",
+        face: "brand",
+        figureGap: 40,
+        mark: {
+          box: { width: 320, height: 320 },
+          circle: { size: 320, x: 0, y: 0 },
+          sprite: {
+            src: "/case-studies/elements/memoji-sprite-fist-bump.png",
+            alt: "Illustrated avatar giving a fist bump",
+            crop: {
+              insetTop: "14.79%",
+              insetRight: "16.58%",
+              insetBottom: "14.79%",
+              insetLeft: "16.2%",
+              imageLeft: "-2.97%",
+              imageTop: "-14.85%",
+              imageWidth: "118.64%",
+              imageHeight: "126.97%",
+            },
           },
-        },
-        sparkle: {
-          src: "/case-studies/elements/sparkle-40.svg",
-          size: 40,
-          canvas: 463.36,
-          x: 224,
-          y: 7,
         },
       },
     },

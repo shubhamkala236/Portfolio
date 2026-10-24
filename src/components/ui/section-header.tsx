@@ -5,6 +5,8 @@ export type SectionHeaderProps = {
   eyebrow?: string;
   title?: string;
   description?: string;
+  /** A phrase within the description that Figma sets in SemiBold. */
+  descriptionEmphasis?: string;
   /** Figma varies this per section: white on some, #b9b9b9 on others. */
   descriptionTone?: "strong" | "muted";
   descriptionWeight?: "regular" | "medium";
@@ -24,6 +26,7 @@ export function SectionHeader({
   eyebrow,
   title,
   description,
+  descriptionEmphasis,
   descriptionTone = "strong",
   descriptionWeight = "regular",
   height,
@@ -47,11 +50,24 @@ export function SectionHeader({
                 descriptionWeight === "medium" && "font-medium",
               )}
             >
-              {description}
+              {withEmphasis(description, descriptionEmphasis)}
             </p>
           )}
         </div>
       )}
     </header>
+  );
+}
+
+/** Sets the first occurrence of `phrase` in `text` in SemiBold. */
+function withEmphasis(text: string, phrase?: string) {
+  const at = phrase ? text.indexOf(phrase) : -1;
+  if (!phrase || at < 0) return text;
+  return (
+    <>
+      {text.slice(0, at)}
+      <strong className="font-semibold">{phrase}</strong>
+      {text.slice(at + phrase.length)}
+    </>
   );
 }
