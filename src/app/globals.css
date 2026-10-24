@@ -314,6 +314,10 @@
   /* Below md the bar sits on a red band above the hero: its 55px pill plus
    * the 8px it is padded by above and below. */
   --spacing-home-nav: 4.4375rem; /* 71px */
+  /* Everything on screen with a work card's art but the art itself: the tab
+   * bar (45 + 55), 24px clear under it and above the screen's edge, and the
+   * caption — 40px gap, 52px title, 16px gap, up to three 30px lines. */
+  --spacing-home-work-chrome: 21.625rem; /* 346px */
   /* A footer button on the desktop row (4506:83427). */
   --spacing-footer-button: 18.3125rem; /* 293px */
 
@@ -645,6 +649,17 @@
  * the hero (its wrapper pads 8px); --u is one px of the 1512px frame. */
 @utility home-nav-drop {
   padding-top: calc(45 * var(--u) - 0.5rem);
+}
+
+/* A home work card is never taller than the screen: on a short screen its
+ * width (art and caption together) drops until the 1258 x 800 art and its
+ * caption fit under the tab bar. Tall screens keep Figma's full width; it
+ * never drops below 30rem, where it couldn't fit anyway. */
+@utility home-work-fit {
+  max-width: max(
+    30rem,
+    calc((100svh - var(--spacing-home-work-chrome)) * 1258 / 800)
+  );
 }
 
 /* Case studies whose headings are set in DM Sans (Project.headings:

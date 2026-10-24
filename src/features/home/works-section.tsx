@@ -10,6 +10,9 @@ type WorksSectionProps = HomeContent["works"];
  * Figma's own 1258 × 800 render of its card art, its name and one line
  * about it — 120px between title and cards and between cards, 40px from art
  * to caption. Each card opens its case study.
+ *
+ * Each card fits the screen whole, art and caption: on a screen too short
+ * for it, the card narrows (centred) until it does (`home-work-fit`).
  */
 export function WorksSection({ title, items }: WorksSectionProps) {
   return (
@@ -29,7 +32,7 @@ export function WorksSection({ title, items }: WorksSectionProps) {
           <li key={item.slug}>
             <Link
               href={`/projects/${item.slug}`}
-              className="flex flex-col gap-10"
+              className="mx-auto flex w-full flex-col gap-10 home-work-fit"
             >
               <FigmaRender render={item.render} className="w-full" />
               <span className="flex flex-col gap-4">
