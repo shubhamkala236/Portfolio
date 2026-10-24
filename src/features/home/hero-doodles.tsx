@@ -14,7 +14,7 @@ type Doodle = {
   turn?: { width: string; height: string; rotate: number; mirror?: boolean };
   /** How far the SVG bleeds past its box, %: top, right, bottom, left. */
   bleed?: readonly [number, number, number, number];
-  /** When its wiggle starts in the 12s loop, s. */
+  /** When its wiggle starts in Figma's 12s loop, s. */
   delay: number;
 };
 
@@ -95,6 +95,13 @@ export const heroDoodles: readonly Doodle[] = [
   },
 ];
 
+/**
+ * Figma holds every doodle still for the first 2s of the loop (the first
+ * starts at 2s). The page starts the loop at that first wiggle instead, so
+ * nothing waits on load; the doodles keep their order and spacing.
+ */
+const LEAD = 2;
+
 const percent = ([top, right, bottom, left]: readonly number[]) => ({
   top: `${top}%`,
   right: `${right}%`,
@@ -108,7 +115,7 @@ const percent = ([top, right, bottom, left]: readonly number[]) => ({
  *
  * Figma splits each into a static turn (inner) and an animated one (outer):
  * the outer box wiggles -3° then +3°, 0.8s each, twice a loop, from its own
- * start time. Reduced motion holds it still.
+ * start time (less the file's 2s lead-in). Reduced motion holds it still.
  */
 export function HeroDoodle({ file, inset, turn, bleed, delay }: Doodle) {
   const art = (
@@ -130,7 +137,7 @@ export function HeroDoodle({ file, inset, turn, bleed, delay }: Doodle) {
         {
           ...percent(inset),
           containerType: turn ? "size" : undefined,
-          animationDelay: `${delay}s`,
+          animationDelay: `${delay - LEAD}s`,
         } as CSSProperties
       }
     >

@@ -4,7 +4,10 @@ import type { FigmaRender, HomeContent } from "@/content/types";
 /**
  * Home page copy, verbatim from Figma 4512:101365.
  *
- * Link targets the file doesn't define (Explore, Resume, the connect rows)
+ * The tab bar drops the file's Explore tab and adds About Me between Work
+ * and Connect, as asked.
+ *
+ * Link targets the file doesn't define (Resume, the connect rows)
  * point at the site's placeholders in site.ts, so there is one place to set
  * the real ones.
  */
@@ -24,9 +27,9 @@ export const home = {
   nav: {
     label: "Home sections",
     items: [
-      { label: "Explore", href: "#about" },
       { label: "Home", href: "/" },
       { label: "Work", href: "#work" },
+      { label: "About Me", href: "#about" },
       { label: "Connect", href: "#connect" },
       { label: "Resume", href: link("RESUME") },
     ],

@@ -16,7 +16,7 @@ export function WorksSection({ title, items }: WorksSectionProps) {
     <section
       id="work"
       aria-labelledby="work-title"
-      className="flex scroll-mt-8 flex-col items-center gap-16 lg:gap-30"
+      className="flex scroll-mt-home-anchor flex-col items-center gap-16 lg:gap-30"
     >
       <h2
         id="work-title"

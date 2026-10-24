@@ -21,7 +21,7 @@ export function ConnectSection({ title, links }: ConnectSectionProps) {
     <section
       id="connect"
       aria-labelledby="connect-title"
-      className="flex scroll-mt-8 flex-col items-start justify-between gap-10 lg:flex-row"
+      className="flex scroll-mt-home-anchor flex-col items-start justify-between gap-10 lg:flex-row"
     >
       <h2
         id="connect-title"

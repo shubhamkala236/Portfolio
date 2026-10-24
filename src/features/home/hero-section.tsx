@@ -7,7 +7,6 @@ import {
   heroDoodles,
 } from "@/features/home/hero-doodles";
 import { HeroEyes } from "@/features/home/hero-eyes";
-import { HomeNav } from "@/features/home/home-nav";
 import { PathText } from "@/features/home/path-text";
 import { u } from "@/features/home/stage";
 
@@ -20,7 +19,6 @@ const TITLE = { left: 226, top: 176, width: 1071, gap: 20 };
 
 type HeroSectionProps = {
   hero: HomeContent["hero"];
-  nav: HomeContent["nav"];
 };
 
 /**
@@ -30,20 +28,17 @@ type HeroSectionProps = {
  *
  * It is a composition rather than a layout, so it is drawn in Figma px on a
  * stage that scales with the page (`--u` = 1/1512 of the width): every
- * piece keeps its place at any size. The nav is the exception — it stays at
- * its real size so it stays usable, floating at Figma's 45px from md up and
- * sitting on the red above the hero below that (the file has no small-screen
- * design).
+ * piece keeps its place at any size. The tab bar is drawn by the page (see
+ * HomeNav): it hangs over the hero from md up; below that the hero opens on
+ * a red band for it (the file has no small-screen design).
  */
-export function HeroSection({ hero, nav }: HeroSectionProps) {
+export function HeroSection({ hero }: HeroSectionProps) {
   return (
     <section
       aria-labelledby="home-title"
       className="@container relative overflow-x-clip bg-footer-red md:bg-transparent"
     >
-      <div className="flex justify-center md:hidden">
-        <HomeNav {...nav} />
-      </div>
+      <div aria-hidden className="h-home-nav md:hidden" />
       <div
         className="relative bg-bg"
         style={
@@ -115,10 +110,6 @@ export function HeroSection({ hero, nav }: HeroSectionProps) {
         {heroDoodles.map((doodle) => (
           <HeroDoodle key={doodle.file} {...doodle} />
         ))}
-
-        <div className="hidden max-w-full md:hero-nav-float md:block">
-          <HomeNav {...nav} />
-        </div>
       </div>
     </section>
   );

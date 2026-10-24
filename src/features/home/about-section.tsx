@@ -18,7 +18,7 @@ export function AboutSection({ title, lines, bio, photos }: AboutSectionProps) {
     <section
       id="about"
       aria-labelledby="about-title"
-      className="flex scroll-mt-8 flex-col items-center gap-16 lg:gap-30"
+      className="flex scroll-mt-home-anchor flex-col items-center gap-16 lg:gap-30"
     >
       <h2
         id="about-title"
