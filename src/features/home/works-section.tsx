@@ -15,8 +15,9 @@ type WorksSectionProps = HomeContent["works"];
  * Each card fits the screen whole, art and caption: on a screen too short
  * for it, the card narrows (centred) until it does (`home-work-fit`).
  *
- * Cards whose art moves on hover in the file (HOTSTUFF, SISTEM EXPENSE) are
- * drawn in layers; hovering the art, or focusing the card, plays it.
+ * Every card's art is drawn in layers that move on hover — HOTSTUFF's and
+ * SISTEM EXPENSE's as in the file, ELEMENTS and MISS BLISS by the same
+ * motion; hovering the art, or focusing the card, plays it.
  */
 export function WorksSection({ title, items }: WorksSectionProps) {
   return (

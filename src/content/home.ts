@@ -1,5 +1,5 @@
 import { siteConfig } from "@/content/site";
-import type { FigmaRender, HomeContent, LayeredRender } from "@/content/types";
+import type { HomeContent, LayeredRender } from "@/content/types";
 
 /**
  * Home page copy, verbatim from Figma 4512:101365.
@@ -14,14 +14,6 @@ import type { FigmaRender, HomeContent, LayeredRender } from "@/content/types";
 
 const link = (label: string) =>
   siteConfig.footer.links.find((item) => item.label === label)?.href ?? "#";
-
-const work = (name: string, alt: string): FigmaRender => ({
-  src1x: `/home/works/${name}@1x.png`,
-  src2x: `/home/works/${name}@2x.png`,
-  alt,
-  width: 1258,
-  height: 800,
-});
 
 /** A card frame (4497:68350, 4497:72840): 1258 × 800, corners 40. */
 const CARD = { width: 1258, height: 800, radius: 40 };
@@ -96,6 +88,51 @@ const sistemCard: LayeredRender = {
   ],
 };
 
+/**
+ * ELEMENTS' card (4506:83502) has no hover variant in the file; it is built
+ * as SISTEM EXPENSE's (texture and phone, same boxes), so it takes the same
+ * motion: the texture zooms out to 1423.14 wide, the phone grows to 500.
+ */
+const elementsCard: LayeredRender = {
+  ...CARD,
+  alt: "A phone showing the Elements wardrobe screen, on a peach textured background",
+  layers: [
+    background("elements", -128, -26.45, 1423.14 / 1513.94),
+    {
+      src1x: "/home/works/elements-phone.png",
+      src2x: "/home/works/elements-phone.png",
+      x: 388.5,
+      y: 217.97,
+      width: 480,
+      height: 970.84,
+      hoverScale: 500 / 480,
+    },
+  ],
+};
+
+/**
+ * MISS BLISS's card (4506:83518) has no hover variant in the file either;
+ * it is built as HOTSTUFF's (texture and tablet, same boxes), so it takes
+ * HOTSTUFF's motion — the texture zooms out to 1420.9 wide, the tablet grows
+ * to 1000 — without the texture swap. Its tablet has no shadow.
+ */
+const missBlissCard: LayeredRender = {
+  ...CARD,
+  alt: "A tablet showing the Miss Bliss chat room with its illustration, on a lilac textured background",
+  layers: [
+    background("miss-bliss", -128, -26.45, 1420.9 / 1513.94),
+    {
+      src1x: "/home/works/miss-bliss-device@1x.png",
+      src2x: "/home/works/miss-bliss-device@2x.png",
+      x: 139.29,
+      y: 110.32,
+      width: 980,
+      height: 579.53,
+      hoverScale: 1000 / 980,
+    },
+  ],
+};
+
 export const home = {
   nav: {
     label: "Home sections",
@@ -128,10 +165,7 @@ export const home = {
         title: "ELEMENTS",
         description:
           "A fashion app connecting your wardrobe, outfit planning and shopping. Designed the complete experience, from user research and flows to final screens.",
-        render: work(
-          "elements",
-          "A phone showing the Elements wardrobe screen, on a peach textured background",
-        ),
+        render: elementsCard,
       },
       {
         slug: "sistem-expense",
@@ -147,10 +181,7 @@ export const home = {
         title: "SISTEM EXPENSE TRACKER",
         description:
           "A platform for adult creators to share content and connect with their audience. Created custom illustrations for the product experience.",
-        render: work(
-          "miss-bliss",
-          "A tablet showing the Miss Bliss chat room with its illustration, on a lilac textured background",
-        ),
+        render: missBlissCard,
       },
     ],
   },
