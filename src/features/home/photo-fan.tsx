@@ -2,6 +2,7 @@ import Image from "next/image";
 import type { CSSProperties } from "react";
 
 import type { HomeContent } from "@/content/types";
+import { FanStage } from "@/features/home/fan-stage";
 import { a } from "@/features/home/stage";
 
 /** The strip (4506:83538): 1258 × 360.359. */
@@ -116,6 +117,24 @@ const cards: readonly Card[] = [
   },
 ];
 
+/** Between one card leaving the stack and the next, ms. */
+const FAN_STEP_MS = 70;
+
+/**
+ * Each card's place in the opening order: nearest the stack leaves first,
+ * so the fan spreads outward.
+ */
+const fanOrder = cards
+  .map((card, index) => ({
+    index,
+    reach: Math.hypot(card.stacked.x, card.stacked.y),
+  }))
+  .sort((p, q) => p.reach - q.reach)
+  .reduce<number[]>((order, { index }, rank) => {
+    order[index] = rank;
+    return order;
+  }, []);
+
 const shadow = (deep?: boolean) =>
   deep
     ? `${a(6.447)} ${a(4.605)} ${a(30.392)} ${a(-27.629)} var(--home-shadow-deep)`
@@ -135,11 +154,11 @@ const placement = (photo: Card["photo"]): CSSProperties =>
  * column, each a white-edged card cropping a turned photo, as built in the
  * file.
  *
- * On the 12s loop the cards wait stacked on the fourth one until 2.5s, then
- * spring out to their places in 1.15s and hold (`animate-photo-fan`; each
- * card passes its stacked offset as CSS variables). Drawn in Figma px of
- * the 1258px strip (`--a`), so the fan keeps its shape at any width.
- * Reduced motion shows the fan at rest.
+ * The cards wait stacked on the front photo until the strip scrolls into
+ * view, then spring out to their places, once, and stay (FanStage; each
+ * card passes its stacked offset and its turn in the order as CSS
+ * variables). Drawn in Figma px of the 1258px strip (`--a`), so the fan
+ * keeps its shape at any width. Reduced motion shows the fan open.
  */
 export function PhotoFan({
   photos,
@@ -148,7 +167,7 @@ export function PhotoFan({
 }) {
   return (
     <div className="@container w-full">
-      <div
+      <FanStage
         className="relative"
         style={
           {
@@ -162,7 +181,8 @@ export function PhotoFan({
           return (
             <div
               key={photo.src}
-              className="absolute flex animate-photo-fan items-center justify-center motion-reduce:animate-none"
+              data-fan-card
+              className="absolute flex items-center justify-center"
               style={
                 {
                   left: a(card.box.left),
@@ -173,6 +193,7 @@ export function PhotoFan({
                   "--fan-y": a(card.stacked.y),
                   "--fan-r": `${-card.tilt}deg`,
                   "--fan-o": card.stacked.visible ? 1 : 0,
+                  "--fan-delay": `${fanOrder[index] * FAN_STEP_MS}ms`,
                 } as CSSProperties
               }
             >
@@ -216,7 +237,7 @@ export function PhotoFan({
             </div>
           );
         })}
-      </div>
+      </FanStage>
     </div>
   );
 }

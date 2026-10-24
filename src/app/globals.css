@@ -321,14 +321,65 @@
   /* A footer button on the desktop row (4506:83427). */
   --spacing-footer-button: 18.3125rem; /* 293px */
 
-  /* The pager arrows' dots and head (Miss Bliss 4506:82925): each dips to
-   * 25% and back — 180ms down, 260ms up, ease-in-out — once per 12s loop.
-   * Figma staggers the five parts 140ms apart; that is the delay per part. */
-  --animate-arrow-dot: arrow-dot 12s ease-in-out infinite;
+  /* A damped spring (ζ 0.6): about 9% past the mark, a touch back, then
+   * settled — the photo fan's bounce. */
+  --ease-fan-spring: linear(
+    0,
+    0.0219,
+    0.0797,
+    0.1628,
+    0.2617,
+    0.3688,
+    0.4776,
+    0.5832,
+    0.6819,
+    0.7711,
+    0.8493,
+    0.9158,
+    0.9705,
+    1.0138,
+    1.0465,
+    1.0697,
+    1.0846,
+    1.0926,
+    1.0948,
+    1.0925,
+    1.0869,
+    1.0789,
+    1.0695,
+    1.0593,
+    1.049,
+    1.039,
+    1.0297,
+    1.0213,
+    1.014,
+    1.0077,
+    1.0026,
+    0.9985,
+    0.9955,
+    0.9933,
+    0.9919,
+    0.9912,
+    0.991,
+    0.9913,
+    0.9918,
+    0.9926,
+    0.9935,
+    0.9944,
+    0.9954,
+    0.9963,
+    0.9972,
+    0.998,
+    0.9987,
+    0.9993,
+    1
+  );
   /* Figma's "Ease in" transition curve. */
   --ease-figma-in: cubic-bezier(0.42, 0, 1, 1);
-  /* The same dip on a 2s loop (Miss Bliss's pager arrows, 4506:82932):
-   * 180ms down, lowest at 360ms, back by 620ms; same 140ms stagger. */
+  /* The pixel arrow's dots and head each dip to 25% and back on a 2s loop
+   * (Miss Bliss's pager 4506:82932, the home Connect rows 4506:83733):
+   * 180ms down, lowest at 360ms, back by 620ms, ease-in-out; Figma staggers
+   * the five parts 140ms apart, which is each one's delay. */
   --animate-arrow-dot-quick: arrow-dot-quick 2s ease-in-out infinite;
 
   @keyframes arrow-dot-quick {
@@ -353,10 +404,9 @@
   --animate-iris: iris 12s linear infinite;
   /* The cat (4506:83663) rocks ±12° every 0.4s. */
   --animate-cat-wobble: cat-wobble 12s linear infinite;
-  /* About photos: stacked until 2.5s, then spring out into the fan. */
-  --animate-photo-fan: photo-fan 12s linear infinite;
-  /* "Email" letters rise 12px into place, 102ms apart (its delay). */
-  --animate-letter-rise: letter-rise 12s ease-out infinite;
+  /* Connect rows (4506:83774), on hover: each letter rises 12px into view
+   * in 291.67ms, Figma's ease out, 102ms after the one before (its delay). */
+  --animate-letter-rise: letter-rise 291.667ms cubic-bezier(0, 0, 0.58, 1) both;
 
   @keyframes doodle-wiggle {
     0%,
@@ -535,93 +585,10 @@
     }
   }
 
-  /* Each card sets --fan-x/--fan-y/--fan-r (its offset from its place in the
-   * fan) and --fan-o (whether it shows while stacked). The release uses
-   * Figma's spring, sampled: 1 - e^(-7.68t)(cos 6.57t + 1.17 sin 6.57t). */
-  @keyframes photo-fan {
-    0%,
-    20.83% {
-      translate: var(--fan-x) var(--fan-y);
-      rotate: var(--fan-r);
-      opacity: var(--fan-o);
-      animation-timing-function: linear(
-        0,
-        0.0281,
-        0.0984,
-        0.1939,
-        0.3015,
-        0.4115,
-        0.5176,
-        0.6152,
-        0.702,
-        0.7768,
-        0.8396,
-        0.8908,
-        0.9314,
-        0.9627,
-        0.9859,
-        1.0025,
-        1.0137,
-        1.0206,
-        1.0242,
-        1.0254,
-        1.0248,
-        1.0232,
-        1.0208,
-        1.0181,
-        1.0153,
-        1.0126,
-        1.0101,
-        1.0078,
-        1.0059,
-        1.0043,
-        1.0029,
-        1.0019,
-        1.001,
-        1.0004,
-        1,
-        0.9997,
-        0.9995,
-        0.9994,
-        0.9994,
-        0.9994,
-        1
-      );
-    }
-    20.84% {
-      opacity: 1;
-    }
-    30.42%,
-    100% {
-      translate: 0 0;
-      rotate: 0deg;
-      opacity: 1;
-    }
-  }
-
   @keyframes letter-rise {
-    0% {
+    from {
       translate: 0 12px;
       opacity: 0;
-    }
-    2.43%,
-    100% {
-      translate: 0 0;
-      opacity: 1;
-    }
-  }
-
-  @keyframes arrow-dot {
-    0%,
-    1.5% {
-      opacity: 1;
-    }
-    3% {
-      opacity: 0.25;
-    }
-    5.17%,
-    100% {
-      opacity: 1;
     }
   }
 }
@@ -651,6 +618,47 @@
  * the hero (its wrapper pads 8px); --u is one px of the 1512px frame. */
 @utility home-nav-drop {
   padding-top: calc(45 * var(--u) - 0.5rem);
+}
+
+/* The about-me photo fan (4506:83538) opens once, when it scrolls into view
+ * (PhotoFan sets data-fan). "closed" holds every card in the stack on the
+ * front photo — the rest hidden behind it — and "open" springs each one out
+ * to its place: Figma's spring, with a fuller bounce (about 9% past, a touch
+ * back, settled), over 1.4s; the cards leave nearest first, 70ms apart
+ * (--fan-delay), and the hidden ones fade in as they come out. Without the
+ * attribute (before hydration, or under reduced motion) the fan is open. */
+[data-fan="closed"] [data-fan-card] {
+  translate: var(--fan-x) var(--fan-y);
+  rotate: var(--fan-r);
+  opacity: var(--fan-o);
+}
+
+[data-fan="open"] [data-fan-card] {
+  animation:
+    photo-fan-open 1.4s var(--ease-fan-spring) var(--fan-delay) both,
+    photo-fan-show 0.3s ease-out var(--fan-delay) both;
+}
+
+@keyframes photo-fan-open {
+  from {
+    translate: var(--fan-x) var(--fan-y);
+    rotate: var(--fan-r);
+  }
+}
+
+@keyframes photo-fan-show {
+  from {
+    opacity: var(--fan-o);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-fan] [data-fan-card] {
+    translate: none;
+    rotate: none;
+    opacity: 1;
+    animation: none;
+  }
 }
 
 /* A home work card is never taller than the screen: on a short screen its

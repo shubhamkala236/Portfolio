@@ -14,16 +14,18 @@ const STEP_MS = 140;
 
 type DottedArrowProps = {
   /**
-   * Pulse tail to head: once per 12s ("loop", the home page's timeline) or
-   * every 2s ("quick", Miss Bliss's pager). Off by default.
+   * Pulse tail to head every 2s: always ("quick", Miss Bliss's pager), or
+   * only while an ancestor `group/play` is hovered or keyboard-focused
+   * ("hover", the home Connect rows). Off by default.
    */
-  pulse?: false | "loop" | "quick";
+  pulse?: false | "quick" | "hover";
   className?: string;
 };
 
 const pulses = {
-  loop: "animate-arrow-dot motion-reduce:animate-none",
   quick: "animate-arrow-dot-quick motion-reduce:animate-none",
+  hover:
+    "motion-safe:group-hover/play:animate-arrow-dot-quick motion-safe:group-focus-visible/play:animate-arrow-dot-quick",
 } as const;
 
 /**

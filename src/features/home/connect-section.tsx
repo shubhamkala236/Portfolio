@@ -12,9 +12,10 @@ const LETTER_STEP_MS = 102;
  * links on the right between hairline rules — index, label, then the pixel
  * arrow.
  *
- * The first row is the animated one in the file: its arrow pulses and its
- * letters rise into place one after another, every 12s. Reduced motion
- * shows it still.
+ * Each row plays the file's animation (4506:83774, drawn on Email) while it
+ * is hovered or keyboard-focused: its letters rise into place one after
+ * another and its arrow pulses tail to head. At rest every row is still.
+ * Reduced motion keeps them still.
  */
 export function ConnectSection({ title, links }: ConnectSectionProps) {
   return (
@@ -33,8 +34,7 @@ export function ConnectSection({ title, links }: ConnectSectionProps) {
         className="w-full border-t border-home-rule"
         style={{ maxWidth: LIST_WIDTH }}
       >
-        {links.map((link, row) => {
-          const animated = row === 0;
+        {links.map((link) => {
           const external = link.href.startsWith("http");
           return (
             <li key={link.label} className="border-b border-home-rule">
@@ -43,39 +43,23 @@ export function ConnectSection({ title, links }: ConnectSectionProps) {
                 target={external ? "_blank" : undefined}
                 rel={external ? "noreferrer noopener" : undefined}
                 aria-label={link.label}
-                className="flex items-center gap-5 py-6 text-fg-strong"
+                className="group/play flex items-center gap-5 py-6 text-fg-strong"
               >
                 <span aria-hidden className="text-home-index">
                   {link.index}
                 </span>
                 <span aria-hidden className="flex-1 text-home-link">
-                  {animated
-                    ? [...link.label].map((letter, index) => (
-                        <span
-                          key={index}
-                          className="inline-block animate-letter-rise motion-reduce:animate-none"
-                          style={{
-                            animationDelay: `${index * LETTER_STEP_MS}ms`,
-                            animationFillMode: "backwards",
-                          }}
-                        >
-                          {letter}
-                        </span>
-                      ))
-                    : link.label}
+                  {[...link.label].map((letter, index) => (
+                    <span
+                      key={index}
+                      className="inline-block motion-safe:group-hover/play:animate-letter-rise motion-safe:group-focus-visible/play:animate-letter-rise"
+                      style={{ animationDelay: `${index * LETTER_STEP_MS}ms` }}
+                    >
+                      {letter}
+                    </span>
+                  ))}
                 </span>
-                {animated ? (
-                  <DottedArrow pulse="loop" />
-                ) : (
-                  // eslint-disable-next-line @next/next/no-img-element -- Figma's 24px arrow SVG
-                  <img
-                    src="/home/connect/arrow.svg"
-                    alt=""
-                    width={24}
-                    height={24}
-                    className="shrink-0"
-                  />
-                )}
+                <DottedArrow pulse="hover" />
               </a>
             </li>
           );
