@@ -325,6 +325,8 @@
    * 25% and back — 180ms down, 260ms up, ease-in-out — once per 12s loop.
    * Figma staggers the five parts 140ms apart; that is the delay per part. */
   --animate-arrow-dot: arrow-dot 12s ease-in-out infinite;
+  /* Figma's "Ease in" transition curve. */
+  --ease-figma-in: cubic-bezier(0.42, 0, 1, 1);
   /* The same dip on a 2s loop (Miss Bliss's pager arrows, 4506:82932):
    * 180ms down, lowest at 360ms, back by 620ms; same 140ms stagger. */
   --animate-arrow-dot-quick: arrow-dot-quick 2s ease-in-out infinite;

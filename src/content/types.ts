@@ -59,6 +59,37 @@ export type FigmaRender = {
   bleed?: { x: number; y: number; width: number; height: number };
 };
 
+/**
+ * A card drawn as separate layers that move when it is hovered — Figma's
+ * ON_HOVER smart-animate between two variants. Each layer keeps its Figma
+ * box in the frame and scales about the box's centre on hover.
+ */
+export type LayeredRender = {
+  alt: string;
+  /** The frame, Figma px. */
+  width: number;
+  height: number;
+  /** Corner radius, Figma px. */
+  radius: number;
+  /** Bottom first, as Figma stacks them. */
+  layers: readonly {
+    src1x: string;
+    src2x: string;
+    /** The layer's box relative to the frame's top-left, Figma px. */
+    x: number;
+    y: number;
+    width: number;
+    height: number;
+    /** Its scale in the hover variant (1 = unchanged). */
+    hoverScale: number;
+    /**
+     * Only in the hover variant: hidden at rest, faded in on hover — how
+     * Figma's smart-animate dissolves a layer whose image changes.
+     */
+    hoverOnly?: boolean;
+  }[];
+};
+
 /** A chapter visual: a render, plus any separately placed renders over it. */
 export type ChapterVisual = {
   render: FigmaRender;
@@ -535,7 +566,8 @@ export type HomeContent = {
       slug: string;
       title: string;
       description: string;
-      render: FigmaRender;
+      /** Figma's render of the card art, or its layers where it moves on hover. */
+      render: FigmaRender | LayeredRender;
     }[];
   };
   about: {

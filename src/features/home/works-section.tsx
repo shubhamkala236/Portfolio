@@ -2,6 +2,7 @@ import Link from "next/link";
 
 import { FigmaRender } from "@/components/ui/figma-render";
 import type { HomeContent } from "@/content/types";
+import { LayeredRender } from "@/features/home/layered-render";
 
 type WorksSectionProps = HomeContent["works"];
 
@@ -13,6 +14,9 @@ type WorksSectionProps = HomeContent["works"];
  *
  * Each card fits the screen whole, art and caption: on a screen too short
  * for it, the card narrows (centred) until it does (`home-work-fit`).
+ *
+ * Cards whose art moves on hover in the file (HOTSTUFF, SISTEM EXPENSE) are
+ * drawn in layers; hovering the art, or focusing the card, plays it.
  */
 export function WorksSection({ title, items }: WorksSectionProps) {
   return (
@@ -32,9 +36,15 @@ export function WorksSection({ title, items }: WorksSectionProps) {
           <li key={item.slug}>
             <Link
               href={`/projects/${item.slug}`}
-              className="mx-auto flex w-full flex-col gap-10 home-work-fit"
+              className="group/card mx-auto flex w-full home-work-fit flex-col gap-10"
             >
-              <FigmaRender render={item.render} className="w-full" />
+              <span className="group/art block">
+                {"layers" in item.render ? (
+                  <LayeredRender render={item.render} />
+                ) : (
+                  <FigmaRender render={item.render} className="w-full" />
+                )}
+              </span>
               <span className="flex flex-col gap-4">
                 <span className="font-brand text-home-work text-fg font-opsz-14">
                   {item.title}
