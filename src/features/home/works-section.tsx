@@ -38,6 +38,7 @@ export function WorksSection({ title, items }: WorksSectionProps) {
           <li key={item.slug}>
             <Link
               href={`/projects/${item.slug}`}
+              data-page-transition
               className="group/card mx-auto flex w-full home-work-fit flex-col gap-10"
             >
               <span className="group/art block">

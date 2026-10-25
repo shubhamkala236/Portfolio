@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 
+import { PageTransition } from "@/components/layout/page-transition";
 import { ScrollReveal } from "@/components/layout/scroll-reveal";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { siteConfig } from "@/content/site";
@@ -15,7 +16,15 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${fontVariables} h-full`}>
+    // data-scroll-behavior: the page scrolls smoothly for in-page links, but
+    // Next 16 no longer pauses that on navigation — without this, a new page
+    // opens at the old scroll position and glides up, revealing every section
+    // on the way.
+    <html
+      lang="en"
+      data-scroll-behavior="smooth"
+      className={`${fontVariables} h-full`}
+    >
       <body className="flex min-h-full flex-col antialiased">
         <a
           href="#main"
@@ -27,6 +36,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         {children}
         <SiteFooter />
         <ScrollReveal />
+        <PageTransition />
       </body>
     </html>
   );

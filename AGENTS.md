@@ -21,9 +21,11 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
   for site chrome, `src/features/<section>` for page sections.
 - Server Components by default. Add `"use client"` only for genuine interactivity
   (currently the mobile nav, theme toggle, the case-study section nav, the
-  home tab bar, the about-me photo fan's scroll trigger and the site-wide
-  scroll reveal).
+  home tab bar, the about-me photo fan's scroll trigger, the site-wide
+  scroll reveal and the page transition).
 - Scroll reveal: mark a container `data-reveal-group` and its direct children
   fade and rise in, staggered, as they scroll into view; nested groups
   cascade. Skip a child with `data-reveal-skip` (e.g. anything sticky).
+- Page transition: a link marked `data-page-transition` (the home project
+  cards) plays the cover-and-window transition into its page.
 - Before finishing: `npm run typecheck && npm run lint && npm run build`.

@@ -681,6 +681,83 @@
   }
 }
 
+/* Page transition (PageTransition), after hyperfoundation.org: the page
+ * colour fades over the old page (350ms) while a red blob springs in at the
+ * centre, morphing; once the new page has rendered, the blob turns into a
+ * window — same shape, cut out of the cover — that grows until the cover is
+ * gone (1.1s, ease in-out). The new page's scroll reveals wait under the
+ * cover and play as it opens. Keep the timings in step with the component. */
+.page-transition {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.page-transition:not([data-phase="idle"]) {
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.page-transition-cover {
+  fill: var(--bg);
+  opacity: 0;
+}
+
+.page-transition-hole,
+.page-transition-blob {
+  transform-box: view-box;
+  transform-origin: 0 0;
+  scale: 0;
+}
+
+.page-transition-blob {
+  fill: var(--footer-red);
+}
+
+[data-phase="cover"] .page-transition-cover {
+  animation: page-cover-in 350ms ease-out forwards;
+}
+
+[data-phase="cover"] .page-transition-blob {
+  animation: page-blob-in 0.8s var(--ease-fan-spring) 150ms forwards;
+}
+
+[data-phase="reveal"] .page-transition-cover {
+  opacity: 1;
+}
+
+[data-phase="reveal"] .page-transition-hole {
+  animation: page-window-open 1.1s cubic-bezier(0.76, 0, 0.24, 1) forwards;
+}
+
+@keyframes page-cover-in {
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes page-blob-in {
+  to {
+    scale: 1;
+  }
+}
+
+@keyframes page-window-open {
+  from {
+    scale: 1;
+  }
+  to {
+    scale: var(--hole-scale, 40);
+  }
+}
+
+/* The new page's reveals hold under the cover, then play as it opens. */
+:root[data-page-transition="cover"] [data-revealed] {
+  animation-play-state: paused;
+}
+
 /* The about-me photo fan (4506:83538) opens once, when it scrolls into view
  * (PhotoFan sets data-fan). "closed" holds every card in the stack on the
  * front photo — the rest hidden behind it — and "open" springs each one out
