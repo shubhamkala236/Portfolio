@@ -16,6 +16,12 @@ const BUTTON_HEIGHT = 115.424;
 const SHADOW = { top: 8.88, right: 0, bottom: 0.42, left: 8.88 };
 const EDGE = { top: 0, right: 8.88, bottom: 9.3, left: 0 };
 const FACE = { top: 8.88, right: 17.76, bottom: 18.18, left: 8.88 };
+/**
+ * The dot texture (4506:84864): 1522.09 × 1116.06, drawn upside down at
+ * (-5, -3) in the frame — taller than the frame, so on narrow screens, where
+ * the content outgrows the frame, the dots carry on down as in the file.
+ */
+const DOTS = { x: -5, y: -3, width: 1522.09, height: 1116.06 };
 /** The label sits 4.26px right of and below the face's centre. */
 const LABEL_NUDGE = 4.26;
 /**
@@ -23,6 +29,8 @@ const LABEL_NUDGE = 4.26;
  * moves 5 × 4.58px and the face 5.12 × 4.70px down-right, the shadow goes.
  */
 const PRESS = { edge: { x: 5, y: 4.58 }, face: { x: 5.12, y: 4.7 } };
+
+const percent = (value: number, of: number) => `${(value / of) * 100}%`;
 
 /** Scale a Figma length with the frame once the page is wider than it. */
 const scaled = (px: number) =>
@@ -36,12 +44,13 @@ const scaled = (px: number) =>
  * turning white with a soft dark shadow (Figma 4397:59221) — at once, as the
  * file's hover sets no transition.
  *
- * The field is Figma's own render in two layers. The dots are black at 17%
+ * The field is Figma's own art in two layers: the red with its brush edge
+ * (a render), and the dots (the file's vector). The dots are black at 17%
  * in `overlay` mode in the file, so they are blended here the same way
  * rather than flattened — they darken the red and the page behind the brush
  * strokes exactly as Figma does. The field is drawn at the frame's 1512px
- * (cropped from the centre on narrower screens, scaled up on wider ones),
- * with plain red below it if the content outgrows it.
+ * (cropped from the centre on narrower screens, scaled up on wider ones);
+ * if the content outgrows it, the red carries on below and the dots with it.
  */
 export function SiteFooter() {
   const { footer } = siteConfig;
@@ -69,12 +78,17 @@ export function SiteFooter() {
             alt=""
             className="absolute inset-0 size-full"
           />
-          {/* eslint-disable-next-line @next/next/no-img-element -- Figma's 1x/2x pair, served as is */}
+          {/* eslint-disable-next-line @next/next/no-img-element -- Figma's own vector, served as is */}
           <img
-            src="/ui/footer/dots@1x.png"
-            srcSet="/ui/footer/dots@1x.png 1x, /ui/footer/dots@2x.png 2x"
+            src="/ui/footer/dots.svg"
             alt=""
-            className="absolute inset-0 size-full mix-blend-overlay"
+            className="absolute max-w-none rotate-180 mix-blend-overlay"
+            style={{
+              left: percent(DOTS.x, FRAME.width),
+              top: percent(DOTS.y, FRAME.height),
+              width: percent(DOTS.width, FRAME.width),
+              height: percent(DOTS.height, FRAME.height),
+            }}
           />
         </div>
         <div className="w-full flex-1 bg-footer-red" />
