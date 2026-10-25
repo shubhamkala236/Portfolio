@@ -23,7 +23,6 @@ export type SiteConfig = {
   description: string;
   email: string;
   location: string;
-  nav: readonly NavItem[];
   socials: readonly SocialLink[];
   /** The site footer (Figma 4506:83007). */
   footer: {
@@ -543,6 +542,13 @@ export type SkillGroup = {
 
 /** The home page (Figma 4512:101365). Copy only; geometry lives with the
  * components that draw it. */
+/** The 404 page's copy. */
+export type NotFoundContent = {
+  title: string;
+  text: string;
+  action: { label: string; href: string };
+};
+
 export type HomeContent = {
   nav: {
     label: string;

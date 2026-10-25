@@ -20,10 +20,9 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 - `src/components/ui` is for design-system primitives, `src/components/layout`
   for site chrome, `src/features/<section>` for page sections.
 - Server Components by default. Add `"use client"` only for genuine interactivity
-  (currently the mobile nav, theme toggle, the case-study section nav, the
-  home tab bar, the about-me photo fan's scroll trigger, the site-wide
-  scroll reveal, the page transition, the route memory and the pager's
-  previous arrow).
+  (currently the case-study section nav, the home tab bar, the about-me
+  photo fan's scroll trigger, the site-wide scroll reveal, the page
+  transition, the route memory and the pager's previous arrow).
 - Scroll reveal: mark a container `data-reveal-group` and its direct children
   fade and rise in, staggered, as they scroll into view; nested groups
   cascade. Skip a child with `data-reveal-skip` (e.g. anything sticky).

@@ -8,12 +8,6 @@ export const siteConfig = {
     "Portfolio of Your Name — a full-stack developer building fast, accessible web products.",
   email: "kriti.singh92@gmail.com",
   location: "Kuala Lumpur, Malaysia",
-  nav: [
-    { label: "Work", href: "/#work" },
-    { label: "About", href: "/#about" },
-    { label: "Experience", href: "/#experience" },
-    { label: "Contact", href: "/#contact" },
-  ],
   socials: [
     {
       label: "LinkedIn",

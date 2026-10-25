@@ -13,13 +13,6 @@ export const projects = [
   missBliss,
 ] satisfies readonly Project[];
 
-/** Newest first — the order the site displays everywhere. */
-export const projectsByRecency = [...projects].sort((a, b) => b.year - a.year);
-
-export const featuredProjects = projectsByRecency.filter(
-  (project) => project.featured,
-);
-
 export function getProjectBySlug(slug: string): Project | undefined {
   return projects.find((project) => project.slug === slug);
 }
