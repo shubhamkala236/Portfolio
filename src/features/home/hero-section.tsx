@@ -20,8 +20,24 @@ const FRAME = { width: 1522.091, height: 1162.452, left: -5 };
 const LIFT = 32;
 /** The red field and its dots (4506:83777, 4506:83779). */
 const FIELD = { width: 1522.091, height: 1116.059, dotsDrop: 3 };
-/** The greeting and headline (4506:84178). */
-const TITLE = { left: 226, top: 176, width: 1071, gap: 20 };
+/**
+ * The greeting and headline (4506:84178): 1071 wide, centred on the frame,
+ * 20 apart; the headline's two 96px lines end 441 down.
+ */
+const TITLE = { centre: 226 + 1071 / 2, width: 1071, bottom: 441, gap: 20 };
+/**
+ * On a phone the stage would shrink the copy past reading size, so it stops
+ * at these (px), the box widens to the screen's gutters, and — anchored at
+ * its bottom — the copy grows up into the room under the tab bar, clear of
+ * the eyes.
+ */
+const TITLE_MIN = {
+  greeting: 14,
+  headline: 24,
+  gutters: "2rem",
+  /** The widest the box widens to (a phone's width); past it, Figma's. */
+  width: "24rem",
+};
 
 type HeroSectionProps = {
   hero: HomeContent["hero"];
@@ -84,18 +100,21 @@ export function HeroSection({ hero }: HeroSectionProps) {
         </div>
 
         <div
-          className="absolute flex flex-col items-center text-center font-brand font-opsz-14"
+          className="absolute flex -translate-x-1/2 flex-col items-center text-center font-brand font-opsz-14"
           style={{
-            left: u(TITLE.left),
-            top: u(TITLE.top),
-            width: u(TITLE.width),
+            left: u(TITLE.centre),
+            bottom: u(FRAME.height - TITLE.bottom),
+            width: `max(${u(TITLE.width)}, min(100cqw - ${TITLE_MIN.gutters}, ${TITLE_MIN.width}))`,
             gap: u(TITLE.gap),
           }}
         >
           {/* Figma rounds the 52.8px line to 53. */}
           <p
             className="font-semibold text-home-greeting"
-            style={{ fontSize: u(44), lineHeight: 53 / 44 }}
+            style={{
+              fontSize: `max(${TITLE_MIN.greeting}px, ${u(44)})`,
+              lineHeight: 53 / 44,
+            }}
           >
             {hero.greeting}
           </p>
@@ -103,7 +122,7 @@ export function HeroSection({ hero }: HeroSectionProps) {
             id="home-title"
             className="center-tight-tracking font-black text-fg-strong"
             style={{
-              fontSize: u(80),
+              fontSize: `max(${TITLE_MIN.headline}px, ${u(80)})`,
               lineHeight: 1.2,
               letterSpacing: "-0.04em",
             }}

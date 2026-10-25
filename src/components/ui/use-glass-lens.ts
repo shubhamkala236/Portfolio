@@ -48,3 +48,23 @@ export function useGlassLens<T extends HTMLElement>(selected: unknown) {
 
   return list;
 }
+
+/**
+ * Where a tab bar scrolls sideways (phones), centre the given tab in it.
+ * Does nothing while the bar fits.
+ */
+export function scrollTabIntoView(
+  bar: HTMLElement | null,
+  tab: HTMLElement | null | undefined,
+) {
+  if (!bar || !tab || bar.scrollWidth <= bar.clientWidth) return;
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
+  const offset =
+    tab.getBoundingClientRect().left -
+    bar.getBoundingClientRect().left +
+    bar.scrollLeft;
+  bar.scrollTo({
+    left: offset - (bar.clientWidth - tab.offsetWidth) / 2,
+    behavior: reduce.matches ? "auto" : "smooth",
+  });
+}

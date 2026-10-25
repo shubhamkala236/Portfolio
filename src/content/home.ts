@@ -176,9 +176,7 @@ export const home = {
       },
       {
         slug: "miss-bliss",
-        // Verbatim from the file (4506:101362), which repeats the previous
-        // card's title here.
-        title: "SISTEM EXPENSE TRACKER",
+        title: "MISS BLISS",
         description:
           "A platform for adult creators to share content and connect with their audience. Created custom illustrations for the product experience.",
         render: missBlissCard,

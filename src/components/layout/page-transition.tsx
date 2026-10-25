@@ -3,7 +3,11 @@
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
-import { zoomFromCard, zoomFromHero } from "@/components/layout/card-zoom";
+import {
+  zoomFromCard,
+  zoomFromHero,
+  zoomSuitsScreen,
+} from "@/components/layout/card-zoom";
 import { readHomeScroll } from "@/components/layout/route-memory";
 
 /**
@@ -51,11 +55,13 @@ async function heroImage() {
  *   study's hero while the home page fades to the page colour; the case
  *   study loads underneath and the copy hands over to its hero (card-zoom).
  *   The way back home reverses it: the hero shrinks into its card. The
- *   home page's project cards, and the case studies' way home.
+ *   home page's project cards, and the case studies' way home. On a phone
+ *   held upright, where the hero is a short strip and the zoom wouldn't
+ *   read, these play the curtain instead.
  * - (default) the blob, after hyperfoundation.org's intro: the page colour
  *   covers the screen with a morphing red blob; the new page loads behind
  *   it; then the blob becomes a window that grows until the new page fills
- *   the screen. The home page's project cards.
+ *   the screen. Not in use at the moment.
  * - `="curtain"`, after arunkumarrs.com's: a black curtain rises from below
  *   to cover the screen (0.6s), the new page loads behind it, and it carries
  *   on up and off the top (0.7s), both on a strong ease in-out. The case
@@ -121,8 +127,14 @@ export function PageTransition() {
           arrival.current = { path, resolve };
         });
 
-      // Zoom: a card into its hero, or the hero back into its card.
-      if (link.dataset.pageTransition === "zoom" && zoomRoot.current) {
+      // Zoom: a card into its hero, or the hero back into its card — where
+      // the hero is big enough on the screen for it to read. Elsewhere (a
+      // phone held upright) these links play the curtain, below.
+      if (
+        link.dataset.pageTransition === "zoom" &&
+        zoomRoot.current &&
+        zoomSuitsScreen()
+      ) {
         const art = link.querySelector<HTMLElement>("[data-zoom-art]");
         const hero = document.querySelector<HTMLImageElement>(
           "[data-zoom-hero] img",
@@ -191,8 +203,11 @@ export function PageTransition() {
         }
       }
 
-      const nextKind: keyof typeof TIMING =
-        link.dataset.pageTransition === "curtain" ? "curtain" : "blob";
+      // A bare `data-page-transition` is the blob; "curtain", and a zoom
+      // that doesn't suit the screen, the curtain.
+      const nextKind: keyof typeof TIMING = link.dataset.pageTransition
+        ? "curtain"
+        : "blob";
       // Home goes to the page itself, scrolled to where it was left.
       const destination = toHome ? url.pathname : href;
       target.current = destination;

@@ -5,7 +5,10 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 
 import type { HomeContent } from "@/content/types";
-import { useGlassLens } from "@/components/ui/use-glass-lens";
+import {
+  scrollTabIntoView,
+  useGlassLens,
+} from "@/components/ui/use-glass-lens";
 import { cn } from "@/lib/cn";
 import { newTabProps, opensNewTab } from "@/lib/links";
 
@@ -22,8 +25,9 @@ const REACHED_SLACK = 2;
  * It sticks to the top of the page while it scrolls. The bar is a
  * zero-height sticky strip at the top of the page, so it takes no room:
  * from md up its pill hangs at Figma's 45px over the hero, below md over
- * the hero's red band. Only the pill takes clicks. It keeps its real size at
- * every width and scrolls sideways if it doesn't fit.
+ * the hero's red band. Only the pill takes clicks. On a phone the pill
+ * keeps to the screen and its tabs scroll sideways inside it (by swipe; no
+ * scrollbar), the raised tab kept in view.
  *
  * The raised tab follows the page, as in the case studies' section nav: it
  * is the last `#section` tab whose section has reached its scroll-margin
@@ -33,7 +37,6 @@ const REACHED_SLACK = 2;
  */
 export function HomeNav({ label, items, current }: HomeNavProps) {
   const [active, setActive] = useState(current);
-  const scrollerRef = useRef<HTMLElement>(null);
   const tabRefs = useRef(new Map<string, HTMLAnchorElement>());
   const listRef = useGlassLens<HTMLUListElement>(active);
 
@@ -76,19 +79,10 @@ export function HomeNav({ label, items, current }: HomeNavProps) {
     };
   }, [items, current]);
 
-  // Where the bar scrolls sideways (narrow screens), keep the raised tab in it.
+  // Where the bar scrolls sideways (phones), keep the raised tab in it.
   useEffect(() => {
-    const scroller = scrollerRef.current;
-    const tab = tabRefs.current.get(active);
-    if (!scroller || !tab || scroller.scrollWidth <= scroller.clientWidth) {
-      return;
-    }
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
-    scroller.scrollTo({
-      left: tab.offsetLeft - (scroller.clientWidth - tab.offsetWidth) / 2,
-      behavior: reduce.matches ? "auto" : "smooth",
-    });
-  }, [active]);
+    scrollTabIntoView(listRef.current, tabRefs.current.get(active));
+  }, [active, listRef]);
 
   return (
     <div
@@ -100,20 +94,19 @@ export function HomeNav({ label, items, current }: HomeNavProps) {
         style={{ "--u": "calc(100cqw / 1512)" } as CSSProperties}
       >
         <nav
-          ref={scrollerRef}
           aria-label={label}
-          className="pointer-events-auto max-w-full overflow-x-auto px-6 py-2"
+          className="pointer-events-auto max-w-full px-4 py-2 md:px-6"
         >
           <ul
             ref={listRef}
-            className="glass-bar flex w-max items-center gap-3 rounded-round p-2"
+            className="glass-bar flex w-max max-w-full items-center gap-1 rounded-round p-2 max-md:scrollbar-none max-md:overflow-x-auto md:gap-3"
           >
             <li aria-hidden className="glass-lens" />
             {items.map((item) => {
               const raised = item.label === active;
               // No hover change: the lens marks the selection, as in Figma.
               const className = cn(
-                "flex min-w-18 justify-center rounded-round px-4 pt-1.5 pb-2 text-tab font-medium whitespace-nowrap transition-colors duration-300",
+                "flex min-w-18 justify-center rounded-round px-3 pt-1.5 pb-2 text-tab font-medium whitespace-nowrap transition-colors duration-300 md:px-4",
                 raised
                   ? "text-fg drop-shadow-tab-active"
                   : "text-tab-idle drop-shadow-tab",

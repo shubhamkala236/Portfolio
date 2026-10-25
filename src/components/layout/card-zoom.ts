@@ -24,6 +24,12 @@ export const ZOOM = {
   heroInMs: 300,
   /** The copy fading out over the real hero or card at the end. */
   fadeMs: 250,
+  /**
+   * The zoom reads as one only where the hero takes up most of the screen;
+   * on a phone held upright it is a short strip and the card would barely
+   * move, so there the curtain plays instead (`zoomSuitsScreen`).
+   */
+  minHeroShare: 0.75,
   /** Fast off the mark, soft landing (as the reference's zoom). */
   ease: "cubic-bezier(0.22, 1, 0.36, 1)",
 } as const;
@@ -40,6 +46,10 @@ const heroBox = (): Box => {
   const width = document.documentElement.clientWidth;
   return { left: 0, top: 0, width, height: (width * HERO.height) / HERO.width };
 };
+
+/** Whether the hero is big enough on this screen for the zoom to read. */
+export const zoomSuitsScreen = () =>
+  heroBox().height >= window.innerHeight * ZOOM.minHeroShare;
 
 const radiusFor = (box: Box) => (box.width * CARD.radius) / CARD.width;
 

@@ -29,7 +29,8 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 - Page transition: `data-page-transition="zoom"` (the home project cards)
   grows the card's art (`data-zoom-art`) into the case study's hero
   (`data-zoom-hero`); the pager's way home reverses it, shrinking the hero
-  back into its card. `data-page-transition="curtain"` (the other pager
-  arrows) plays the black curtain wipe; a bare `data-page-transition`, the
-  blob cover-and-window.
+  back into its card. On a phone held upright (hero too short for the zoom
+  to read) both play the curtain. `data-page-transition="curtain"` (the
+  other pager arrows) plays the black curtain wipe; a bare
+  `data-page-transition`, the blob cover-and-window.
 - Before finishing: `npm run typecheck && npm run lint && npm run build`.

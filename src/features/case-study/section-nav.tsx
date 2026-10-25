@@ -2,7 +2,10 @@
 
 import { useEffect, useRef, useState } from "react";
 
-import { useGlassLens } from "@/components/ui/use-glass-lens";
+import {
+  scrollTabIntoView,
+  useGlassLens,
+} from "@/components/ui/use-glass-lens";
 import { cn } from "@/lib/cn";
 
 type SectionNavProps = {
@@ -29,7 +32,6 @@ const REACHED_SLACK = 2;
  */
 export function SectionNav({ label, items }: SectionNavProps) {
   const [active, setActive] = useState(0);
-  const scrollerRef = useRef<HTMLDivElement>(null);
   const tabRefs = useRef<(HTMLAnchorElement | null)[]>([]);
   const listRef = useGlassLens<HTMLUListElement>(active);
 
@@ -64,30 +66,19 @@ export function SectionNav({ label, items }: SectionNavProps) {
     };
   }, [items]);
 
-  // Where the bar scrolls sideways (narrow screens), keep the active tab in it.
+  // Where the bar scrolls sideways (phones), keep the active tab in it.
   useEffect(() => {
-    const scroller = scrollerRef.current;
-    const tab = tabRefs.current[active];
-    if (!scroller || !tab || scroller.scrollWidth <= scroller.clientWidth) {
-      return;
-    }
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
-    scroller.scrollTo({
-      left: tab.offsetLeft - (scroller.clientWidth - tab.offsetWidth) / 2,
-      behavior: reduce.matches ? "auto" : "smooth",
-    });
-  }, [active]);
+    scrollTabIntoView(listRef.current, tabRefs.current[active]);
+  }, [active, listRef]);
 
   return (
     <nav aria-label={label} className="pointer-events-auto">
-      {/* Padding only while it scrolls, so the scroller doesn't clip the shadow. */}
-      <div
-        ref={scrollerRef}
-        className="relative -mx-6 overflow-x-auto px-6 py-2 lg:mx-0 lg:overflow-visible lg:p-0"
-      >
+      {/* Below lg the bar keeps to the screen and its tabs scroll sideways
+          inside it (by swipe; no scrollbar). The padding keeps its shadow. */}
+      <div className="py-2 lg:p-0">
         <ul
           ref={listRef}
-          className="glass-bar mx-auto flex w-max items-center rounded-round p-2"
+          className="glass-bar mx-auto flex w-max max-w-full items-center rounded-round p-2 max-lg:scrollbar-none max-lg:overflow-x-auto"
         >
           <li aria-hidden className="glass-lens" />
           {items.map((item, index) => (
@@ -100,7 +91,7 @@ export function SectionNav({ label, items }: SectionNavProps) {
                 aria-current={index === active ? "true" : undefined}
                 // No hover change: the lens marks the selection, as in Figma.
                 className={cn(
-                  "flex min-w-18 justify-center rounded-round px-4 pt-1.5 pb-2 text-tab font-medium whitespace-nowrap transition-colors duration-300",
+                  "flex min-w-18 justify-center rounded-round px-3 pt-1.5 pb-2 text-tab font-medium whitespace-nowrap transition-colors duration-300 md:px-4",
                   index === active
                     ? "text-fg drop-shadow-tab-active"
                     : "text-tab-idle drop-shadow-tab",

@@ -40,6 +40,9 @@ const scaled = (px: number) =>
  * The site footer (Figma 4506:83007): a red field with a dry-brush top edge
  * and a dot texture, the name and status, and four chunky chamfered buttons.
  *
+ * On a phone each button is drawn whole at 65% (`footer-button-compact`),
+ * so the chunky edges and labels keep their proportions in half a row.
+ *
  * Hovered or keyboard-focused, a button presses into its shadow, its edge
  * turning white with a soft dark shadow (Figma 4397:59221) — at once, as the
  * file's hover sets no transition.
@@ -116,7 +119,7 @@ export function SiteFooter() {
               <a
                 href={link.href}
                 {...newTabProps(link.href)}
-                className="group/button relative block w-full lg:w-footer-button"
+                className="group/button relative block w-full max-sm:footer-button-compact lg:w-footer-button"
                 style={
                   {
                     height: BUTTON_HEIGHT,
