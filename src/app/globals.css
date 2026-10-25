@@ -42,6 +42,7 @@
   --footer-red: #ca3938; /* Footer field (4506:83009) */
   --footer-face: #141414; /* Footer button face and shadow */
   --footer-edge: #363636; /* Footer button edge */
+  --footer-edge-hover: #ffffff; /* Its edge, hovered (4397:59229) */
   --home-greeting: #ff9a9a; /* "HI, I'M KRITI" (4506:84179) */
   --home-card: #1c1c1c; /* About photo cards (4506:83551) */
   --home-rule: rgba(255, 255, 255, 0.19); /* Connect list rules */
@@ -106,6 +107,7 @@
   --color-footer-red: var(--footer-red);
   --color-footer-face: var(--footer-face);
   --color-footer-edge: var(--footer-edge);
+  --color-footer-edge-hover: var(--footer-edge-hover);
   --color-home-greeting: var(--home-greeting);
   --color-home-card: var(--home-card);
   --color-home-rule: var(--home-rule);
@@ -285,6 +287,8 @@
    * inactive tabs the shadow follows the label's glyphs as a faint glow. */
   --drop-shadow-tab-bar: 0 0 5px rgba(0, 0, 0, 0.2);
   --drop-shadow-tab-active: 0 0 4px rgba(17, 17, 17, 0.6);
+  /* A hovered footer button's edge (4397:59229): 5.2px, black at 37%. */
+  --drop-shadow-footer-button: 0 0 5.2px rgba(0, 0, 0, 0.37);
   --drop-shadow-tab: 0 0 4px rgba(110, 110, 110, 0.25);
   /* The glass tab bar: lit top edge, rim, and the bar's own 5px shadow. A
    * box-shadow, since a filter would stop its backdrop blur. */

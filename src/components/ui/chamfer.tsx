@@ -3,7 +3,8 @@ import type { CSSProperties, ReactNode } from "react";
 import { cn } from "@/lib/cn";
 
 type ChamferProps = {
-  tone: "face" | "edge";
+  /** "highlight" is the edge's white hovered state (4397:59229). */
+  tone: "face" | "edge" | "highlight";
   /** Where the layer sits in its parent, Figma px from each side. */
   inset: { top: number; right: number; bottom: number; left: number };
   /**
@@ -19,7 +20,11 @@ type ChamferProps = {
 /** Side of each chamfer triangle (Figma "corner/*", 8.879px). */
 const CORNER = 8.879;
 
-const fills = { face: "bg-footer-face", edge: "bg-footer-edge" } as const;
+const fills = {
+  face: "bg-footer-face",
+  edge: "bg-footer-edge",
+  highlight: "bg-footer-edge-hover",
+} as const;
 
 const corners = [
   { name: "tl", place: () => ({ left: 0, top: 0 }) },
