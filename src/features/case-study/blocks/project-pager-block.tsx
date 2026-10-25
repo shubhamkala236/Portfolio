@@ -3,6 +3,7 @@ import type { CaseStudyBlock } from "@/content/types";
 import { HeadingBlock } from "@/features/case-study/blocks/heading-block";
 import { MemojiMark } from "@/features/case-study/memoji-mark";
 import { PagerArrow } from "@/features/case-study/pager-arrow";
+import { PreviousArrow } from "@/features/case-study/previous-arrow";
 
 type ProjectPagerBlockProps = Extract<
   CaseStudyBlock,
@@ -12,7 +13,8 @@ type ProjectPagerBlockProps = Extract<
 /**
  * The sign-off between arrows to the previous and next case studies (Figma
  * 4506:82963): a row of the two arrows and the badge, centred on the badge,
- * and the heading `figureGap` below it.
+ * and the heading `figureGap` below it. The case studies loop; opened from
+ * the home page, the previous arrow leads back home instead.
  *
  * Figma draws only the desktop row. Where the badge and both arrows no
  * longer fit side by side, the badge and heading come first and the arrows
@@ -35,10 +37,10 @@ export function ProjectPagerBlock({
     >
       {before && (
         <div className="order-3 md:order-0">
-          <PagerArrow
+          <PreviousArrow
             href={`/projects/${before.slug}`}
             label={`Previous case study: ${before.title}`}
-            direction="previous"
+            home={{ href: "/", label: "Back to the home page" }}
           />
         </div>
       )}

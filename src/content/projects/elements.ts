@@ -552,7 +552,10 @@ export const elements = {
     // studies; the row is 1254px wide, 2px in from each side.
     {
       type: "project-pager",
-      previous: "miss-bliss",
+      // The loop: HOTSTUFF → ELEMENTS → SISTEM EXPENSE → MISS BLISS → HOTSTUFF
+      // (the home page's order). From the home page, "previous" goes back
+      // home instead (ProjectPagerBlock).
+      previous: "hotstuff",
       next: "sistem-expense",
       width: 1254,
       // 4512:102257 — the arrows centre on the badge; the DM Sans line sits

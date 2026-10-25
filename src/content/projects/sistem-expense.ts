@@ -567,8 +567,11 @@ export const sistemExpense = {
     // line sits 40px below; the row is 1254px wide, 2px in from each side.
     {
       type: "project-pager",
+      // The loop: HOTSTUFF → ELEMENTS → SISTEM EXPENSE → MISS BLISS → HOTSTUFF
+      // (the home page's order). From the home page, "previous" goes back
+      // home instead (ProjectPagerBlock).
       previous: "elements",
-      next: "hotstuff",
+      next: "miss-bliss",
       width: 1254,
       heading: {
         text: "Thanks for reading",

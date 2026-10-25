@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
 import { PageTransition } from "@/components/layout/page-transition";
+import { RouteMemory } from "@/components/layout/route-memory";
 import { ScrollReveal } from "@/components/layout/scroll-reveal";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { siteConfig } from "@/content/site";
@@ -37,6 +38,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <SiteFooter />
         <ScrollReveal />
         <PageTransition />
+        <RouteMemory />
       </body>
     </html>
   );

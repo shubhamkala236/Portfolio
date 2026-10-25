@@ -1,3 +1,4 @@
+import type { MouseEventHandler } from "react";
 import Link from "next/link";
 
 import { DottedArrow } from "@/components/ui/dotted-arrow";
@@ -9,6 +10,7 @@ type PagerArrowProps = {
   direction: "previous" | "next";
   /** The file draws the next arrow's circle a step lighter (4512:101367). */
   lifted?: boolean;
+  onClick?: MouseEventHandler<HTMLAnchorElement>;
 };
 
 /** The rotated glyph's bounding box (4506:82925). */
@@ -25,11 +27,13 @@ export function PagerArrow({
   label,
   direction,
   lifted = false,
+  onClick,
 }: PagerArrowProps) {
   return (
     <Link
       href={href}
       aria-label={label}
+      onClick={onClick}
       className={cn(
         "flex size-28 shrink-0 items-center justify-center rounded-full",
         lifted ? "bg-surface-lifted" : "bg-surface",

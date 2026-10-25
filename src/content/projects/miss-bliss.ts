@@ -154,8 +154,11 @@ export const missBliss = {
     // studies; the row is 1254px wide, 2px in from each side.
     {
       type: "project-pager",
-      previous: "hotstuff",
-      next: "elements",
+      // The loop: HOTSTUFF → ELEMENTS → SISTEM EXPENSE → MISS BLISS → HOTSTUFF
+      // (the home page's order). From the home page, "previous" goes back
+      // home instead (ProjectPagerBlock).
+      previous: "sistem-expense",
+      next: "hotstuff",
       width: 1254,
       // 4506:82963 — the arrows centre on the badge; the DM Sans line sits
       // 40px below that row.
