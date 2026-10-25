@@ -23,6 +23,8 @@ export function PreviousArrow({ href, label, home }: PreviousArrowProps) {
   const router = useRouter();
   const cameFrom = useCameFrom();
 
+  const canGoBack = typeof window !== "undefined" && window.history.length > 1;
+
   if (cameFrom !== home.href) {
     return <PagerArrow href={href} label={label} direction="previous" />;
   }
@@ -32,8 +34,12 @@ export function PreviousArrow({ href, label, home }: PreviousArrowProps) {
       href={home.href}
       label={home.label}
       direction="previous"
+      // With history to go back through, the curtain transition goes back
+      // (keeping the home page's scroll); under reduced motion, which skips
+      // the transition, this click does.
+      back={canGoBack}
       onClick={(event) => {
-        if (window.history.length < 2) return;
+        if (event.defaultPrevented || !canGoBack) return;
         event.preventDefault();
         router.back();
       }}

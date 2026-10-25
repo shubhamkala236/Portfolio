@@ -52,6 +52,7 @@
   /* The tab bars as liquid glass (home 4506:84854, ELEMENTS 4506:85515), in
    * their Figma colours: the bar's #1f1f1f and the selected tab's #2d2d2d,
    * translucent over a blur, lit along the top and rimmed in light. */
+  --curtain: #000000; /* The case-study arrows' page transition */
   --glass: rgba(31, 31, 31, 0.68);
   --glass-sheen: rgba(255, 255, 255, 0.09);
   --glass-highlight: rgba(255, 255, 255, 0.2);
@@ -380,6 +381,8 @@
   /* The scroll reveal's curve: ease in-out — a slow start, a soft landing,
    * as apple.com/mac's staggered fade-ins (measured). */
   --ease-reveal: cubic-bezier(0.42, 0, 0.58, 1);
+  /* The curtain transition's strong ease in-out (as arunkumarrs.com's). */
+  --ease-curtain: cubic-bezier(0.76, 0, 0.24, 1);
   /* Figma's "Ease in" transition curve. */
   --ease-figma-in: cubic-bezier(0.42, 0, 1, 1);
   /* The pixel arrow's dots and head each dip to 25% and back on a 2s loop
@@ -825,6 +828,46 @@
   }
   to {
     scale: var(--hole-scale, 40);
+  }
+}
+
+/* The curtain kind (data-kind="curtain"): a black panel rises from below
+ * the screen to cover it, then carries on up and off the top. */
+.page-curtain {
+  position: absolute;
+  inset: 0;
+  background: var(--curtain);
+  translate: 0 100%;
+}
+
+.page-transition:not([data-kind="curtain"]) .page-curtain,
+.page-transition[data-kind="curtain"] > svg {
+  display: none;
+}
+
+[data-kind="curtain"][data-phase="cover"] .page-curtain {
+  animation: curtain-cover 0.6s var(--ease-curtain) forwards;
+}
+
+[data-kind="curtain"][data-phase="reveal"] .page-curtain {
+  animation: curtain-reveal 0.7s var(--ease-curtain) forwards;
+}
+
+@keyframes curtain-cover {
+  from {
+    translate: 0 100%;
+  }
+  to {
+    translate: 0 0;
+  }
+}
+
+@keyframes curtain-reveal {
+  from {
+    translate: 0 0;
+  }
+  to {
+    translate: 0 -100%;
   }
 }
 

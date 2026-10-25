@@ -27,5 +27,7 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
   fade and rise in, staggered, as they scroll into view; nested groups
   cascade. Skip a child with `data-reveal-skip` (e.g. anything sticky).
 - Page transition: a link marked `data-page-transition` (the home project
-  cards) plays the cover-and-window transition into its page.
+  cards) plays the blob cover-and-window transition into its page;
+  `data-page-transition="curtain"` (the case-study pager arrows) plays the
+  black curtain wipe instead.
 - Before finishing: `npm run typecheck && npm run lint && npm run build`.

@@ -9,6 +9,8 @@ type PagerArrowProps = {
   label: string;
   direction: "previous" | "next";
   onClick?: MouseEventHandler<HTMLAnchorElement>;
+  /** Plays the curtain transition by going back through history. */
+  back?: boolean;
 };
 
 /** The rotated glyph's bounding box (4506:82925). */
@@ -28,12 +30,16 @@ export function PagerArrow({
   label,
   direction,
   onClick,
+  back = false,
 }: PagerArrowProps) {
   return (
     <Link
       href={href}
       aria-label={label}
       onClick={onClick}
+      // The curtain page transition (PageTransition).
+      data-page-transition="curtain"
+      data-page-transition-back={back || undefined}
       className="group/play flex size-28 shrink-0 items-center justify-center rounded-full bg-surface transition-colors duration-200 hover:bg-surface-lifted focus-visible:bg-surface-lifted"
     >
       <span

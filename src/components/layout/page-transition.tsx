@@ -17,19 +17,31 @@ const MORPH = "2.4s";
 /** The blob's smallest radius: the window must grow by (half-diagonal / this). */
 const BLOB_MIN_RADIUS = 38;
 
-/** Keep in step with the page-transition timings in globals.css. */
-const COVER_MS = 350;
-/** The blob shows at least this long before the window opens. */
-const HOLD_MS = 650;
-const REVEAL_MS = 1100;
+/**
+ * Each kind's timings, ms — keep in step with globals.css. `hold`: how long
+ * the cover stays up at least before it opens (the blob gets its moment).
+ */
+const TIMING = {
+  blob: { cover: 350, hold: 650, reveal: 1100 },
+  curtain: { cover: 600, hold: 0, reveal: 700 },
+} as const;
 
 type Phase = "idle" | "cover" | "reveal";
+type Kind = keyof typeof TIMING;
 
 /**
- * A page transition after hyperfoundation.org's intro: a link marked
- * `data-page-transition` covers the screen with the page colour and a
- * morphing red blob; the new page loads behind it; then the blob becomes a
- * window that grows until the new page fills the screen.
+ * Page transitions for links marked `data-page-transition`, in two kinds:
+ *
+ * - (default) the blob, after hyperfoundation.org's intro: the page colour
+ *   covers the screen with a morphing red blob; the new page loads behind
+ *   it; then the blob becomes a window that grows until the new page fills
+ *   the screen. The home page's project cards.
+ * - `="curtain"`, after arunkumarrs.com's: a black curtain rises from below
+ *   to cover the screen (0.6s), the new page loads behind it, and it carries
+ *   on up and off the top (0.7s), both on a strong ease in-out. The case
+ *   studies' "Thanks for reading" arrows. A link also marked
+ *   `data-page-transition-back` goes back through history instead, so the
+ *   page it returns to keeps its scroll position.
  *
  * It takes over the click (so `Link` stands down — it ignores a click that
  * is already handled), navigates once the cover is up, and opens when the
@@ -41,7 +53,9 @@ export function PageTransition() {
   const router = useRouter();
   const pathname = usePathname();
   const [phase, setPhase] = useState<Phase>("idle");
+  const [kind, setKind] = useState<Kind>("blob");
   const target = useRef<string | null>(null);
+  const timing = useRef<(typeof TIMING)[Kind]>(TIMING.blob);
   const coveredAt = useRef(0);
   const overlay = useRef<HTMLDivElement>(null);
 
@@ -73,8 +87,12 @@ export function PageTransition() {
 
       event.preventDefault();
       const href = url.pathname + url.search + url.hash;
+      const nextKind: Kind =
+        link.dataset.pageTransition === "curtain" ? "curtain" : "blob";
+      const back = link.hasAttribute("data-page-transition-back");
       target.current = href;
-      router.prefetch(href);
+      timing.current = TIMING[nextKind];
+      if (!back) router.prefetch(href);
 
       // How far the window must grow to clear the screen's corners.
       overlay.current?.style.setProperty(
@@ -88,8 +106,12 @@ export function PageTransition() {
         ),
       );
       coveredAt.current = performance.now();
+      setKind(nextKind);
       setPhase("cover");
-      window.setTimeout(() => router.push(href), COVER_MS);
+      window.setTimeout(
+        () => (back ? router.back() : router.push(href)),
+        timing.current.cover,
+      );
     };
     window.addEventListener("click", onClick, true);
     return () => window.removeEventListener("click", onClick, true);
@@ -102,9 +124,10 @@ export function PageTransition() {
       return;
     }
     let frame = 0;
+    const { cover, hold } = timing.current;
     const wait = Math.max(
       0,
-      coveredAt.current + COVER_MS + HOLD_MS - performance.now(),
+      coveredAt.current + cover + hold - performance.now(),
     );
     const timer = window.setTimeout(() => {
       // Two frames: let the new page paint under the cover first.
@@ -124,7 +147,7 @@ export function PageTransition() {
     const timer = window.setTimeout(() => {
       target.current = null;
       setPhase("idle");
-    }, REVEAL_MS);
+    }, timing.current.reveal);
     return () => window.clearTimeout(timer);
   }, [phase]);
 
@@ -151,8 +174,10 @@ export function PageTransition() {
       ref={overlay}
       aria-hidden
       data-phase={phase}
+      data-kind={kind}
       className="page-transition"
     >
+      <div className="page-curtain" />
       <svg width="100%" height="100%">
         <defs>
           <mask id="page-transition-window">
