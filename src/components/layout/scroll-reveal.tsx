@@ -9,14 +9,15 @@ import { useEffect } from "react";
  */
 const ITEMS =
   "[data-reveal-group] > :not([data-reveal-group], [data-reveal-skip], style, script)";
-/** Between items that come into view together, ms. */
-const STEP_MS = 90;
+/** Between items that come into view together, ms (apple.com/mac's). */
+const STEP_MS = 150;
 /** The stagger stops growing after this many steps. */
 const MAX_STEPS = 6;
 
 /**
- * Site-wide scroll reveal: every reveal item fades and rises into place the
- * first time it scrolls into view, and stays. Items that arrive together —
+ * Site-wide scroll reveal, modelled on apple.com/mac: every reveal item
+ * rises and fades into place the first time it scrolls into view, and
+ * stays. Items that arrive together —
  * a page's opening blocks, a row of cards — stagger, in reading order.
  *
  * CSS hides items only while scripting is on (`@media (scripting:
