@@ -24,14 +24,18 @@ export function NavStructureBlock({
   width = 1100,
 }: NavStructureBlockProps) {
   return (
-    <div className="flex flex-col items-center gap-16">
+    <div data-reveal-group className="flex flex-col items-center gap-16">
       <SectionHeader
         eyebrow={eyebrow}
         description={description}
         descriptionWeight="medium"
       />
 
-      <div className="flex w-full flex-col gap-6" style={{ maxWidth: width }}>
+      <div
+        data-reveal-group
+        className="flex w-full flex-col gap-6"
+        style={{ maxWidth: width }}
+      >
         {rows.map((row) => (
           <section
             key={row.title}

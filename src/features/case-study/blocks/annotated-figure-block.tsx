@@ -40,7 +40,7 @@ export function AnnotatedFigureBlock({
   annotations,
 }: AnnotatedFigureBlockProps) {
   return (
-    <div className="flex flex-col gap-20">
+    <div data-reveal-group className="flex flex-col gap-20">
       <SectionHeader
         eyebrow={eyebrow}
         title={title}

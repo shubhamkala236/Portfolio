@@ -41,13 +41,17 @@ export function HomeNav({ label, items, current }: HomeNavProps) {
       frame = 0;
       let next = current;
       const root = document.documentElement;
-      const atEnd = window.scrollY + window.innerHeight >= root.scrollHeight - 2;
+      const atEnd =
+        window.scrollY + window.innerHeight >= root.scrollHeight - 2;
       sections.forEach((item) => {
         const section = document.getElementById(item.href.slice(1));
         if (!section) return;
         const line = parseFloat(getComputedStyle(section).scrollMarginTop) || 0;
         const top = section.getBoundingClientRect().top;
-        if (top - line <= REACHED_SLACK || (atEnd && top < window.innerHeight)) {
+        if (
+          top - line <= REACHED_SLACK ||
+          (atEnd && top < window.innerHeight)
+        ) {
           next = item.label;
         }
       });
@@ -83,7 +87,7 @@ export function HomeNav({ label, items, current }: HomeNavProps) {
   }, [active]);
 
   return (
-    <div className="pointer-events-none sticky top-0 z-10 h-0 @container">
+    <div className="@container pointer-events-none sticky top-0 z-10 h-0">
       <div
         className="flex justify-center md:home-nav-drop"
         style={{ "--u": "calc(100cqw / 1512)" } as CSSProperties}

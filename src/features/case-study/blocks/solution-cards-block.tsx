@@ -20,7 +20,7 @@ export function SolutionCardsBlock({
   width = 1100,
 }: SolutionCardsBlockProps) {
   return (
-    <div className="flex flex-col items-center gap-16">
+    <div data-reveal-group className="flex flex-col items-center gap-16">
       <SectionHeader
         eyebrow={eyebrow}
         title={title}
@@ -28,6 +28,7 @@ export function SolutionCardsBlock({
       />
 
       <ul
+        data-reveal-group
         className="grid w-full gap-10 sm:grid-cols-2 lg:grid-cols-4"
         style={{ maxWidth: width }}
       >

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 
+import { ScrollReveal } from "@/components/layout/scroll-reveal";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { siteConfig } from "@/content/site";
 import { fontVariables } from "@/lib/fonts";
@@ -25,6 +26,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         {/* Each route group's layout supplies the header (or not) and <main>. */}
         {children}
         <SiteFooter />
+        <ScrollReveal />
       </body>
     </html>
   );

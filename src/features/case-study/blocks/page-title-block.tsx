@@ -16,7 +16,11 @@ export function PageTitleBlock({
   subtitleGap = 16,
 }: PageTitleBlockProps) {
   return (
-    <div className="flex flex-col" style={{ gap: subtitleGap }}>
+    <div
+      data-reveal-group
+      className="flex flex-col"
+      style={{ gap: subtitleGap }}
+    >
       <h1
         className={cn(
           "text-fg",

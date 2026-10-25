@@ -16,6 +16,7 @@ const CAT = { width: 90.969, height: 91, bleed: [0, -0.21, 0, -0.35] };
 export function AboutSection({ title, lines, bio, photos }: AboutSectionProps) {
   return (
     <section
+      data-reveal-group
       id="about"
       aria-labelledby="about-title"
       className="flex scroll-mt-home-anchor flex-col items-center gap-16 lg:gap-30"

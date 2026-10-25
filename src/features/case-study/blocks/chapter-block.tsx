@@ -33,7 +33,11 @@ export function ChapterBlock({
   visualGap = 80,
 }: ChapterBlockProps) {
   return (
-    <section className="flex flex-col" style={{ gap: gap(headerGap) }}>
+    <section
+      data-reveal-group
+      className="flex flex-col"
+      style={{ gap: gap(headerGap) }}
+    >
       <header className="flex flex-col gap-4">
         {eyebrow && <Eyebrow>{eyebrow}</Eyebrow>}
         <div className="flex flex-col gap-3">
@@ -67,7 +71,11 @@ export function ChapterBlock({
       </header>
 
       {visuals.length > 0 && (
-        <div className="flex flex-col" style={{ gap: gap(visualGap) }}>
+        <div
+          data-reveal-group
+          className="flex flex-col"
+          style={{ gap: gap(visualGap) }}
+        >
           {visuals.map((visual) => (
             <div key={visual.render.src1x} className="relative">
               <FigmaRender render={visual.render} className="w-full" />

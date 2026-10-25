@@ -37,14 +37,14 @@ export function FeatureGridBlock({
   frame = DEFAULT_FRAME,
 }: FeatureGridBlockProps) {
   return (
-    <div className="relative flex flex-col gap-20">
+    <div data-reveal-group className="relative flex flex-col gap-20">
       <SectionHeader
         eyebrow={eyebrow}
         title={title}
         description={description}
       />
 
-      <div className="grid gap-9 lg:grid-cols-3">
+      <div data-reveal-group className="grid gap-9 lg:grid-cols-3">
         {items.map((item, index) => {
           const isOffsetPair = Math.floor(index / 2) % 2 === 1;
           const column = (index % 2) + 1 + (isOffsetPair ? 1 : 0);

@@ -22,6 +22,7 @@ type WorksSectionProps = HomeContent["works"];
 export function WorksSection({ title, items }: WorksSectionProps) {
   return (
     <section
+      data-reveal-group
       id="work"
       aria-labelledby="work-title"
       className="flex scroll-mt-home-anchor flex-col items-center gap-16 lg:gap-30"
@@ -32,7 +33,7 @@ export function WorksSection({ title, items }: WorksSectionProps) {
       >
         {title}
       </h2>
-      <ul className="flex w-full flex-col gap-16 lg:gap-30">
+      <ul data-reveal-group className="flex w-full flex-col gap-16 lg:gap-30">
         {items.map((item) => (
           <li key={item.slug}>
             <Link

@@ -69,6 +69,7 @@ export function SiteFooter() {
       </div>
 
       <Container
+        data-reveal-group
         className="relative flex flex-col gap-16 text-fg-strong"
         style={{
           paddingTop: scaled(CONTENT_TOP),
@@ -80,7 +81,10 @@ export function SiteFooter() {
           <p className="text-footer-tagline">{footer.tagline}</p>
         </div>
 
-        <ul className="grid grid-cols-2 gap-4 lg:flex lg:justify-between">
+        <ul
+          data-reveal-group
+          className="grid grid-cols-2 gap-4 lg:flex lg:justify-between"
+        >
           {footer.links.map((link) => (
             <li key={link.label}>
               <a

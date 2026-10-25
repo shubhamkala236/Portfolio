@@ -30,14 +30,17 @@ export function ImageRowBlock({
   frameWidth = 1258,
 }: ImageRowBlockProps) {
   return (
-    <div className="flex flex-col gap-16">
+    <div data-reveal-group className="flex flex-col gap-16">
       <SectionHeader
         eyebrow={eyebrow}
         title={title}
         description={description}
       />
 
-      <div className="-mx-6 flex items-end gap-6 overflow-x-auto px-6 pb-4 [--row-scale:2.2] md:[--row-scale:1.4] lg:mx-0 lg:justify-between lg:overflow-visible lg:px-0 lg:pb-0 lg:[--row-scale:1]">
+      <div
+        data-reveal-group
+        className="-mx-6 flex items-end gap-6 overflow-x-auto px-6 pb-4 [--row-scale:2.2] md:[--row-scale:1.4] lg:mx-0 lg:justify-between lg:overflow-visible lg:px-0 lg:pb-0 lg:[--row-scale:1]"
+      >
         {items.map((item) => (
           <div
             key={item.image.src}

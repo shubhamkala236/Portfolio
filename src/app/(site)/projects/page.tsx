@@ -18,7 +18,7 @@ export default function ProjectsPage() {
       title="All projects"
       description="Everything I have shipped, newest first."
     >
-      <div className="grid gap-6 md:grid-cols-2">
+      <div data-reveal-group className="grid gap-6 md:grid-cols-2">
         {projectsByRecency.map((project, index) => (
           <ProjectCard
             key={project.slug}

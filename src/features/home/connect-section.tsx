@@ -20,6 +20,7 @@ const LETTER_STEP_MS = 102;
 export function ConnectSection({ title, links }: ConnectSectionProps) {
   return (
     <section
+      data-reveal-group
       id="connect"
       aria-labelledby="connect-title"
       className="flex scroll-mt-home-anchor flex-col items-start justify-between gap-10 lg:flex-row"
@@ -31,6 +32,7 @@ export function ConnectSection({ title, links }: ConnectSectionProps) {
         {title}
       </h2>
       <ul
+        data-reveal-group
         className="w-full border-t border-home-rule"
         style={{ maxWidth: LIST_WIDTH }}
       >

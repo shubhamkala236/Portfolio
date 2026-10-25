@@ -374,6 +374,8 @@
     0.9993,
     1
   );
+  /* The scroll reveal's settle: a long, soft ease out (expo-like). */
+  --ease-reveal: cubic-bezier(0.16, 1, 0.3, 1);
   /* Figma's "Ease in" transition curve. */
   --ease-figma-in: cubic-bezier(0.42, 0, 1, 1);
   /* The pixel arrow's dots and head each dip to 25% and back on a 2s loop
@@ -618,6 +620,57 @@
  * the hero (its wrapper pads 8px); --u is one px of the 1512px frame. */
 @utility home-nav-drop {
   padding-top: calc(45 * var(--u) - 0.5rem);
+}
+
+/* Scroll reveal, site-wide (ScrollReveal): the direct children of a
+ * [data-reveal-group] — not nested groups, whose children reveal instead,
+ * nor [data-reveal-skip], nor inline style/script tags — fade and rise 40px into place the first time
+ * they scroll into view, 0.9s on a soft ease out, staggered by
+ * --reveal-delay. Only while scripting is on, so a page without JavaScript
+ * shows as is; reduced motion shows everything (data-reveal="off"). If the
+ * script never starts, a failsafe shows the items after 3s. */
+@media (scripting: enabled) and (prefers-reduced-motion: no-preference) {
+  :root:not([data-reveal="off"])
+    [data-reveal-group]
+    > :not(
+      [data-reveal-group],
+      [data-reveal-skip],
+      [data-revealed],
+      style,
+      script
+    ) {
+    opacity: 0;
+  }
+
+  :root:not([data-reveal])
+    [data-reveal-group]
+    > :not(
+      [data-reveal-group],
+      [data-reveal-skip],
+      [data-revealed],
+      style,
+      script
+    ) {
+    animation: reveal-failsafe 0.6s ease-out 3s forwards;
+  }
+
+  [data-revealed] {
+    animation: reveal-in 0.9s var(--ease-reveal) var(--reveal-delay, 0ms)
+      backwards;
+  }
+}
+
+@keyframes reveal-in {
+  from {
+    opacity: 0;
+    translate: 0 40px;
+  }
+}
+
+@keyframes reveal-failsafe {
+  to {
+    opacity: 1;
+  }
 }
 
 /* The about-me photo fan (4506:83538) opens once, when it scrolls into view

@@ -33,7 +33,7 @@ export function Section({
       aria-labelledby={title ? headingId : undefined}
       className={cn("scroll-mt-24 py-section", className)}
     >
-      <Container>
+      <Container data-reveal-group>
         {(eyebrow || title || description) && (
           <header className="mb-10 max-w-2xl md:mb-14">
             {eyebrow && (

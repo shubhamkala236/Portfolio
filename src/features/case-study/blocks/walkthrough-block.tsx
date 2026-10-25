@@ -30,7 +30,7 @@ export function WalkthroughBlock({
   flowGap = 148,
 }: WalkthroughBlockProps) {
   return (
-    <div className="flex flex-col items-center gap-20">
+    <div data-reveal-group className="flex flex-col items-center gap-20">
       <SectionHeader
         eyebrow={eyebrow}
         title={title}
@@ -40,11 +40,13 @@ export function WalkthroughBlock({
       />
 
       <div
+        data-reveal-group
         className="flex w-full flex-col items-center"
         style={{ gap: gap(flowGap) }}
       >
         {flows.map((flow, flowIndex) => (
           <section
+            data-reveal-group
             key={flow.title ?? flowIndex}
             className="flex w-full flex-col"
             style={{ maxWidth: flow.width, gap: gap(40) }}
@@ -65,7 +67,11 @@ export function WalkthroughBlock({
               </header>
             )}
 
-            <div className="flex flex-col" style={{ gap: gap(flow.stepGap) }}>
+            <div
+              data-reveal-group
+              className="flex flex-col"
+              style={{ gap: gap(flow.stepGap) }}
+            >
               {flow.steps.map((step, stepIndex) => (
                 <figure key={step.title} className="flex flex-col gap-8">
                   {flow.numbered === false ? (

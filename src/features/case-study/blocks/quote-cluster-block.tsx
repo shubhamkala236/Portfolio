@@ -66,7 +66,7 @@ export function QuoteClusterBlock({
   } as CSSProperties;
 
   return (
-    <div className="flex flex-col gap-10">
+    <div data-reveal-group className="flex flex-col gap-10">
       {(eyebrow || intro) && (
         <div className="flex flex-col gap-4">
           {eyebrow && <Eyebrow>{eyebrow}</Eyebrow>}

@@ -32,10 +32,14 @@ export function SectionNavBlock({
 }: SectionNavBlockProps) {
   return (
     <div
+      data-reveal-group
       className="flex flex-col"
       style={{ gap: `calc(var(--gap-scale) * ${gap}px)` }}
     >
-      <div className="pointer-events-none sticky top-section-nav z-40">
+      <div
+        data-reveal-skip
+        className="pointer-events-none sticky top-section-nav z-40"
+      >
         <SectionNav
           label={label}
           items={sections.map(({ id, label: text }) => ({ id, label: text }))}

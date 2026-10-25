@@ -17,6 +17,7 @@ export function MetaBlock({
 }: MetaBlockProps) {
   return (
     <dl
+      data-reveal-group
       className={cn(
         "grid gap-x-20 gap-y-8 py-ruled sm:grid-cols-2 lg:flex",
         rule === "centred" ? "border-y-gradient-centred" : "border-y-gradient",

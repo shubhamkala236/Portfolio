@@ -55,6 +55,7 @@ function renderBlock(block: CaseStudyBlock) {
             <section
               key={section.id}
               id={section.id}
+              data-reveal-group
               className="scroll-mt-section-anchor"
             >
               {renderBlock(section.block)}
@@ -104,7 +105,9 @@ type BlockStackProps = {
 
 function BlockStack({ blocks, gap, className }: BlockStackProps) {
   return (
+    // Each block scrolls into view on its own (ScrollReveal).
     <div
+      data-reveal-group
       className={cn("flex flex-col", className)}
       style={{ gap: `calc(var(--gap-scale) * ${gap}px)` }}
     >
