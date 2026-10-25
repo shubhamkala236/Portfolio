@@ -12,6 +12,12 @@ import { u } from "@/features/home/stage";
 
 /** The hero frame (4506:83776), 5px wider than the page on each side. */
 const FRAME = { width: 1522.091, height: 1162.452, left: -5 };
+/**
+ * The page opens this far into the frame, so the eyes clear the first
+ * screen: everything but the floating tab bar sits 32 Figma px higher than
+ * in the file (the red field's top 32px is cropped).
+ */
+const LIFT = 32;
 /** The red field and its dots (4506:83777, 4506:83779). */
 const FIELD = { width: 1522.091, height: 1116.059, dotsDrop: 3 };
 /** The greeting and headline (4506:84178). */
@@ -47,6 +53,7 @@ export function HeroSection({ hero }: HeroSectionProps) {
             width: u(FRAME.width),
             height: u(FRAME.height),
             marginLeft: u(FRAME.left),
+            marginTop: u(-LIFT),
           } as CSSProperties
         }
       >
