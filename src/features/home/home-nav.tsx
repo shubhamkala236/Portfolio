@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 
 import type { HomeContent } from "@/content/types";
+import { useGlassLens } from "@/components/ui/use-glass-lens";
 import { cn } from "@/lib/cn";
 import { newTabProps, opensNewTab } from "@/lib/links";
 
@@ -14,8 +15,9 @@ type HomeNavProps = HomeContent["nav"];
 const REACHED_SLACK = 2;
 
 /**
- * The home page's pill tab bar (Figma 4506:84854): 12px between tabs, the
- * current one raised, drawn as liquid glass in the file's own colours.
+ * The home page's pill tab bar (Figma 4506:84854): 12px between tabs, drawn
+ * as liquid glass in the file's own colours, the selected tab on a glass
+ * lens that glides from tab to tab (`glass-bar`, `useGlassLens`).
  *
  * It sticks to the top of the page while it scrolls. The bar is a
  * zero-height sticky strip at the top of the page, so it takes no room:
@@ -33,6 +35,7 @@ export function HomeNav({ label, items, current }: HomeNavProps) {
   const [active, setActive] = useState(current);
   const scrollerRef = useRef<HTMLElement>(null);
   const tabRefs = useRef(new Map<string, HTMLAnchorElement>());
+  const listRef = useGlassLens<HTMLUListElement>(active);
 
   useEffect(() => {
     const sections = items.filter((item) => item.href.startsWith("#"));
@@ -98,21 +101,26 @@ export function HomeNav({ label, items, current }: HomeNavProps) {
           aria-label={label}
           className="pointer-events-auto max-w-full overflow-x-auto px-6 py-2"
         >
-          <ul className="flex w-max items-center gap-3 rounded-round bg-glass p-2 shadow-glass backdrop-blur-xl backdrop-saturate-150">
+          <ul
+            ref={listRef}
+            className="glass-bar flex w-max items-center gap-3 rounded-round p-2"
+          >
+            <li aria-hidden className="glass-lens" />
             {items.map((item) => {
               const raised = item.label === active;
+              // No hover change: the lens marks the selection, as in Figma.
               const className = cn(
-                "flex min-w-18 justify-center rounded-round px-4 pt-1.5 pb-2 text-tab font-medium whitespace-nowrap transition-colors",
+                "flex min-w-18 justify-center rounded-round px-4 pt-1.5 pb-2 text-tab font-medium whitespace-nowrap transition-colors duration-300",
                 raised
-                  ? "bg-glass-raised text-fg inset-ring inset-ring-border-strong drop-shadow-tab-active"
-                  : "text-subtle drop-shadow-tab hover:text-muted",
+                  ? "text-fg drop-shadow-tab-active"
+                  : "text-subtle drop-shadow-tab",
               );
               const ref = (element: HTMLAnchorElement | null) => {
                 if (element) tabRefs.current.set(item.label, element);
                 else tabRefs.current.delete(item.label);
               };
               return (
-                <li key={item.label}>
+                <li key={item.label} className="relative">
                   {item.href.startsWith("/") && !opensNewTab(item.href) ? (
                     // Home: back to the top of the page. Next doesn't scroll
                     // for a link to the page it is on, so do it here (the

@@ -48,13 +48,18 @@
   --home-rule: rgba(255, 255, 255, 0.19); /* Connect list rules */
   --home-shadow: rgba(13, 13, 13, 0.17); /* About card shadow */
   --home-shadow-deep: rgba(13, 13, 13, 0.85); /* Leftmost card's shadow */
-  /* The home tab bar as liquid glass, in its own colours (4506:84854): the
-   * bar's #1f1f1f and the current tab's #2d2d2d, translucent over a blur,
-   * with a light top edge and a faint rim. */
-  --glass: rgba(31, 31, 31, 0.8);
-  --glass-raised: rgba(45, 45, 45, 0.85);
-  --glass-highlight: rgba(255, 255, 255, 0.14);
-  --glass-rim: rgba(255, 255, 255, 0.07);
+  /* The tab bars as liquid glass (home 4506:84854, ELEMENTS 4506:85515), in
+   * their Figma colours: the bar's #1f1f1f and the selected tab's #2d2d2d,
+   * translucent over a blur, lit along the top and rimmed in light. */
+  --glass: rgba(31, 31, 31, 0.68);
+  --glass-sheen: rgba(255, 255, 255, 0.09);
+  --glass-highlight: rgba(255, 255, 255, 0.2);
+  --glass-rim: rgba(255, 255, 255, 0.08);
+  --glass-drop: rgba(0, 0, 0, 0.45);
+  --glass-lens: rgba(45, 45, 45, 0.6);
+  --glass-lens-sheen: rgba(255, 255, 255, 0.1);
+  --glass-lens-highlight: rgba(255, 255, 255, 0.38);
+  --glass-lens-rim: rgba(255, 255, 255, 0.14);
   --accent: var(--palette-accent);
   --accent-fg: var(--palette-white);
   --ring: var(--palette-accent);
@@ -111,8 +116,6 @@
   --color-home-greeting: var(--home-greeting);
   --color-home-card: var(--home-card);
   --color-home-rule: var(--home-rule);
-  --color-glass: var(--glass);
-  --color-glass-raised: var(--glass-raised);
   --color-accent: var(--accent);
   --color-accent-fg: var(--accent-fg);
   --color-ring: var(--ring);
@@ -285,16 +288,10 @@
 
   /* Tab bar drop shadows (Figma 4127:17571). Filters, not box-shadows: on the
    * inactive tabs the shadow follows the label's glyphs as a faint glow. */
-  --drop-shadow-tab-bar: 0 0 5px rgba(0, 0, 0, 0.2);
   --drop-shadow-tab-active: 0 0 4px rgba(17, 17, 17, 0.6);
   /* A hovered footer button's edge (4397:59229): 5.2px, black at 37%. */
   --drop-shadow-footer-button: 0 0 5.2px rgba(0, 0, 0, 0.37);
   --drop-shadow-tab: 0 0 4px rgba(110, 110, 110, 0.25);
-  /* The glass tab bar: lit top edge, rim, and the bar's own 5px shadow. A
-   * box-shadow, since a filter would stop its backdrop blur. */
-  --shadow-glass:
-    inset 0 1px 0 0 var(--glass-highlight), inset 0 0 0 1px var(--glass-rim),
-    0 0 5px rgba(0, 0, 0, 0.2);
 
   /* Rhythm — the gaps the Figma layout repeats. */
   /* Named `section`, not `block`: a `block` spacing key would also turn
@@ -682,6 +679,78 @@
 @keyframes reveal-failsafe {
   to {
     opacity: 1;
+  }
+}
+
+/* Liquid glass tab bars (HomeNav, SectionNav), after iOS's Liquid Glass:
+ * the bar is tinted glass — its Figma grey, translucent over a strong blur
+ * and saturation lift, a sheen down its top half, a lit top edge, a fine
+ * rim and a soft lift shadow (box-shadows: a filter would stop the blur).
+ * The selected tab sits on a glass lens of its own that glides to whichever
+ * tab is selected, on a springy ease, so it stretches a touch and settles
+ * (useGlassLens places it). Until it is placed — before hydration — the
+ * selected tab wears the lens itself. */
+@utility glass-bar {
+  position: relative;
+  isolation: isolate;
+  background: var(--glass);
+  -webkit-backdrop-filter: blur(20px) saturate(1.8);
+  backdrop-filter: blur(20px) saturate(1.8);
+  box-shadow:
+    inset 0 1px 0 0 var(--glass-highlight),
+    inset 0 -1px 0 0 var(--glass-rim),
+    inset 0 0 0 1px var(--glass-rim),
+    0 10px 30px -10px var(--glass-drop),
+    0 0 5px rgba(0, 0, 0, 0.2);
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    background: linear-gradient(180deg, var(--glass-sheen), transparent 55%);
+    pointer-events: none;
+  }
+}
+
+.glass-lens,
+.glass-bar:not([data-lens]) [aria-current] {
+  border-radius: var(--radius-round);
+  background:
+    linear-gradient(180deg, var(--glass-lens-sheen), transparent 60%),
+    var(--glass-lens);
+  box-shadow:
+    inset 0 1px 0.5px var(--glass-lens-highlight),
+    inset 0 -1px 0.5px var(--glass-lens-rim),
+    inset 0 0 0 1px var(--glass-lens-rim),
+    0 4px 12px -2px var(--glass-drop);
+}
+
+.glass-lens {
+  position: absolute;
+  top: 0.5rem;
+  bottom: 0.5rem;
+  left: 0;
+  width: var(--lens-w, 0px);
+  translate: var(--lens-x, 0px) 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+[data-lens] > .glass-lens {
+  opacity: 1;
+}
+
+[data-lens-animate] > .glass-lens {
+  transition:
+    translate 0.6s var(--ease-fan-spring),
+    width 0.6s var(--ease-fan-spring);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-lens-animate] > .glass-lens {
+    transition: none;
   }
 }
 

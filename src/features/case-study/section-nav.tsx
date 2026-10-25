@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 
+import { useGlassLens } from "@/components/ui/use-glass-lens";
 import { cn } from "@/lib/cn";
 
 type SectionNavProps = {
@@ -22,13 +23,15 @@ const REACHED_SLACK = 2;
  * line a tab click lands it on). Before the first section, Home stays active,
  * as drawn.
  *
- * Styling is Figma's: tabs flush against each other, the active tab's stroke
- * an inset ring because Figma draws it inside the tab.
+ * Styling is Figma's layout — tabs flush against each other — as liquid
+ * glass: the bar is tinted glass and the selected tab sits on a glass lens
+ * that glides from tab to tab (`glass-bar`, `useGlassLens`).
  */
 export function SectionNav({ label, items }: SectionNavProps) {
   const [active, setActive] = useState(0);
   const scrollerRef = useRef<HTMLDivElement>(null);
   const tabRefs = useRef<(HTMLAnchorElement | null)[]>([]);
+  const listRef = useGlassLens<HTMLUListElement>(active);
 
   useEffect(() => {
     let frame = 0;
@@ -82,20 +85,25 @@ export function SectionNav({ label, items }: SectionNavProps) {
         ref={scrollerRef}
         className="relative -mx-6 overflow-x-auto px-6 py-2 lg:mx-0 lg:overflow-visible lg:p-0"
       >
-        <ul className="mx-auto flex w-max items-center rounded-round bg-surface p-2 drop-shadow-tab-bar">
+        <ul
+          ref={listRef}
+          className="glass-bar mx-auto flex w-max items-center rounded-round p-2"
+        >
+          <li aria-hidden className="glass-lens" />
           {items.map((item, index) => (
-            <li key={item.id}>
+            <li key={item.id} className="relative">
               <a
                 ref={(element) => {
                   tabRefs.current[index] = element;
                 }}
                 href={`#${item.id}`}
                 aria-current={index === active ? "true" : undefined}
+                // No hover change: the lens marks the selection, as in Figma.
                 className={cn(
-                  "flex min-w-18 justify-center rounded-round px-4 pt-1.5 pb-2 text-tab font-medium whitespace-nowrap transition-colors",
+                  "flex min-w-18 justify-center rounded-round px-4 pt-1.5 pb-2 text-tab font-medium whitespace-nowrap transition-colors duration-300",
                   index === active
-                    ? "bg-surface-raised text-fg inset-ring inset-ring-border-strong drop-shadow-tab-active"
-                    : "text-subtle drop-shadow-tab hover:text-muted",
+                    ? "text-fg drop-shadow-tab-active"
+                    : "text-subtle drop-shadow-tab",
                 )}
               >
                 {item.label}
