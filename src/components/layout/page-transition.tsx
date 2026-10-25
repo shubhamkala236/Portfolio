@@ -3,6 +3,7 @@
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
+import { zoomFromCard, zoomFromHero } from "@/components/layout/card-zoom";
 import { readHomeScroll } from "@/components/layout/route-memory";
 
 /**
@@ -29,11 +30,28 @@ const TIMING = {
 } as const;
 
 type Phase = "idle" | "cover" | "reveal";
-type Kind = keyof typeof TIMING;
+type Kind = keyof typeof TIMING | "zoom";
+
+const nextFrames = () =>
+  new Promise<void>((resolve) =>
+    requestAnimationFrame(() => requestAnimationFrame(() => resolve())),
+  );
+
+/** The case-study hero's image, once it has loaded (or null). */
+async function heroImage() {
+  const img = document.querySelector<HTMLImageElement>("[data-zoom-hero] img");
+  if (img) await img.decode().catch(() => undefined);
+  return img;
+}
 
 /**
- * Page transitions for links marked `data-page-transition`, in two kinds:
+ * Page transitions for links marked `data-page-transition`, in three kinds:
  *
+ * - `="zoom"`, after dsnikhil.com's: a home work card grows into its case
+ *   study's hero while the home page fades to the page colour; the case
+ *   study loads underneath and the copy hands over to its hero (card-zoom).
+ *   The way back home reverses it: the hero shrinks into its card. The
+ *   home page's project cards, and the case studies' way home.
  * - (default) the blob, after hyperfoundation.org's intro: the page colour
  *   covers the screen with a morphing red blob; the new page loads behind
  *   it; then the blob becomes a window that grows until the new page fills
@@ -41,9 +59,10 @@ type Kind = keyof typeof TIMING;
  * - `="curtain"`, after arunkumarrs.com's: a black curtain rises from below
  *   to cover the screen (0.6s), the new page loads behind it, and it carries
  *   on up and off the top (0.7s), both on a strong ease in-out. The case
- *   studies' "Thanks for reading" arrows. A link also marked
- *   `data-page-transition-home` returns to the home page where the visitor
- *   left it: the page is scrolled there under the curtain.
+ *   studies' "Thanks for reading" arrows.
+ *
+ * A link marked `data-page-transition-home` returns to the home page where
+ * the visitor left it: the page is scrolled there under the cover.
  *
  * It takes over the click (so `Link` stands down — it ignores a click that
  * is already handled), navigates once the cover is up, and opens when the
@@ -57,11 +76,16 @@ export function PageTransition() {
   const [phase, setPhase] = useState<Phase>("idle");
   const [kind, setKind] = useState<Kind>("blob");
   const target = useRef<string | null>(null);
-  const timing = useRef<(typeof TIMING)[Kind]>(TIMING.blob);
+  const timing = useRef<(typeof TIMING)[keyof typeof TIMING]>(TIMING.blob);
   /** Where to scroll the arriving page under the cover, if anywhere. */
   const landAt = useRef<number | null>(null);
   const coveredAt = useRef(0);
   const overlay = useRef<HTMLDivElement>(null);
+  const zoomRoot = useRef<HTMLDivElement>(null);
+  /** A zoom runs its own steps; the cover/reveal timers stand aside. */
+  const zooming = useRef(false);
+  /** Resolves when the given page is on screen. */
+  const arrival = useRef<{ path: string; resolve: () => void } | null>(null);
 
   // Take over marked links.
   useEffect(() => {
@@ -91,9 +115,84 @@ export function PageTransition() {
 
       event.preventDefault();
       const href = url.pathname + url.search + url.hash;
-      const nextKind: Kind =
-        link.dataset.pageTransition === "curtain" ? "curtain" : "blob";
       const toHome = link.hasAttribute("data-page-transition-home");
+      const arrive = (path: string) =>
+        new Promise<void>((resolve) => {
+          arrival.current = { path, resolve };
+        });
+
+      // Zoom: a card into its hero, or the hero back into its card.
+      if (link.dataset.pageTransition === "zoom" && zoomRoot.current) {
+        const art = link.querySelector<HTMLElement>("[data-zoom-art]");
+        const hero = document.querySelector<HTMLImageElement>(
+          "[data-zoom-hero] img",
+        );
+        // While the zoom is over the home page it passes under the home tab
+        // bar, which fades with the page (`data-card-zoom` on <html>).
+        const html = document.documentElement;
+        if (art) {
+          zooming.current = true;
+          html.dataset.cardZoom = "leave";
+          setKind("zoom");
+          setPhase("cover");
+          router.prefetch(href);
+          const zoom = zoomFromCard(zoomRoot.current, art);
+          void (async () => {
+            await zoom.covered;
+            const arrived = arrive(url.pathname);
+            router.push(href);
+            await arrived;
+            delete html.dataset.cardZoom;
+            await zoom.landed;
+            await heroImage();
+            await nextFrames();
+            setPhase("reveal");
+            await zoom.finish();
+            zooming.current = false;
+            setPhase("idle");
+          })();
+          return;
+        }
+        if (toHome && hero) {
+          const slug = window.location.pathname.split("/").pop();
+          const homeY = readHomeScroll();
+          zooming.current = true;
+          setKind("zoom");
+          setPhase("cover");
+          router.prefetch(url.pathname);
+          const zoom = zoomFromHero(zoomRoot.current, hero);
+          void (async () => {
+            await zoom.covered;
+            const arrived = arrive(url.pathname);
+            router.push(url.pathname, { scroll: false });
+            await arrived;
+            html.dataset.cardZoom = "land";
+            if (homeY !== null) {
+              window.scrollTo({ top: homeY, behavior: "instant" });
+            }
+            await nextFrames();
+            const card = document.querySelector<HTMLElement>(
+              `#work a[href="/projects/${slug}"] [data-zoom-art]`,
+            );
+            // The card the hero lands on shows at once, not with the reveal.
+            const item = card?.closest<HTMLElement>("li");
+            if (item) {
+              item.dataset.revealed = "";
+              item.style.animation = "none";
+            }
+            setPhase("reveal");
+            await zoom.landOn(card);
+            await zoom.finish();
+            delete html.dataset.cardZoom;
+            zooming.current = false;
+            setPhase("idle");
+          })();
+          return;
+        }
+      }
+
+      const nextKind: keyof typeof TIMING =
+        link.dataset.pageTransition === "curtain" ? "curtain" : "blob";
       // Home goes to the page itself, scrolled to where it was left.
       const destination = toHome ? url.pathname : href;
       target.current = destination;
@@ -124,8 +223,16 @@ export function PageTransition() {
     return () => window.removeEventListener("click", onClick, true);
   }, [router]);
 
+  // A zoom waiting for its page: let it know.
+  useEffect(() => {
+    if (arrival.current?.path !== pathname) return;
+    arrival.current.resolve();
+    arrival.current = null;
+  }, [pathname]);
+
   // Open once the new route has rendered (and the blob has had its moment).
   useEffect(() => {
+    if (zooming.current) return;
     if (phase !== "cover" || !target.current) return;
     if (pathname !== new URL(target.current, window.location.href).pathname) {
       return;
@@ -154,6 +261,7 @@ export function PageTransition() {
 
   // Finish.
   useEffect(() => {
+    if (zooming.current) return;
     if (phase !== "reveal") return;
     const timer = window.setTimeout(() => {
       target.current = null;
@@ -181,37 +289,49 @@ export function PageTransition() {
   );
 
   return (
-    <div
-      ref={overlay}
-      aria-hidden
-      data-phase={phase}
-      data-kind={kind}
-      className="page-transition"
-    >
-      <div className="page-curtain" />
-      <svg width="100%" height="100%">
-        <defs>
-          <mask id="page-transition-window">
-            <rect width="100%" height="100%" fill="white" />
-            <svg x="50%" y="50%" overflow="visible">
-              <path className="page-transition-hole" d={BLOBS[0]} fill="black">
-                {morph}
-              </path>
-            </svg>
-          </mask>
-        </defs>
-        <rect
-          className="page-transition-cover"
-          width="100%"
-          height="100%"
-          mask="url(#page-transition-window)"
-        />
-        <svg x="50%" y="50%" overflow="visible">
-          <path className="page-transition-blob" d={BLOBS[0]}>
-            {morph}
-          </path>
+    <>
+      <div
+        ref={zoomRoot}
+        aria-hidden
+        data-phase={phase}
+        className="card-zoom"
+      />
+      <div
+        ref={overlay}
+        aria-hidden
+        data-phase={phase}
+        data-kind={kind}
+        className="page-transition"
+      >
+        <div className="page-curtain" />
+        <svg width="100%" height="100%">
+          <defs>
+            <mask id="page-transition-window">
+              <rect width="100%" height="100%" fill="white" />
+              <svg x="50%" y="50%" overflow="visible">
+                <path
+                  className="page-transition-hole"
+                  d={BLOBS[0]}
+                  fill="black"
+                >
+                  {morph}
+                </path>
+              </svg>
+            </mask>
+          </defs>
+          <rect
+            className="page-transition-cover"
+            width="100%"
+            height="100%"
+            mask="url(#page-transition-window)"
+          />
+          <svg x="50%" y="50%" overflow="visible">
+            <path className="page-transition-blob" d={BLOBS[0]}>
+              {morph}
+            </path>
+          </svg>
         </svg>
-      </svg>
-    </div>
+      </div>
+    </>
   );
 }

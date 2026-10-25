@@ -26,8 +26,10 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 - Scroll reveal: mark a container `data-reveal-group` and its direct children
   fade and rise in, staggered, as they scroll into view; nested groups
   cascade. Skip a child with `data-reveal-skip` (e.g. anything sticky).
-- Page transition: a link marked `data-page-transition` (the home project
-  cards) plays the blob cover-and-window transition into its page;
-  `data-page-transition="curtain"` (the case-study pager arrows) plays the
-  black curtain wipe instead.
+- Page transition: `data-page-transition="zoom"` (the home project cards)
+  grows the card's art (`data-zoom-art`) into the case study's hero
+  (`data-zoom-hero`); the pager's way home reverses it, shrinking the hero
+  back into its card. `data-page-transition="curtain"` (the other pager
+  arrows) plays the black curtain wipe; a bare `data-page-transition`, the
+  blob cover-and-window.
 - Before finishing: `npm run typecheck && npm run lint && npm run build`.

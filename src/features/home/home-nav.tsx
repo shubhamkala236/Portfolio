@@ -91,7 +91,10 @@ export function HomeNav({ label, items, current }: HomeNavProps) {
   }, [active]);
 
   return (
-    <div className="@container pointer-events-none sticky top-0 z-10 h-0">
+    <div
+      data-zoom-nav
+      className="@container pointer-events-none sticky top-0 z-10 h-0"
+    >
       <div
         className="flex justify-center md:home-nav-drop"
         style={{ "--u": "calc(100cqw / 1512)" } as CSSProperties}

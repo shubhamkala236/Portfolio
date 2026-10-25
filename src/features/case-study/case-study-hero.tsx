@@ -24,7 +24,7 @@ export function CaseStudyHero({
   // page's <h1> moves into the body (a `page-title` block).
   if (render) {
     return (
-      <header>
+      <header data-zoom-hero>
         <FigmaRender render={render} className="w-full" eager />
       </header>
     );

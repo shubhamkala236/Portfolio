@@ -871,6 +871,72 @@
   }
 }
 
+/* The zoom kind (data-kind="zoom", card-zoom.ts): the overlay is drawn by
+ * script — a page-colour backdrop and a clipped box holding a copy of the
+ * card's art (or the hero) in the hero's 1512 × 800 frame. */
+.page-transition[data-kind="zoom"] > * {
+  display: none;
+}
+
+.card-zoom {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  pointer-events: none;
+}
+
+.card-zoom:not([data-phase="idle"]) {
+  pointer-events: auto;
+}
+
+/* Over the home page the zoom passes under the home tab bar (z-10), which
+ * fades out with the page on the way in and back in on the way home. */
+:root[data-card-zoom] .card-zoom {
+  z-index: 5;
+}
+
+:root[data-card-zoom="leave"] [data-zoom-nav] {
+  opacity: 0;
+  transition: opacity 450ms ease-out;
+}
+
+:root[data-card-zoom="land"] [data-zoom-nav] {
+  animation: card-zoom-nav-in 650ms ease-out both;
+}
+
+@keyframes card-zoom-nav-in {
+  from {
+    opacity: 0;
+  }
+}
+
+.card-zoom-backdrop {
+  position: absolute;
+  inset: 0;
+  background: var(--bg);
+  opacity: 0;
+}
+
+.card-zoom-box {
+  position: fixed;
+  overflow: clip;
+}
+
+.card-zoom-stage {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  height: 100%;
+  aspect-ratio: 1512 / 800;
+  translate: -50% 0;
+}
+
+.card-zoom-layer {
+  position: absolute;
+  max-width: none;
+  object-fit: cover;
+}
+
 /* The new page's reveals hold under the cover, then play as it opens. */
 :root[data-page-transition="cover"] [data-revealed] {
   animation-play-state: paused;

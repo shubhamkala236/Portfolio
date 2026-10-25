@@ -33,8 +33,9 @@ export function PagerArrow({
     <Link
       href={href}
       aria-label={label}
-      // The curtain page transition (PageTransition).
-      data-page-transition="curtain"
+      // The curtain page transition (PageTransition); the way home zooms
+      // this case study's hero back into its card instead.
+      data-page-transition={returnHome ? "zoom" : "curtain"}
       data-page-transition-home={returnHome || undefined}
       className="group/play flex size-28 shrink-0 items-center justify-center rounded-full bg-surface transition-colors duration-200 hover:bg-surface-lifted focus-visible:bg-surface-lifted"
     >
