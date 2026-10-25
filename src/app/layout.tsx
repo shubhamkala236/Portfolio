@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 
+import { EmailCopy } from "@/components/layout/email-copy";
 import { PageTransition } from "@/components/layout/page-transition";
 import { RouteMemory } from "@/components/layout/route-memory";
 import { ScrollReveal } from "@/components/layout/scroll-reveal";
@@ -39,6 +40,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <ScrollReveal />
         <PageTransition />
         <RouteMemory />
+        <EmailCopy message={siteConfig.emailCopied} />
       </body>
     </html>
   );

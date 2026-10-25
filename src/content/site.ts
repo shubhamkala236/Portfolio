@@ -7,6 +7,7 @@ export const siteConfig = {
   description:
     "Portfolio of Your Name — a full-stack developer building fast, accessible web products.",
   email: "kriti.singh92@gmail.com",
+  emailCopied: "Email copied",
   location: "Kuala Lumpur, Malaysia",
   socials: [
     {
