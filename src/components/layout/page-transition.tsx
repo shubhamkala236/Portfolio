@@ -3,6 +3,8 @@
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
+import { readHomeScroll } from "@/components/layout/route-memory";
+
 /**
  * The blob's three shapes (centred on 0,0, about 45px across each way),
  * drawn with the same commands so they morph into one another.
@@ -40,8 +42,8 @@ type Kind = keyof typeof TIMING;
  *   to cover the screen (0.6s), the new page loads behind it, and it carries
  *   on up and off the top (0.7s), both on a strong ease in-out. The case
  *   studies' "Thanks for reading" arrows. A link also marked
- *   `data-page-transition-back` goes back through history instead, so the
- *   page it returns to keeps its scroll position.
+ *   `data-page-transition-home` returns to the home page where the visitor
+ *   left it: the page is scrolled there under the curtain.
  *
  * It takes over the click (so `Link` stands down — it ignores a click that
  * is already handled), navigates once the cover is up, and opens when the
@@ -56,6 +58,8 @@ export function PageTransition() {
   const [kind, setKind] = useState<Kind>("blob");
   const target = useRef<string | null>(null);
   const timing = useRef<(typeof TIMING)[Kind]>(TIMING.blob);
+  /** Where to scroll the arriving page under the cover, if anywhere. */
+  const landAt = useRef<number | null>(null);
   const coveredAt = useRef(0);
   const overlay = useRef<HTMLDivElement>(null);
 
@@ -89,10 +93,13 @@ export function PageTransition() {
       const href = url.pathname + url.search + url.hash;
       const nextKind: Kind =
         link.dataset.pageTransition === "curtain" ? "curtain" : "blob";
-      const back = link.hasAttribute("data-page-transition-back");
-      target.current = href;
+      const toHome = link.hasAttribute("data-page-transition-home");
+      // Home goes to the page itself, scrolled to where it was left.
+      const destination = toHome ? url.pathname : href;
+      target.current = destination;
       timing.current = TIMING[nextKind];
-      if (!back) router.prefetch(href);
+      landAt.current = toHome ? readHomeScroll() : null;
+      router.prefetch(destination);
 
       // How far the window must grow to clear the screen's corners.
       overlay.current?.style.setProperty(
@@ -109,7 +116,7 @@ export function PageTransition() {
       setKind(nextKind);
       setPhase("cover");
       window.setTimeout(
-        () => (back ? router.back() : router.push(href)),
+        () => router.push(destination, { scroll: landAt.current === null }),
         timing.current.cover,
       );
     };
@@ -130,6 +137,10 @@ export function PageTransition() {
       coveredAt.current + cover + hold - performance.now(),
     );
     const timer = window.setTimeout(() => {
+      if (landAt.current !== null) {
+        window.scrollTo({ top: landAt.current, behavior: "instant" });
+        landAt.current = null;
+      }
       // Two frames: let the new page paint under the cover first.
       frame = requestAnimationFrame(() => {
         frame = requestAnimationFrame(() => setPhase("reveal"));

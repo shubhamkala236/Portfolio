@@ -1,4 +1,4 @@
-import { getProjectBySlug } from "@/content/projects";
+import { getProjectBySlug, projects } from "@/content/projects";
 import type { CaseStudyBlock } from "@/content/types";
 import { HeadingBlock } from "@/features/case-study/blocks/heading-block";
 import { MemojiMark } from "@/features/case-study/memoji-mark";
@@ -40,7 +40,8 @@ export function ProjectPagerBlock({
           <PreviousArrow
             href={`/projects/${before.slug}`}
             label={`Previous case study: ${before.title}`}
-            home={{ href: "/", label: "Back to the home page" }}
+            home={{ href: "/#work", label: "Back to the home page" }}
+            projects={projects.map(({ slug, title }) => ({ slug, title }))}
           />
         </div>
       )}

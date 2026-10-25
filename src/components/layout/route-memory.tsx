@@ -3,9 +3,13 @@
 import { usePathname } from "next/navigation";
 import { useEffect, useSyncExternalStore } from "react";
 
-/** Session keys: the page on screen, and the one before it. */
+/**
+ * Session keys: the page on screen, the trail of pages the visitor walked
+ * through (JSON), and the home page's last scroll position.
+ */
 const CURRENT = "route:current";
-const PREVIOUS = "route:previous";
+const TRAIL = "route:trail";
+const HOME_Y = "route:home-y";
 
 const read = (key: string) => {
   try {
@@ -23,12 +27,50 @@ const write = (key: string, value: string) => {
   }
 };
 
+const readTrail = (): string[] => {
+  try {
+    const trail: unknown = JSON.parse(read(TRAIL) ?? "[]");
+    return Array.isArray(trail)
+      ? trail.filter((x) => typeof x === "string")
+      : [];
+  } catch {
+    return [];
+  }
+};
+
+/**
+ * The breadcrumb trail after arriving at `pathname` from `from`: the home
+ * page starts a trail; a step back along it (the previous arrow, or Back)
+ * drops its end; a step on from its end (the next arrow, or a card from
+ * home) extends it; arriving any other way starts a new one. A reload
+ * leaves it as it is.
+ */
+function nextTrail(
+  trail: readonly string[],
+  from: string | null,
+  pathname: string,
+): readonly string[] {
+  if (pathname === "/") return ["/"];
+  if (trail.at(-1) === pathname) return trail;
+  if (trail.length >= 2 && trail.at(-2) === pathname) return trail.slice(0, -1);
+  if (from !== null && trail.at(-1) === from) return [...trail, pathname];
+  return [pathname];
+}
+
+/** The home page's scroll position when it was last left, or null. */
+export function readHomeScroll(): number | null {
+  const y = Number(read(HOME_Y));
+  return Number.isFinite(y) && read(HOME_Y) !== null ? y : null;
+}
+
 /** How long Back/Forward keeps smooth scrolling off while it restores. */
 const RESTORE_MS = 1000;
 
 /**
- * Remembers, for this tab, which page the visitor came from (root layout).
- * A reload keeps the answer: only a move to a different page updates it.
+ * Remembers, for this tab, the trail of pages the visitor walked through
+ * (root layout) — so a case study's previous arrow can step back along it,
+ * all the way home — and where the home page was scrolled to. A reload
+ * keeps both.
  *
  * It also makes Back/Forward land at once. The page scrolls smoothly for
  * in-page links, and the browser applies that to the position it restores
@@ -78,9 +120,29 @@ export function RouteMemory() {
 
   useEffect(() => {
     const current = read(CURRENT);
-    if (current === pathname) return;
-    write(PREVIOUS, current ?? "");
+    write(TRAIL, JSON.stringify(nextTrail(readTrail(), current, pathname)));
     write(CURRENT, pathname);
+  }, [pathname]);
+
+  // On the home page, keep its scroll position for the way back.
+  useEffect(() => {
+    if (pathname !== "/") return;
+    let frame = 0;
+    const save = () => {
+      if (frame) return;
+      frame = requestAnimationFrame(() => {
+        frame = 0;
+        // Leaving home resets the scroll before this listener goes: only
+        // record while home is still the page on screen.
+        if (window.location.pathname !== "/") return;
+        write(HOME_Y, String(Math.round(window.scrollY)));
+      });
+    };
+    window.addEventListener("scroll", save, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", save);
+      cancelAnimationFrame(frame);
+    };
   }, [pathname]);
 
   return null;
@@ -89,20 +151,16 @@ export function RouteMemory() {
 const noSubscription = () => () => {};
 
 /**
- * The page the visitor came to this one from, or null (a fresh visit, or
- * on the server). Read during render, so it also works on the first render
- * of a new page — before RouteMemory has caught up, the page still
- * recorded as current is the one just left.
+ * Where this page's previous arrow steps back to along the trail — "/" for
+ * the home page, a case study's path, or null (nothing behind it: a fresh
+ * visit, or on the server). Read during render, so it also works on a new
+ * page's first render, before RouteMemory has recorded the step.
  */
-export function useCameFrom(): string | null {
+export function useTrailBack(): string | null {
   const pathname = usePathname();
   return useSyncExternalStore(
     noSubscription,
-    () => {
-      const current = read(CURRENT);
-      if (current && current !== pathname) return current;
-      return read(PREVIOUS) || null;
-    },
+    () => nextTrail(readTrail(), read(CURRENT), pathname).at(-2) ?? null,
     () => null,
   );
 }
