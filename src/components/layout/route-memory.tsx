@@ -34,6 +34,8 @@ const RESTORE_MS = 1000;
  * in-page links, and the browser applies that to the position it restores
  * on Back too — the page would glide there, revealing everything it passed.
  * (`data-scroll-behavior` on <html> covers Next's own scrolling, not this.)
+ * Clicking a link to a section of the page fires the same `popstate` in
+ * Chrome; that one keeps its smooth scroll.
  * Renders nothing.
  */
 export function RouteMemory() {
@@ -42,15 +44,33 @@ export function RouteMemory() {
   useEffect(() => {
     const root = document.documentElement;
     let timer = 0;
+    // Set while a click on an in-page link is being handled (its popstate
+    // fires during the click), cleared right after.
+    let sectionClick = false;
+
+    const onClick = (event: MouseEvent) => {
+      const link = (event.target as Element | null)?.closest("a[href]");
+      if (!(link instanceof HTMLAnchorElement) || !link.hash) return;
+      if (link.pathname !== window.location.pathname) return;
+      sectionClick = true;
+      window.setTimeout(() => {
+        sectionClick = false;
+      }, 0);
+    };
+
     const onPopState = () => {
+      if (sectionClick) return;
       root.style.scrollBehavior = "auto";
       window.clearTimeout(timer);
       timer = window.setTimeout(() => {
         root.style.removeProperty("scroll-behavior");
       }, RESTORE_MS);
     };
+
+    document.addEventListener("click", onClick, true);
     window.addEventListener("popstate", onPopState);
     return () => {
+      document.removeEventListener("click", onClick, true);
       window.removeEventListener("popstate", onPopState);
       window.clearTimeout(timer);
     };
