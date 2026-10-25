@@ -55,7 +55,6 @@ export function ProjectPagerBlock({
             href={`/projects/${after.slug}`}
             label={`Next case study: ${after.title}`}
             direction="next"
-            lifted
           />
         </div>
       )}

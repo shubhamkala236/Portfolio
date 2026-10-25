@@ -26,12 +26,13 @@
   --surface: var(--palette-ink-850);
   --surface-raised: var(--palette-ink-800);
   --surface-sunken: var(--palette-ink-900);
-  --surface-lifted: #292929; /* Miss Bliss's next arrow (4512:101367) */
+  --surface-lifted: #292929; /* A hovered pager arrow (Miss Bliss's next, 4512:101367) */
   --media-placeholder: #c9c9c9;
   --fg: var(--palette-off-white);
   --fg-strong: var(--palette-white);
   --fg-muted: var(--palette-grey-300);
   --fg-subtle: var(--palette-ink-600);
+  --fg-tab: #777777; /* A tab bar's unselected tabs */
   --border: var(--palette-ink-600);
   --border-strong: #414141;
   --border-faint: #191919;
@@ -102,6 +103,7 @@
   --color-fg-strong: var(--fg-strong);
   --color-muted: var(--fg-muted);
   --color-subtle: var(--fg-subtle);
+  --color-tab-idle: var(--fg-tab);
   --color-border: var(--border);
   --color-border-strong: var(--border-strong);
   --color-border-faint: var(--border-faint);

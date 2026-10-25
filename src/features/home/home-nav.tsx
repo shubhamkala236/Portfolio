@@ -113,7 +113,7 @@ export function HomeNav({ label, items, current }: HomeNavProps) {
                 "flex min-w-18 justify-center rounded-round px-4 pt-1.5 pb-2 text-tab font-medium whitespace-nowrap transition-colors duration-300",
                 raised
                   ? "text-fg drop-shadow-tab-active"
-                  : "text-subtle drop-shadow-tab",
+                  : "text-tab-idle drop-shadow-tab",
               );
               const ref = (element: HTMLAnchorElement | null) => {
                 if (element) tabRefs.current.set(item.label, element);

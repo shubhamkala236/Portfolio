@@ -103,7 +103,7 @@ export function SectionNav({ label, items }: SectionNavProps) {
                   "flex min-w-18 justify-center rounded-round px-4 pt-1.5 pb-2 text-tab font-medium whitespace-nowrap transition-colors duration-300",
                   index === active
                     ? "text-fg drop-shadow-tab-active"
-                    : "text-subtle drop-shadow-tab",
+                    : "text-tab-idle drop-shadow-tab",
                 )}
               >
                 {item.label}
