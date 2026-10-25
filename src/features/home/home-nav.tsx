@@ -6,6 +6,7 @@ import Link from "next/link";
 
 import type { HomeContent } from "@/content/types";
 import { cn } from "@/lib/cn";
+import { newTabProps, opensNewTab } from "@/lib/links";
 
 type HomeNavProps = HomeContent["nav"];
 
@@ -112,7 +113,7 @@ export function HomeNav({ label, items, current }: HomeNavProps) {
               };
               return (
                 <li key={item.label}>
-                  {item.href.startsWith("/") ? (
+                  {item.href.startsWith("/") && !opensNewTab(item.href) ? (
                     // Home: back to the top of the page. Next doesn't scroll
                     // for a link to the page it is on, so do it here (the
                     // page's `scroll-behavior` keeps it smooth) and drop the
@@ -133,10 +134,12 @@ export function HomeNav({ label, items, current }: HomeNavProps) {
                     </Link>
                   ) : (
                     // Sections scroll natively (smoothly, via the page's
-                    // `scroll-behavior`); links out open as links.
+                    // `scroll-behavior`); links out and the résumé open in
+                    // a new tab.
                     <a
                       ref={ref}
                       href={item.href}
+                      {...newTabProps(item.href)}
                       aria-current={raised ? "true" : undefined}
                       className={className}
                     >

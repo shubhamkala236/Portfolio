@@ -1,5 +1,6 @@
 import { DottedArrow } from "@/components/ui/dotted-arrow";
 import type { HomeContent } from "@/content/types";
+import { newTabProps } from "@/lib/links";
 
 type ConnectSectionProps = HomeContent["connect"];
 
@@ -36,36 +37,32 @@ export function ConnectSection({ title, links }: ConnectSectionProps) {
         className="w-full border-t border-home-rule"
         style={{ maxWidth: LIST_WIDTH }}
       >
-        {links.map((link) => {
-          const external = link.href.startsWith("http");
-          return (
-            <li key={link.label} className="border-b border-home-rule">
-              <a
-                href={link.href}
-                target={external ? "_blank" : undefined}
-                rel={external ? "noreferrer noopener" : undefined}
-                aria-label={link.label}
-                className="group/play flex items-center gap-5 py-6 text-fg-strong"
-              >
-                <span aria-hidden className="text-home-index">
-                  {link.index}
-                </span>
-                <span aria-hidden className="flex-1 text-home-link">
-                  {[...link.label].map((letter, index) => (
-                    <span
-                      key={index}
-                      className="inline-block motion-safe:group-hover/play:animate-letter-rise motion-safe:group-focus-visible/play:animate-letter-rise"
-                      style={{ animationDelay: `${index * LETTER_STEP_MS}ms` }}
-                    >
-                      {letter}
-                    </span>
-                  ))}
-                </span>
-                <DottedArrow pulse="hover" />
-              </a>
-            </li>
-          );
-        })}
+        {links.map((link) => (
+          <li key={link.label} className="border-b border-home-rule">
+            <a
+              href={link.href}
+              {...newTabProps(link.href)}
+              aria-label={link.label}
+              className="group/play flex items-center gap-5 py-6 text-fg-strong"
+            >
+              <span aria-hidden className="text-home-index">
+                {link.index}
+              </span>
+              <span aria-hidden className="flex-1 text-home-link">
+                {[...link.label].map((letter, index) => (
+                  <span
+                    key={index}
+                    className="inline-block motion-safe:group-hover/play:animate-letter-rise motion-safe:group-focus-visible/play:animate-letter-rise"
+                    style={{ animationDelay: `${index * LETTER_STEP_MS}ms` }}
+                  >
+                    {letter}
+                  </span>
+                ))}
+              </span>
+              <DottedArrow pulse="hover" />
+            </a>
+          </li>
+        ))}
       </ul>
     </section>
   );

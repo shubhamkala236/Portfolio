@@ -1,6 +1,7 @@
 import { Chamfer } from "@/components/ui/chamfer";
 import { Container } from "@/components/ui/container";
 import { siteConfig } from "@/content/site";
+import { newTabProps } from "@/lib/links";
 
 /** The footer frame (Figma 4506:83007), 721 tall in the 1512 page. */
 const FRAME = { width: 1512, height: 721 };
@@ -89,12 +90,7 @@ export function SiteFooter() {
             <li key={link.label}>
               <a
                 href={link.href}
-                target={link.href.startsWith("http") ? "_blank" : undefined}
-                rel={
-                  link.href.startsWith("http")
-                    ? "noreferrer noopener"
-                    : undefined
-                }
+                {...newTabProps(link.href)}
                 className="relative block w-full lg:w-footer-button"
                 style={{ height: BUTTON_HEIGHT }}
               >
