@@ -5,9 +5,14 @@
  * field is a compile error rather than a blank space on the live site.
  */
 
+/** A tab's icon (TabIcon), by name. */
+export type TabIconName = "home" | "work" | "about" | "connect" | "resume";
+
 export type NavItem = {
   label: string;
   href: string;
+  /** Drawn in the label's place on phones (the home tab bar). */
+  icon?: TabIconName;
 };
 
 export type SocialLink = {

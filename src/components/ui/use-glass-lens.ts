@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 
 /**
  * Places a liquid-glass tab bar's lens (`.glass-lens`, globals.css) under
@@ -67,4 +67,52 @@ export function scrollTabIntoView(
     left: offset - (bar.clientWidth - tab.offsetWidth) / 2,
     behavior: reduce.matches ? "auto" : "smooth",
   });
+}
+
+/** How long the page must sit still before a held selection lets go, ms. */
+const SETTLE_MS = 200;
+
+/**
+ * Holds a tab bar's selection on a tab from the moment it is clicked, while
+ * the page scrolls to its section — so the lens glides straight there
+ * instead of waiting for the scroll and stepping through every section on
+ * the way. Call `hold` on the click; the bar's scroll tracking skips its
+ * updates while `held.current` is true. Once the page has sat still for a
+ * moment the hold lets go and calls `release`, for the tracking to take
+ * over again.
+ */
+export function useSelectionHold(release: () => void) {
+  const held = useRef(false);
+  const timer = useRef(0);
+  const releaseRef = useRef(release);
+  useEffect(() => {
+    releaseRef.current = release;
+  });
+
+  // (Re)start the wait for the page to settle.
+  const settle = useCallback(() => {
+    window.clearTimeout(timer.current);
+    timer.current = window.setTimeout(() => {
+      held.current = false;
+      releaseRef.current();
+    }, SETTLE_MS);
+  }, []);
+
+  useEffect(() => {
+    const onScroll = () => {
+      if (held.current) settle();
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.clearTimeout(timer.current);
+    };
+  }, [settle]);
+
+  const hold = useCallback(() => {
+    held.current = true;
+    settle();
+  }, [settle]);
+
+  return { hold, held };
 }

@@ -64,7 +64,8 @@ export function EmailCopy({ message }: { message: string }) {
     <div
       role="status"
       aria-live="polite"
-      className="pointer-events-none fixed inset-x-0 bottom-6 z-50 flex justify-center px-4"
+      // On a phone it clears the home page's bottom tab bar.
+      className="pointer-events-none fixed inset-x-0 bottom-6 z-50 flex justify-center px-4 max-md:bottom-20"
     >
       <p
         data-shown={shown || undefined}

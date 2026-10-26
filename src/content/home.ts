@@ -137,11 +137,11 @@ export const home = {
   nav: {
     label: "Home sections",
     items: [
-      { label: "Home", href: "/" },
-      { label: "Work", href: "#work" },
-      { label: "About Me", href: "#about" },
-      { label: "Connect", href: "#connect" },
-      { label: "Resume", href: link("RESUME") },
+      { label: "Home", href: "/", icon: "home" },
+      { label: "Work", href: "#work", icon: "work" },
+      { label: "About Me", href: "#about", icon: "about" },
+      { label: "Connect", href: "#connect", icon: "connect" },
+      { label: "Resume", href: link("RESUME"), icon: "resume" },
     ],
     current: "Home",
   },

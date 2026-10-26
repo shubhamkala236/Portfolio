@@ -10,7 +10,7 @@ type WorksSectionProps = HomeContent["works"];
  * Selected works (Figma 4506:83470): the title, then each case study as
  * Figma's own 1258 × 800 render of its card art, its name and one line
  * about it — 120px between title and cards and between cards, 40px from art
- * to caption. Each card opens its case study.
+ * to caption, 12px from name to line. Each card opens its case study.
  *
  * Each card fits the screen whole, art and caption: on a screen too short
  * for it, the card narrows (centred) until it does (`home-work-fit`).
@@ -25,11 +25,11 @@ export function WorksSection({ title, items }: WorksSectionProps) {
       data-reveal-group
       id="work"
       aria-labelledby="work-title"
-      className="flex scroll-mt-home-anchor flex-col items-center gap-16 lg:gap-30"
+      className="flex scroll-mt-home-anchor flex-col items-center gap-16 max-md:scroll-mt-6 max-md:gap-11 lg:gap-30"
     >
       <h2
         id="work-title"
-        className="center-tight-tracking text-center font-brand text-home-title text-fg-strong font-opsz-14"
+        className="center-tight-tracking text-center font-brand text-home-title text-fg-strong font-opsz-14 max-md:text-home-title-sm"
       >
         {title}
       </h2>
@@ -48,13 +48,11 @@ export function WorksSection({ title, items }: WorksSectionProps) {
                   <FigmaRender render={item.render} className="w-full" />
                 )}
               </span>
-              <span className="flex flex-col gap-4">
+              <span className="flex flex-col gap-3 max-md:gap-2">
                 <span className="font-brand text-home-work text-fg font-opsz-14">
                   {item.title}
                 </span>
-                <span className="text-body-lg text-muted">
-                  {item.description}
-                </span>
+                <span className="text-body text-muted">{item.description}</span>
               </span>
             </Link>
           </li>

@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import {
   scrollTabIntoView,
   useGlassLens,
+  useSelectionHold,
 } from "@/components/ui/use-glass-lens";
 import { cn } from "@/lib/cn";
 
@@ -34,12 +35,16 @@ export function SectionNav({ label, items }: SectionNavProps) {
   const [active, setActive] = useState(0);
   const tabRefs = useRef<(HTMLAnchorElement | null)[]>([]);
   const listRef = useGlassLens<HTMLUListElement>(active);
+  // A clicked tab is raised at once and kept while the page scrolls to it.
+  const recheck = useRef(() => {});
+  const { hold, held } = useSelectionHold(() => recheck.current());
 
   useEffect(() => {
     let frame = 0;
 
     function update() {
       frame = 0;
+      if (held.current) return;
       let current = 0;
       items.forEach(({ id }, index) => {
         const section = document.getElementById(id);
@@ -56,6 +61,7 @@ export function SectionNav({ label, items }: SectionNavProps) {
       if (!frame) frame = requestAnimationFrame(update);
     }
 
+    recheck.current = schedule;
     schedule();
     window.addEventListener("scroll", schedule, { passive: true });
     window.addEventListener("resize", schedule);
@@ -64,7 +70,7 @@ export function SectionNav({ label, items }: SectionNavProps) {
       window.removeEventListener("scroll", schedule);
       window.removeEventListener("resize", schedule);
     };
-  }, [items]);
+  }, [items, held]);
 
   // Where the bar scrolls sideways (phones), keep the active tab in it.
   useEffect(() => {
@@ -89,6 +95,10 @@ export function SectionNav({ label, items }: SectionNavProps) {
                 }}
                 href={`#${item.id}`}
                 aria-current={index === active ? "true" : undefined}
+                onClick={() => {
+                  hold();
+                  setActive(index);
+                }}
                 // No hover change: the lens marks the selection, as in Figma.
                 className={cn(
                   "flex min-w-18 justify-center rounded-round px-3 pt-1.5 pb-2 text-tab font-medium whitespace-nowrap transition-colors duration-300 md:px-4",

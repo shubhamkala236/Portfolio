@@ -24,11 +24,12 @@ export function ConnectSection({ title, links }: ConnectSectionProps) {
       data-reveal-group
       id="connect"
       aria-labelledby="connect-title"
-      className="flex scroll-mt-home-anchor flex-col items-start justify-between gap-10 lg:flex-row"
+      className="flex scroll-mt-home-anchor flex-col items-start justify-between gap-10 max-md:scroll-mt-6 max-md:gap-11 lg:flex-row"
     >
       <h2
         id="connect-title"
-        className="font-brand text-home-title text-fg-strong font-opsz-14"
+        // On a phone the title is centred over the links.
+        className="font-brand text-home-title text-fg-strong font-opsz-14 max-md:self-center max-md:text-center max-md:text-home-title-sm"
       >
         {title}
       </h2>
@@ -43,7 +44,8 @@ export function ConnectSection({ title, links }: ConnectSectionProps) {
               href={link.href}
               {...newTabProps(link.href)}
               aria-label={link.label}
-              className="group/play flex items-center gap-5 py-6 text-fg-strong"
+              // 8px in from each end of the rules, which stay full width.
+              className="group/play flex items-center gap-5 px-2 py-6 text-fg-strong"
             >
               <span aria-hidden className="text-home-index">
                 {link.index}
@@ -59,7 +61,7 @@ export function ConnectSection({ title, links }: ConnectSectionProps) {
                   </span>
                 ))}
               </span>
-              <DottedArrow pulse="hover" />
+              <DottedArrow pulse="hover" className="connect-arrow" />
             </a>
           </li>
         ))}

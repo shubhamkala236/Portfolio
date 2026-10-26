@@ -10,6 +10,13 @@ const FRAME = { width: 1512, height: 721 };
 /** Where the content starts (4506:83422), and the room left below it. */
 const CONTENT_TOP = 231.64;
 const CONTENT_BOTTOM = 147.94;
+/**
+ * On a phone the field is drawn whole across the screen (the brush's last
+ * stroke ends 146 down the frame), and the content starts this far below
+ * the brush.
+ */
+const BRUSH_BOTTOM = 146;
+const PHONE_GAP = "3rem";
 /** A button's box (4506:83427). */
 const BUTTON_HEIGHT = 115.424;
 /** The chrome layers' offsets inside a button, Figma px. */
@@ -22,6 +29,26 @@ const FACE = { top: 8.88, right: 17.76, bottom: 18.18, left: 8.88 };
  * the content outgrows the frame, the dots carry on down as in the file.
  */
 const DOTS = { x: -5, y: -3, width: 1522.09, height: 1116.06 };
+/**
+ * The dots sit on a regular grid — rows 45.48 apart, every other row half a
+ * step across — so ten of its 90.96 periods, from 169.8 down the frame,
+ * repeat seamlessly. On a phone, where the dots shrink with the art, this
+ * band carries them on below the layer's own end, from 1079.4 down.
+ */
+const DOT_BAND = { top: 169.8, height: 909.6 };
+const DOT_BAND_END = DOT_BAND.top + DOT_BAND.height;
+/**
+ * Where the band takes over, as a share of the layer from its (unrotated)
+ * top: the layer is cut there on a phone (`footer-dots-trim`).
+ */
+const DOTS_TRIM = (DOTS.height - (DOT_BAND_END - DOTS.y)) / DOTS.height;
+/** The band's edges in the layer, as shares from its (unrotated) top. */
+const BAND_CLIP = {
+  top: DOTS_TRIM,
+  bottom: (DOT_BAND.top - DOTS.y) / DOTS.height,
+};
+/** Copies of the band below the layer: enough for the tallest phone footer. */
+const BAND_COPIES = [1, 2, 3, 4];
 /** The label sits 4.26px right of and below the face's centre. */
 const LABEL_NUDGE = 4.26;
 /**
@@ -54,25 +81,33 @@ const scaled = (px: number) =>
  * strokes exactly as Figma does. The field is drawn at the frame's 1512px
  * (cropped from the centre on narrower screens, scaled up on wider ones);
  * if the content outgrows it, the red carries on below and the dots with it.
+ * On a phone the whole field shrinks to the screen's width instead, as the
+ * hero's does — the full wave and its dots — and the dots' own grid carries
+ * on down to the foot of the footer: copies of the layer, each cut to its
+ * regular band (DOT_BAND), stacked below it.
  */
 export function SiteFooter() {
   const { footer } = siteConfig;
 
   return (
     <footer
-      className="relative mt-auto overflow-hidden"
-      style={{ minHeight: scaled(FRAME.height) }}
+      className="relative mt-auto min-h-(--footer-min-h) overflow-hidden max-md:min-h-0"
+      style={{ "--footer-min-h": scaled(FRAME.height) } as CSSProperties}
     >
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0 flex flex-col items-center"
       >
+        {/* The red and its brush edge: the frame's width, or the screen's
+            on a phone. */}
         <div
-          className="relative w-full shrink-0"
-          style={{
-            minWidth: FRAME.width,
-            aspectRatio: `${FRAME.width} / ${FRAME.height}`,
-          }}
+          className="relative w-full min-w-(--footer-frame-w) shrink-0 max-md:min-w-0"
+          style={
+            {
+              "--footer-frame-w": `${FRAME.width}px`,
+              aspectRatio: `${FRAME.width} / ${FRAME.height}`,
+            } as CSSProperties
+          }
         >
           {/* eslint-disable-next-line @next/next/no-img-element -- Figma's 1x/2x pair, served as is */}
           <img
@@ -81,29 +116,64 @@ export function SiteFooter() {
             alt=""
             className="absolute inset-0 size-full"
           />
+        </div>
+        <div className="w-full flex-1 bg-footer-red" />
+        {/* The dots: the frame's size, centred; the screen's on a phone. */}
+        <div
+          className="absolute top-0 left-1/2 w-(--footer-dots-w) -translate-x-1/2 max-md:w-full"
+          style={
+            {
+              "--footer-dots-w": `max(100%, ${FRAME.width}px)`,
+              aspectRatio: `${FRAME.width} / ${FRAME.height}`,
+            } as CSSProperties
+          }
+        >
           {/* eslint-disable-next-line @next/next/no-img-element -- Figma's own vector, served as is */}
           <img
             src="/ui/footer/dots.svg"
             alt=""
-            className="absolute max-w-none rotate-180 mix-blend-overlay"
-            style={{
-              left: percent(DOTS.x, FRAME.width),
-              top: percent(DOTS.y, FRAME.height),
-              width: percent(DOTS.width, FRAME.width),
-              height: percent(DOTS.height, FRAME.height),
-            }}
+            className="absolute max-w-none rotate-180 mix-blend-overlay footer-dots-trim"
+            style={
+              {
+                left: percent(DOTS.x, FRAME.width),
+                top: percent(DOTS.y, FRAME.height),
+                width: percent(DOTS.width, FRAME.width),
+                height: percent(DOTS.height, FRAME.height),
+                "--dots-trim": `${(DOTS_TRIM * 100).toFixed(4)}%`,
+              } as CSSProperties
+            }
           />
+          {/* On a phone, the grid carried on down: the layer's band again
+              and again, each copy one band lower. */}
+          {BAND_COPIES.map((copy) => (
+            // eslint-disable-next-line @next/next/no-img-element -- Figma's own vector, served as is
+            <img
+              key={copy}
+              src="/ui/footer/dots.svg"
+              alt=""
+              className="absolute max-w-none rotate-180 mix-blend-overlay md:hidden"
+              style={{
+                left: percent(DOTS.x, FRAME.width),
+                top: percent(DOTS.y + copy * DOT_BAND.height, FRAME.height),
+                width: percent(DOTS.width, FRAME.width),
+                height: percent(DOTS.height, FRAME.height),
+                clipPath: `inset(${(BAND_CLIP.top * 100).toFixed(4)}% 0 ${(BAND_CLIP.bottom * 100).toFixed(4)}% 0)`,
+              }}
+            />
+          ))}
         </div>
-        <div className="w-full flex-1 bg-footer-red" />
       </div>
 
       <Container
         data-reveal-group
-        className="relative flex flex-col gap-16 text-fg-strong"
-        style={{
-          paddingTop: scaled(CONTENT_TOP),
-          paddingBottom: CONTENT_BOTTOM,
-        }}
+        className="relative flex flex-col gap-16 pt-(--footer-top) text-fg-strong max-md:pt-(--footer-top-phone)"
+        style={
+          {
+            "--footer-top": scaled(CONTENT_TOP),
+            "--footer-top-phone": `calc(${((BRUSH_BOTTOM / FRAME.width) * 100).toFixed(4)}vw + ${PHONE_GAP})`,
+            paddingBottom: CONTENT_BOTTOM,
+          } as CSSProperties
+        }
       >
         <div className="flex flex-col gap-6 font-brand font-opsz-14">
           <p className="text-footer-name">{footer.name}</p>

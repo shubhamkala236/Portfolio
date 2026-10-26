@@ -8,7 +8,9 @@ import type { HomeContent } from "@/content/types";
 import {
   scrollTabIntoView,
   useGlassLens,
+  useSelectionHold,
 } from "@/components/ui/use-glass-lens";
+import { TabIcon } from "@/components/ui/tab-icon";
 import { cn } from "@/lib/cn";
 import { newTabProps, opensNewTab } from "@/lib/links";
 
@@ -25,9 +27,11 @@ const REACHED_SLACK = 2;
  * It sticks to the top of the page while it scrolls. The bar is a
  * zero-height sticky strip at the top of the page, so it takes no room:
  * from md up its pill hangs at Figma's 45px over the hero, below md over
- * the hero's red band. Only the pill takes clicks. On a phone the pill
- * keeps to the screen and its tabs scroll sideways inside it (by swipe; no
- * scrollbar), the raised tab kept in view.
+ * the hero. Only the pill takes clicks. On a phone the bar sits at the foot
+ * of the screen, 24px clear of it, each tab drawn as a 20px icon (its label
+ * kept for screen readers); should the pill still not fit, its tabs scroll
+ * sideways inside it (by swipe; no scrollbar), the raised tab kept in
+ * view.
  *
  * The raised tab follows the page, as in the case studies' section nav: it
  * is the last `#section` tab whose section has reached its scroll-margin
@@ -39,6 +43,13 @@ export function HomeNav({ label, items, current }: HomeNavProps) {
   const [active, setActive] = useState(current);
   const tabRefs = useRef(new Map<string, HTMLAnchorElement>());
   const listRef = useGlassLens<HTMLUListElement>(active);
+  // A clicked tab is raised at once and kept while the page scrolls to it.
+  const recheck = useRef(() => {});
+  const { hold, held } = useSelectionHold(() => recheck.current());
+  const select = (label: string) => {
+    hold();
+    setActive(label);
+  };
 
   useEffect(() => {
     const sections = items.filter((item) => item.href.startsWith("#"));
@@ -46,6 +57,7 @@ export function HomeNav({ label, items, current }: HomeNavProps) {
 
     function update() {
       frame = 0;
+      if (held.current) return;
       let next = current;
       const root = document.documentElement;
       const atEnd =
@@ -69,6 +81,7 @@ export function HomeNav({ label, items, current }: HomeNavProps) {
       if (!frame) frame = requestAnimationFrame(update);
     }
 
+    recheck.current = schedule;
     schedule();
     window.addEventListener("scroll", schedule, { passive: true });
     window.addEventListener("resize", schedule);
@@ -77,7 +90,7 @@ export function HomeNav({ label, items, current }: HomeNavProps) {
       window.removeEventListener("scroll", schedule);
       window.removeEventListener("resize", schedule);
     };
-  }, [items, current]);
+  }, [items, current, held]);
 
   // Where the bar scrolls sideways (phones), keep the raised tab in it.
   useEffect(() => {
@@ -87,7 +100,8 @@ export function HomeNav({ label, items, current }: HomeNavProps) {
   return (
     <div
       data-zoom-nav
-      className="@container pointer-events-none sticky top-0 z-10 h-0"
+      // On a phone the bar sits at the foot of the screen instead.
+      className="@container pointer-events-none sticky top-0 z-10 h-0 max-md:fixed max-md:inset-x-0 max-md:top-auto max-md:bottom-0 max-md:h-auto"
     >
       <div
         className="flex justify-center md:home-nav-drop"
@@ -95,7 +109,7 @@ export function HomeNav({ label, items, current }: HomeNavProps) {
       >
         <nav
           aria-label={label}
-          className="pointer-events-auto max-w-full px-4 py-2 md:px-6"
+          className="pointer-events-auto max-w-full px-4 py-2 max-md:nav-bottom-safe md:px-6"
         >
           <ul
             ref={listRef}
@@ -106,10 +120,20 @@ export function HomeNav({ label, items, current }: HomeNavProps) {
               const raised = item.label === active;
               // No hover change: the lens marks the selection, as in Figma.
               const className = cn(
-                "flex min-w-18 justify-center rounded-round px-3 pt-1.5 pb-2 text-tab font-medium whitespace-nowrap transition-colors duration-300 md:px-4",
+                "flex items-center justify-center rounded-round px-3 pt-1.5 pb-2 text-tab font-medium whitespace-nowrap transition-colors duration-300 md:min-w-18 md:px-4",
                 raised
                   ? "text-fg drop-shadow-tab-active"
                   : "text-tab-idle drop-shadow-tab",
+              );
+              // On a phone the tab shows its icon; the label stays for
+              // screen readers. From md up, the label as in Figma.
+              const face = item.icon ? (
+                <>
+                  <TabIcon name={item.icon} className="size-5 md:hidden" />
+                  <span className="max-md:sr-only">{item.label}</span>
+                </>
+              ) : (
+                item.label
               );
               const ref = (element: HTMLAnchorElement | null) => {
                 if (element) tabRefs.current.set(item.label, element);
@@ -130,11 +154,12 @@ export function HomeNav({ label, items, current }: HomeNavProps) {
                       onClick={(event) => {
                         if (window.location.pathname !== item.href) return;
                         event.preventDefault();
+                        select(current);
                         window.history.replaceState(null, "", item.href);
                         window.scrollTo({ top: 0 });
                       }}
                     >
-                      {item.label}
+                      {face}
                     </Link>
                   ) : (
                     // Sections scroll natively (smoothly, via the page's
@@ -146,8 +171,13 @@ export function HomeNav({ label, items, current }: HomeNavProps) {
                       {...newTabProps(item.href)}
                       aria-current={raised ? "true" : undefined}
                       className={className}
+                      onClick={
+                        item.href.startsWith("#")
+                          ? () => select(item.label)
+                          : undefined
+                      }
                     >
-                      {item.label}
+                      {face}
                     </a>
                   )}
                 </li>

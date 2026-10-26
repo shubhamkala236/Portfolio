@@ -51,16 +51,15 @@ type HeroSectionProps = {
  * It is a composition rather than a layout, so it is drawn in Figma px on a
  * stage that scales with the page (`--u` = 1/1512 of the width): every
  * piece keeps its place at any size. The tab bar is drawn by the page (see
- * HomeNav): it hangs over the hero from md up; below that the hero opens on
- * a red band for it (the file has no small-screen design).
+ * HomeNav): it hangs over the hero from md up; on a phone it sits at the
+ * foot of the screen instead (the file has no small-screen design).
  */
 export function HeroSection({ hero }: HeroSectionProps) {
   return (
     <section
       aria-labelledby="home-title"
-      className="@container relative overflow-x-clip bg-footer-red md:bg-transparent"
+      className="@container relative overflow-x-clip"
     >
-      <div aria-hidden className="h-home-nav md:hidden" />
       <div
         className="relative bg-bg"
         style={
