@@ -1,14 +1,13 @@
 import type { SiteConfig } from "./types";
 
 export const siteConfig = {
-  name: "Your Name",
-  role: "Full-stack Developer",
-  url: "https://example.com",
+  name: "Kriti Kumari Singh",
+  role: "Product Designer",
+  url: "https://kritiportfolio.vercel.app",
   description:
-    "Portfolio of Your Name — a full-stack developer building fast, accessible web products.",
+    "Portfolio of Kriti Kumari Singh, a product and visual designer with an artist’s eye: trading, fashion and expense-tracking apps, design systems and visual identity.",
   email: "kriti.singh92@gmail.com",
   emailCopied: "Email copied",
-  location: "Kuala Lumpur, Malaysia",
   socials: [
     {
       label: "LinkedIn",

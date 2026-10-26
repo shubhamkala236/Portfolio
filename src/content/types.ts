@@ -27,7 +27,6 @@ export type SiteConfig = {
    * too, for visitors with no mail app set up.
    */
   emailCopied: string;
-  location: string;
   socials: readonly SocialLink[];
   /** The site footer (Figma 4506:83007). */
   footer: {

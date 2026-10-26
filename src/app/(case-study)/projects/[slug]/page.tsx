@@ -23,6 +23,13 @@ export async function generateMetadata({
     title: project.title,
     description: project.summary,
     path: `/projects/${project.slug}`,
+    // The case study's hero: 1512 × 800, near the 1.91:1 a link card shows.
+    image: project.heroRender && {
+      url: project.heroRender.src1x,
+      width: project.heroRender.width,
+      height: project.heroRender.height,
+      alt: project.heroRender.alt,
+    },
   });
 }
 
