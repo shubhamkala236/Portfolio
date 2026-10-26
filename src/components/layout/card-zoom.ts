@@ -1,13 +1,12 @@
 /**
- * The home work cards' zoom into their case study, and back (PageTransition).
+ * The home work cards' zoom into their case study (PageTransition).
  *
  * A card's art is the centre of its case study's hero: the same 800 Figma px
  * tall frame, 1258 wide of the hero's 1512 (127 cropped each side), with
  * the same layers at the same places. So a copy of the art, drawn in the
  * hero's frame and clipped to a box, becomes the hero just by growing the
- * box from the card's rect to the hero's — and the hero becomes the card by
- * shrinking it back. The box keeps the frame's height filled, so the art
- * never stretches; only the crop widens.
+ * box from the card's rect to the hero's. The box keeps the frame's height
+ * filled, so the art never stretches; only the crop widens.
  */
 
 /** The hero frame and the card's centre crop of it, Figma px. */
@@ -20,8 +19,6 @@ export const ZOOM = {
   moveMs: 650,
   /** The page fading to the page colour behind it (or back). */
   backdropMs: 450,
-  /** The way home: the page colour first, then the hero over it. */
-  heroInMs: 300,
   /** The copy fading out over the real hero or card at the end. */
   fadeMs: 250,
   /**
@@ -143,59 +140,6 @@ export function zoomFromCard(root: HTMLElement, art: HTMLElement) {
   return {
     covered: wait(ZOOM.backdropMs),
     landed: move.finished.then(() => undefined),
-    finish: () => fadeOut(root, box, backdrop),
-  };
-}
-
-/**
- * The reverse: the case study's hero (as it sits at the top of its page)
- * fades in over the page colour, then — once the home page is back
- * underneath — shrinks into its card while the page colour fades away.
- */
-export function zoomFromHero(root: HTMLElement, hero: HTMLImageElement) {
-  const start = heroBox();
-  const { backdrop, box, stage } = scaffold(root, start, 0);
-  const copy = new Image();
-  copy.src = hero.currentSrc || hero.src;
-  copy.alt = "";
-  copy.className = "card-zoom-layer";
-  Object.assign(copy.style, {
-    left: "0",
-    top: "0",
-    width: "100%",
-    height: "100%",
-  });
-  stage.append(copy);
-
-  backdrop.animate([{ opacity: 0 }, { opacity: 1 }], {
-    duration: ZOOM.heroInMs,
-    easing: "ease-out",
-    fill: "forwards",
-  });
-  box.animate([{ opacity: 0 }, { opacity: 1 }], {
-    duration: ZOOM.heroInMs,
-    delay: ZOOM.backdropMs - ZOOM.heroInMs,
-    easing: "ease-out",
-    fill: "both",
-  });
-
-  return {
-    covered: wait(ZOOM.backdropMs),
-    /** Shrink into the card (or just fade, if it isn't on the page). */
-    landOn: async (art: HTMLElement | null) => {
-      if (!art) return;
-      const end = rectOf(art);
-      backdrop.animate([{ opacity: 1 }, { opacity: 0 }], {
-        duration: ZOOM.moveMs,
-        easing: ZOOM.ease,
-        fill: "forwards",
-      });
-      await box.animate(frames(start, 0, end, radiusFor(end)), {
-        duration: ZOOM.moveMs,
-        easing: ZOOM.ease,
-        fill: "forwards",
-      }).finished;
-    },
     finish: () => fadeOut(root, box, backdrop),
   };
 }

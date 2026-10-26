@@ -3,11 +3,7 @@
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
-import {
-  zoomFromCard,
-  zoomFromHero,
-  zoomSuitsScreen,
-} from "@/components/layout/card-zoom";
+import { zoomFromCard, zoomSuitsScreen } from "@/components/layout/card-zoom";
 import { readHomeScroll } from "@/components/layout/route-memory";
 
 /**
@@ -54,10 +50,9 @@ async function heroImage() {
  * - `="zoom"`, after dsnikhil.com's: a home work card grows into its case
  *   study's hero while the home page fades to the page colour; the case
  *   study loads underneath and the copy hands over to its hero (card-zoom).
- *   The way back home reverses it: the hero shrinks into its card. The
- *   home page's project cards, and the case studies' way home. On a phone
- *   held upright, where the hero is a short strip and the zoom wouldn't
- *   read, these play the curtain instead.
+ *   The home page's project cards. On a phone held upright, where the hero
+ *   is a short strip and the zoom wouldn't read, they play the curtain
+ *   instead.
  * - (default) the blob, after hyperfoundation.org's intro: the page colour
  *   covers the screen with a morphing red blob; the new page loads behind
  *   it; then the blob becomes a window that grows until the new page fills
@@ -65,7 +60,7 @@ async function heroImage() {
  * - `="curtain"`, after arunkumarrs.com's: a black curtain rises from below
  *   to cover the screen (0.6s), the new page loads behind it, and it carries
  *   on up and off the top (0.7s), both on a strong ease in-out. The case
- *   studies' "Thanks for reading" arrows.
+ *   studies' "Thanks for reading" arrows, the way home included.
  *
  * A link marked `data-page-transition-home` returns to the home page where
  * the visitor left it: the page is scrolled there under the cover.
@@ -127,18 +122,15 @@ export function PageTransition() {
           arrival.current = { path, resolve };
         });
 
-      // Zoom: a card into its hero, or the hero back into its card — where
-      // the hero is big enough on the screen for it to read. Elsewhere (a
-      // phone held upright) these links play the curtain, below.
+      // Zoom: a card into its hero — where the hero is big enough on the
+      // screen for it to read. Elsewhere (a phone held upright) the cards
+      // play the curtain, below.
       if (
         link.dataset.pageTransition === "zoom" &&
         zoomRoot.current &&
         zoomSuitsScreen()
       ) {
         const art = link.querySelector<HTMLElement>("[data-zoom-art]");
-        const hero = document.querySelector<HTMLImageElement>(
-          "[data-zoom-hero] img",
-        );
         // While the zoom is over the home page it passes under the home tab
         // bar, which fades with the page (`data-card-zoom` on <html>).
         const html = document.documentElement;
@@ -160,42 +152,6 @@ export function PageTransition() {
             await nextFrames();
             setPhase("reveal");
             await zoom.finish();
-            zooming.current = false;
-            setPhase("idle");
-          })();
-          return;
-        }
-        if (toHome && hero) {
-          const slug = window.location.pathname.split("/").pop();
-          const homeY = readHomeScroll();
-          zooming.current = true;
-          setKind("zoom");
-          setPhase("cover");
-          router.prefetch(url.pathname);
-          const zoom = zoomFromHero(zoomRoot.current, hero);
-          void (async () => {
-            await zoom.covered;
-            const arrived = arrive(url.pathname);
-            router.push(url.pathname, { scroll: false });
-            await arrived;
-            html.dataset.cardZoom = "land";
-            if (homeY !== null) {
-              window.scrollTo({ top: homeY, behavior: "instant" });
-            }
-            await nextFrames();
-            const card = document.querySelector<HTMLElement>(
-              `#work a[href="/projects/${slug}"] [data-zoom-art]`,
-            );
-            // The card the hero lands on shows at once, not with the reveal.
-            const item = card?.closest<HTMLElement>("li");
-            if (item) {
-              item.dataset.revealed = "";
-              item.style.animation = "none";
-            }
-            setPhase("reveal");
-            await zoom.landOn(card);
-            await zoom.finish();
-            delete html.dataset.cardZoom;
             zooming.current = false;
             setPhase("idle");
           })();

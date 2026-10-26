@@ -957,7 +957,7 @@
 }
 
 /* Over the home page the zoom passes under the home tab bar (z-10), which
- * fades out with the page on the way in and back in on the way home. */
+ * fades out with the page. */
 :root[data-card-zoom] .card-zoom {
   z-index: 5;
 }
@@ -965,16 +965,6 @@
 :root[data-card-zoom="leave"] [data-zoom-nav] {
   opacity: 0;
   transition: opacity 450ms ease-out;
-}
-
-:root[data-card-zoom="land"] [data-zoom-nav] {
-  animation: card-zoom-nav-in 650ms ease-out both;
-}
-
-@keyframes card-zoom-nav-in {
-  from {
-    opacity: 0;
-  }
 }
 
 .card-zoom-backdrop {
