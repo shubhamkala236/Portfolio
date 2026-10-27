@@ -297,6 +297,7 @@ export const elements = {
         {
           id: "home",
           label: "Home",
+          icon: "app-home",
           // 4286:7193
           block: {
             type: "annotated-figure",
@@ -331,6 +332,7 @@ export const elements = {
         {
           id: "shopping",
           label: "Shopping",
+          icon: "app-shopping",
           // 4286:7221
           block: {
             type: "annotated-figure",
@@ -371,6 +373,7 @@ export const elements = {
         {
           id: "wardrobe",
           label: "Wardrobe",
+          icon: "app-wardrobe",
           // 4286:7258 — two 1100px figures, centred, 80px apart
           block: {
             type: "group",
@@ -451,6 +454,7 @@ export const elements = {
         {
           id: "aura",
           label: "Aura",
+          icon: "aura",
           // 4286:7321
           block: {
             type: "annotated-figure",
@@ -487,6 +491,7 @@ export const elements = {
         {
           id: "flip",
           label: "Flip",
+          icon: "flip",
           // 4286:7357
           block: {
             type: "annotated-figure",
@@ -511,6 +516,7 @@ export const elements = {
         {
           id: "avatar-statistics",
           label: "Virtual avatar & Statistics",
+          icon: "app-profile",
           // 4286:7375
           block: {
             type: "annotated-figure",

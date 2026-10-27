@@ -38,11 +38,16 @@ export function SectionNavBlock({
     >
       <div
         data-reveal-skip
+        data-section-nav
         className="pointer-events-none sticky top-section-nav z-40"
       >
         <SectionNav
           label={label}
-          items={sections.map(({ id, label: text }) => ({ id, label: text }))}
+          items={sections.map(({ id, label: text, icon }) => ({
+            id,
+            label: text,
+            icon,
+          }))}
         />
       </div>
       {children}

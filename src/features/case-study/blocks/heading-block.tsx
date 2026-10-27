@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { Fragment } from "react";
+import { Fragment, type CSSProperties } from "react";
 
 import { cn } from "@/lib/cn";
 import type { CaseStudyBlock } from "@/content/types";
@@ -15,6 +15,8 @@ const sizes = {
 /**
  * A centred display line used as a chapter break, optionally over a figure or
  * a memoji mark.
+ *
+ * On a phone the figure or mark sits 8px above the text.
  *
  * Where Figma breaks the text explicitly (one paragraph per line), `text` is
  * an array and each line is its own block, so the breaks hold at every width
@@ -43,19 +45,30 @@ export function HeadingBlock({
   return (
     <div
       className="flex flex-col items-center"
-      style={{ gap: `calc(var(--gap-scale, 1) * ${figureGap}px)` }}
+      style={
+        {
+          "--figure-gap": `calc(var(--gap-scale, 1) * ${figureGap}px)`,
+        } as CSSProperties
+      }
     >
-      {mark && <MemojiMark mark={mark} />}
-      {!mark && figure && (
-        <Image
-          src={figure.src}
-          alt={figure.alt}
-          width={figure.width}
-          height={figure.height}
-          sizes={`${figureSize}px`}
-          style={{ width: figureSize, height: figureSize }}
-          className="max-w-full"
-        />
+      {(mark || figure) && (
+        <div className="mb-(--figure-gap) max-w-full max-md:mb-2">
+          {mark ? (
+            <MemojiMark mark={mark} />
+          ) : (
+            figure && (
+              <Image
+                src={figure.src}
+                alt={figure.alt}
+                width={figure.width}
+                height={figure.height}
+                sizes={`${figureSize}px`}
+                style={{ width: figureSize, height: figureSize }}
+                className="max-w-full"
+              />
+            )
+          )}
+        </div>
       )}
       {/* `relative` keeps the text above the mark's glow, as in the file's
           layer order. */}
@@ -69,6 +82,8 @@ export function HeadingBlock({
           !maxWidth && !explicitLines && "text-balance",
           sizes[face][size],
           leading === "normal" && "leading-brand-normal",
+          // On a phone, 8px more room under the figure.
+          (mark || figure) && "max-md:mt-2",
         )}
         style={{
           maxWidth,
@@ -92,7 +107,10 @@ export function HeadingBlock({
         ))}
       </Title>
       {description && (
-        <p className="relative text-center text-fg-strong" style={{ maxWidth }}>
+        <p
+          className="relative mt-(--figure-gap) text-center text-fg-strong"
+          style={{ maxWidth }}
+        >
           {typeof description === "string"
             ? description
             : description.map((line, i) => (

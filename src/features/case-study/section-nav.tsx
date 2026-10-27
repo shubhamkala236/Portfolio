@@ -2,16 +2,18 @@
 
 import { useEffect, useRef, useState } from "react";
 
+import { TabIcon } from "@/components/ui/tab-icon";
 import {
   scrollTabIntoView,
   useGlassLens,
   useSelectionHold,
 } from "@/components/ui/use-glass-lens";
+import type { TabIconName } from "@/content/types";
 import { cn } from "@/lib/cn";
 
 type SectionNavProps = {
   label: string;
-  items: readonly { id: string; label: string }[];
+  items: readonly { id: string; label: string; icon?: TabIconName }[];
 };
 
 /** How far past its anchor line a section may sit and still count as reached. */
@@ -30,6 +32,9 @@ const REACHED_SLACK = 2;
  * Styling is Figma's layout — tabs flush against each other — as liquid
  * glass: the bar is tinted glass and the selected tab sits on a glass lens
  * that glides from tab to tab (`glass-bar`, `useGlassLens`).
+ *
+ * On a phone each tab is drawn as its icon (the label kept for screen
+ * readers), as in the home tab bar.
  */
 export function SectionNav({ label, items }: SectionNavProps) {
   const [active, setActive] = useState(0);
@@ -84,7 +89,7 @@ export function SectionNav({ label, items }: SectionNavProps) {
       <div className="py-2 lg:p-0">
         <ul
           ref={listRef}
-          className="glass-bar mx-auto flex w-max max-w-full items-center rounded-round p-2 max-lg:scrollbar-none max-lg:overflow-x-auto"
+          className="glass-bar mx-auto flex w-max max-w-full items-center rounded-round p-2 max-lg:scrollbar-none max-lg:overflow-x-auto max-md:gap-1"
         >
           <li aria-hidden className="glass-lens" />
           {items.map((item, index) => (
@@ -101,13 +106,20 @@ export function SectionNav({ label, items }: SectionNavProps) {
                 }}
                 // No hover change: the lens marks the selection, as in Figma.
                 className={cn(
-                  "flex min-w-18 justify-center rounded-round px-3 pt-1.5 pb-2 text-tab font-medium whitespace-nowrap transition-colors duration-300 md:px-4",
+                  "flex items-center justify-center rounded-round px-3 pt-1.5 pb-2 text-tab font-medium whitespace-nowrap transition-colors duration-300 md:min-w-18 md:px-4",
                   index === active
                     ? "text-fg drop-shadow-tab-active"
                     : "text-tab-idle drop-shadow-tab",
                 )}
               >
-                {item.label}
+                {item.icon ? (
+                  <>
+                    <TabIcon name={item.icon} className="size-5 md:hidden" />
+                    <span className="max-md:sr-only">{item.label}</span>
+                  </>
+                ) : (
+                  item.label
+                )}
               </a>
             </li>
           ))}

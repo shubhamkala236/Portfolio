@@ -1,3 +1,4 @@
+import type { CSSProperties } from "react";
 import Link from "next/link";
 
 import { DottedArrow } from "@/components/ui/dotted-arrow";
@@ -11,7 +12,7 @@ type PagerArrowProps = {
   returnHome?: boolean;
 };
 
-/** The rotated glyph's bounding box (4506:82925). */
+/** The rotated glyph's bounding box (4506:82925); 16px on a phone. */
 const GLYPH_BOX = 33.941;
 
 /**
@@ -36,17 +37,20 @@ export function PagerArrow({
       // The curtain page transition (PageTransition), the way home too.
       data-page-transition="curtain"
       data-page-transition-home={returnHome || undefined}
-      className="group/play flex size-28 shrink-0 items-center justify-center rounded-full bg-surface transition-colors duration-200 hover:bg-surface-lifted focus-visible:bg-surface-lifted"
+      // 112px; 44px on a phone, its arrow 16px across. A tap shows the
+      // hover colour (data-press, TapPress), without the pulse.
+      data-press
+      className="group/play flex size-28 shrink-0 items-center justify-center rounded-full bg-surface transition-colors duration-200 hover:bg-surface-lifted focus-visible:bg-surface-lifted data-pressed:bg-surface-lifted max-md:size-11"
     >
       <span
         aria-hidden
         className={cn(
-          "flex items-center justify-center",
+          "flex size-(--glyph-box) items-center justify-center max-md:size-4",
           direction === "previous" && "-scale-x-100",
         )}
-        style={{ width: GLYPH_BOX, height: GLYPH_BOX }}
+        style={{ "--glyph-box": `${GLYPH_BOX}px` } as CSSProperties}
       >
-        <DottedArrow pulse="hover" className="rotate-45" />
+        <DottedArrow pulse="hover" className="rotate-45 pager-glyph" />
       </span>
     </Link>
   );

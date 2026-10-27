@@ -263,6 +263,11 @@
   --text-home-title--line-height: 1.2031;
   /* The same titles on a phone, below md (`max-md:text-home-title-sm`). */
   --text-home-title-sm: 1.75rem; /* 28px */
+  /* A case study's title and subtitle on a phone (PageTitleBlock). */
+  --text-case-title-sm: 1.75rem; /* 28px */
+  --text-case-subtitle-sm: 1.25rem; /* 20px */
+  /* The values under Project / Role / Timeline / Scope on a phone. */
+  --text-case-meta-sm: 1.125rem; /* 18px */
   --text-home-title--letter-spacing: -0.04em;
   --text-home-title--font-weight: 900;
   /* Work titles: DM Sans SemiBold 32px (the file's 40), 20px on a phone, at
@@ -745,6 +750,53 @@
 
   @media (width < 48rem) {
     --arrow-size: 16px;
+  }
+}
+
+/* The "Thanks for reading" badge on a phone (ProjectPagerBlock): the
+ * whole 320px badge, sparkle and all, drawn at 134px. */
+@utility pager-mark-compact {
+  zoom: 0.41875;
+}
+
+/* The pager arrows' glyph on a phone, in their 44px circles: 16px across
+ * once turned 45° (16 / √2 = 11.31px square). */
+@utility pager-glyph {
+  @media (width < 48rem) {
+    --arrow-size: 11.314px;
+  }
+}
+
+/* The case-study back button's glyph (CaseStudyBack): 12px across once
+ * turned (12 / √2). */
+@utility back-glyph {
+  --arrow-size: 8.485px;
+}
+
+/* A case study's copy on a phone: labels, body text and paragraphs at
+ * 16px — not its headings (some are paragraphs), the title block's
+ * subtitle, nor the meta values (18px, MetaBlock) — and list items at
+ * 12px. */
+@media (width < 48rem) {
+  [data-case-study]
+    :is(
+      .text-label,
+      .text-body:not(dd),
+      .text-body-lg,
+      p:not(
+        .font-display,
+        .font-brand,
+        .text-kicker,
+        .text-statement,
+        .text-lead,
+        .text-lead-md
+      )
+    ) {
+    font-size: 1rem;
+  }
+
+  [data-case-study] li:not(nav li) {
+    font-size: 0.75rem;
   }
 }
 

@@ -29,7 +29,7 @@ export function MetaBlock({
       {items.map((item) => (
         <div key={item.label} className="flex flex-col gap-3">
           <dt className={eyebrowStyles}>{item.label}</dt>
-          <dd className="text-body text-fg-strong lg:whitespace-nowrap">
+          <dd className="text-body text-fg-strong max-md:text-case-meta-sm lg:whitespace-nowrap">
             {item.value}
           </dd>
         </div>

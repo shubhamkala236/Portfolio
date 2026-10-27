@@ -189,6 +189,8 @@ export function SiteFooter() {
               <a
                 href={link.href}
                 {...newTabProps(link.href)}
+                // A tap shows the hover look too (TapPress).
+                data-press
                 className="group/button relative block w-full max-sm:footer-button-compact lg:w-footer-button"
                 style={
                   {
@@ -204,18 +206,18 @@ export function SiteFooter() {
                   tone="face"
                   inset={SHADOW}
                   trim={0.12}
-                  className="group-hover/button:invisible group-focus-visible/button:invisible"
+                  className="group-hover/button:invisible group-focus-visible/button:invisible group-data-pressed/button:invisible"
                 />
                 <Chamfer
                   tone="edge"
                   inset={EDGE}
                   trim={0.12}
-                  className="group-hover/button:invisible group-focus-visible/button:invisible"
+                  className="group-hover/button:invisible group-focus-visible/button:invisible group-data-pressed/button:invisible"
                 />
                 {/* The hovered edge: white, pressed, with its soft shadow.
                     Pressed layers move by position, not transform, so their
                     pieces snap to whole pixels as at rest (no seams). */}
-                <span className="invisible absolute top-(--edge-y) left-(--edge-x) size-full group-hover/button:visible group-focus-visible/button:visible">
+                <span className="invisible absolute top-(--edge-y) left-(--edge-x) size-full group-hover/button:visible group-focus-visible/button:visible group-data-pressed/button:visible">
                   <Chamfer
                     tone="highlight"
                     inset={EDGE}
@@ -223,7 +225,7 @@ export function SiteFooter() {
                     className="drop-shadow-footer-button"
                   />
                 </span>
-                <span className="absolute top-0 left-0 size-full group-hover/button:top-(--face-y) group-hover/button:left-(--face-x) group-focus-visible/button:top-(--face-y) group-focus-visible/button:left-(--face-x)">
+                <span className="absolute top-0 left-0 size-full group-hover/button:top-(--face-y) group-hover/button:left-(--face-x) group-focus-visible/button:top-(--face-y) group-focus-visible/button:left-(--face-x) group-data-pressed/button:top-(--face-y) group-data-pressed/button:left-(--face-x)">
                   <Chamfer tone="face" inset={FACE} trim={0.36}>
                     <span
                       className="absolute -translate-1/2 font-button text-footer-button font-bold whitespace-nowrap"

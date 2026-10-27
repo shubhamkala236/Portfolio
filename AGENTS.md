@@ -22,8 +22,10 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 - Server Components by default. Add `"use client"` only for genuine interactivity
   (currently the case-study section nav, the home tab bar, the about-me
   photo fan's scroll trigger, the site-wide scroll reveal, the page
-  transition, the route memory, the pager's previous arrow and the
-  "Email copied" notice).
+  transition, the route memory, the pager's previous arrow, the
+  "Email copied" notice, the phone's case-study back button and the tap
+  feedback). Mark an element `data-press` and a tap shows its hover look
+  (style it with `data-pressed:`).
 - Scroll reveal: mark a container `data-reveal-group` and its direct children
   fade and rise in, staggered, as they scroll into view; nested groups
   cascade. Skip a child with `data-reveal-skip` (e.g. anything sticky).

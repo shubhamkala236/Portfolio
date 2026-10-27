@@ -5,8 +5,23 @@
  * field is a compile error rather than a blank space on the live site.
  */
 
-/** A tab's icon (TabIcon), by name. */
-export type TabIconName = "home" | "work" | "about" | "connect" | "resume";
+/**
+ * A tab's icon (TabIcon), by name: the home bar's, and the ELEMENTS bar's —
+ * the app's own nav icons (`app-*`, from its Figma nav bar 1:1546) and two
+ * drawn to match them.
+ */
+export type TabIconName =
+  | "home"
+  | "work"
+  | "about"
+  | "connect"
+  | "resume"
+  | "app-home"
+  | "app-shopping"
+  | "app-wardrobe"
+  | "app-profile"
+  | "aura"
+  | "flip";
 
 export type NavItem = {
   label: string;
@@ -379,6 +394,8 @@ export type CaseStudyBlock =
         id: string;
         /** Tab text, verbatim from the file. */
         label: string;
+        /** Drawn in the label's place on phones. */
+        icon?: TabIconName;
         block: CaseStudyBlock;
       }[];
     }

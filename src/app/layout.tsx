@@ -5,6 +5,7 @@ import { PageTransition } from "@/components/layout/page-transition";
 import { RouteMemory } from "@/components/layout/route-memory";
 import { ScrollReveal } from "@/components/layout/scroll-reveal";
 import { SiteFooter } from "@/components/layout/site-footer";
+import { TapPress } from "@/components/layout/tap-press";
 import { siteConfig } from "@/content/site";
 import { fontVariables } from "@/lib/fonts";
 import { buildMetadata } from "@/lib/seo";
@@ -41,6 +42,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <PageTransition />
         <RouteMemory />
         <EmailCopy message={siteConfig.emailCopied} />
+        <TapPress />
       </body>
     </html>
   );
