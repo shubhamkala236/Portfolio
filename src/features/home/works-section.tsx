@@ -39,7 +39,7 @@ export function WorksSection({ title, items }: WorksSectionProps) {
             <Link
               href={`/projects/${item.slug}`}
               data-page-transition="zoom"
-              className="group/card mx-auto flex w-full home-work-fit flex-col gap-10"
+              className="group/card mx-auto flex w-full home-work-fit flex-col gap-10 max-md:gap-6"
             >
               <span data-zoom-art className="group/art block">
                 {"layers" in item.render ? (

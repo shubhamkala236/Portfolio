@@ -6,6 +6,7 @@ import { RouteMemory } from "@/components/layout/route-memory";
 import { ScrollReveal } from "@/components/layout/scroll-reveal";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { TapPress } from "@/components/layout/tap-press";
+import { webNoticeScript } from "@/components/layout/web-notice-script";
 import { siteConfig } from "@/content/site";
 import { fontVariables } from "@/lib/fonts";
 import { buildMetadata } from "@/lib/seo";
@@ -27,7 +28,14 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="en"
       data-scroll-behavior="smooth"
       className={`${fontVariables} h-full`}
+      // The head script below may mark <html> before React hydrates it.
+      suppressHydrationWarning
     >
+      <head>
+        {/* The home page opened on a phone shows its notice before it paints
+            (WebNotice). */}
+        <script dangerouslySetInnerHTML={{ __html: webNoticeScript }} />
+      </head>
       <body className="flex min-h-full flex-col antialiased">
         <a
           href="#main"

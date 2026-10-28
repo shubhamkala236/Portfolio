@@ -1,4 +1,5 @@
 import Image from "next/image";
+import type { CSSProperties } from "react";
 
 import { FigmaRender } from "@/components/ui/figma-render";
 import { SectionHeader } from "@/components/ui/section-header";
@@ -24,6 +25,8 @@ type AnnotatedFigureBlockProps = Extract<
  * as Figma lays it out.
  */
 export function AnnotatedFigureBlock({
+  phoneGap,
+  phoneHeaderGap,
   eyebrow,
   title,
   description,
@@ -40,7 +43,19 @@ export function AnnotatedFigureBlock({
   annotations,
 }: AnnotatedFigureBlockProps) {
   return (
-    <div data-reveal-group className="flex flex-col gap-20">
+    <div
+      data-reveal-group
+      className={cn(
+        "flex flex-col gap-20",
+        phoneHeaderGap !== undefined && "max-md:gap-(--header-phone-gap)",
+      )}
+      style={
+        {
+          "--header-phone-gap":
+            phoneHeaderGap === undefined ? undefined : `${phoneHeaderGap}px`,
+        } as CSSProperties
+      }
+    >
       <SectionHeader
         eyebrow={eyebrow}
         title={title}
@@ -51,8 +66,17 @@ export function AnnotatedFigureBlock({
       />
 
       <figure
-        className="mx-auto flex w-full flex-col gap-10"
-        style={{ maxWidth: width }}
+        className={cn(
+          "mx-auto flex w-full flex-col gap-10",
+          phoneGap !== undefined && "max-md:gap-(--figure-phone-gap)",
+        )}
+        style={
+          {
+            maxWidth: width,
+            "--figure-phone-gap":
+              phoneGap === undefined ? undefined : `${phoneGap}px`,
+          } as CSSProperties
+        }
       >
         {subtitle && (
           <h3
@@ -92,7 +116,9 @@ export function AnnotatedFigureBlock({
         )}
 
         {annotations.length > 0 && (
-          <figcaption className="lg:sr-only">
+          // Read out at every size; seen only from md to lg. On a phone, as
+          // on desktop, the image already shows them.
+          <figcaption className="max-md:sr-only lg:sr-only">
             <ul className="grid gap-6 sm:grid-cols-2">
               {annotations.map((annotation) => (
                 <li

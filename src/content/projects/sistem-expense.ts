@@ -62,17 +62,23 @@ export const sistemExpense = {
         {
           type: "page-title",
           title: "SISTEM EXPENSE",
-          // 4506:81331 — DM Sans SemiBold, -4%; the subtitle is 40px, 20px under.
+          // 4506:81331 — DM Sans SemiBold, -4%; the subtitle is 40px, 12px under
+          // (the file's 20).
           titleStyle: "brand",
           subtitle: ["Built around the way you actually manage your money"],
           subtitleSize: "md",
-          subtitleGap: 20,
+          subtitleGap: 12,
         },
         {
           type: "meta",
           items: [
             { label: "Client", value: "Sistem.app" },
-            { label: "Role", value: "UX/Ui Intern" },
+            // As in the file on the web; on a phone, "UI" capitalised.
+            {
+              label: "Role",
+              value: "UX/Ui Intern",
+              phoneValue: "UX/UI Intern",
+            },
             { label: "Timeline", value: "3 Weeks" },
             { label: "Scope", value: "UX Research, User Flows, Wireframes" },
           ],
@@ -83,6 +89,8 @@ export const sistemExpense = {
     {
       type: "heading",
       text: "A Simpler way to handle Money",
+      // On a phone, in two lines.
+      phoneLines: ["A Simpler way to", "handle Money"],
       maxWidth: 726,
       tone: "strong",
       // 4506:81349 reports 0% tracking, but Figma spaces its glyphs 0.5px
@@ -259,7 +267,9 @@ export const sistemExpense = {
                 403,
                 "Wireframes of choosing which account an expense is paid from",
               ),
+              // 12px on a phone.
               note: {
+                phoneSmall: true,
                 lead: "Split Payments:",
                 text: " A single expense can be paid using cash, bank, or both. Users can split the amount between payment methods, keeping transactions accurate and easy to track.",
               },
@@ -410,6 +420,7 @@ export const sistemExpense = {
     // 4106:6175 — its header frame is fixed at 132px (4506:82206)
     {
       type: "annotated-figure",
+      phoneHeaderGap: 64,
       eyebrow: "Wireframes",
       title: "Budgeting",
       headerHeight: 132,
@@ -451,6 +462,8 @@ export const sistemExpense = {
         {
           width: 1258,
           stepGap: 40,
+          // The iterations 36px apart on a phone.
+          phoneStepGap: 36,
           numbered: false,
           steps: [
             {

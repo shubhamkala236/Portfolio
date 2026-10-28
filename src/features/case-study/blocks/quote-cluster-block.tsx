@@ -43,6 +43,10 @@ const layout = {
  * absolutely over the middle of the frame. From `lg` up that is reproduced
  * exactly. Below it the arrangement depends on a width that is not there, so
  * the chips wrap and the circle sits in the flow above them.
+ *
+ * On a phone the circle shrinks to 164px between two rows of chips that run
+ * edge to edge across the screen, scrolling on their own — the upper one
+ * left to right, the lower one right to left (`ChipMarquee`).
  */
 export function QuoteClusterBlock({
   eyebrow,
@@ -58,6 +62,8 @@ export function QuoteClusterBlock({
     return quotes.slice(start, start + count);
   });
 
+  // A phone's two marquee rows: the first half of the quotes, then the rest.
+  const half = Math.ceil(quotes.length / 2);
   const vars = {
     "--chip-w": `${layout.chipWidth}px`,
     "--figure-w": `${layout.figureWidth}px`,
@@ -75,10 +81,11 @@ export function QuoteClusterBlock({
       )}
 
       <div
-        className="relative flex flex-col items-center gap-7 py-6"
+        className="relative flex flex-col items-center gap-7 py-6 max-md:gap-6"
         style={vars}
       >
-        <div className="relative h-(--figure-h) w-(--figure-w) shrink-0 rounded-full border border-border-faint bg-surface-sunken lg:absolute lg:top-(--figure-top) lg:left-1/2 lg:-translate-x-1/2">
+        <ChipMarquee quotes={quotes.slice(0, half)} direction="right" />
+        <div className="relative h-(--figure-h) w-(--figure-w) shrink-0 rounded-full border border-border-faint bg-surface-sunken max-md:size-41 lg:absolute lg:top-(--figure-top) lg:left-1/2 lg:-translate-x-1/2">
           <div
             className="absolute overflow-hidden"
             style={{
@@ -102,10 +109,12 @@ export function QuoteClusterBlock({
           </div>
         </div>
 
+        <ChipMarquee quotes={quotes.slice(half)} direction="left" />
+
         {groupedRows.map((row, index) => (
           <div
             key={index}
-            className="flex flex-wrap justify-center gap-7 lg:flex-nowrap lg:gap-(--row-gap)"
+            className="flex flex-wrap justify-center gap-7 max-md:hidden lg:flex-nowrap lg:gap-(--row-gap)"
             style={
               { "--row-gap": `${rowGaps[index] ?? 27}px` } as CSSProperties
             }
@@ -120,6 +129,51 @@ export function QuoteClusterBlock({
             ))}
           </div>
         ))}
+      </div>
+    </div>
+  );
+}
+
+/** Seconds a row takes to run one set of its chips past. */
+const MARQUEE_S_PER_CHIP = 7;
+
+/**
+ * A phone's row of chips, edge to edge across the screen and scrolling on
+ * its own: the chips twice over, the track sliding by one set and starting
+ * again (seamless, as each chip carries its own gap). Decorative copies are
+ * hidden from screen readers; under reduced motion the row holds still and
+ * scrolls by hand instead. The screen-wide row overhangs its column evenly
+ * (the column centres it), so it runs edge to edge. From md up it isn't
+ * drawn.
+ */
+function ChipMarquee({
+  quotes,
+  direction,
+}: {
+  quotes: readonly string[];
+  direction: "left" | "right";
+}) {
+  return (
+    <div className="w-screen overflow-hidden motion-reduce:overflow-x-auto md:hidden">
+      <div
+        className={
+          direction === "right"
+            ? "flex w-max animate-marquee-right motion-reduce:animate-none"
+            : "flex w-max animate-marquee-left motion-reduce:animate-none"
+        }
+        style={{ animationDuration: `${quotes.length * MARQUEE_S_PER_CHIP}s` }}
+      >
+        {[0, 1].map((copy) =>
+          quotes.map((quote) => (
+            <p
+              key={`${copy}-${quote}`}
+              aria-hidden={copy === 1 || undefined}
+              className="mr-4 w-(--chip-w) shrink-0 rounded-chip bg-surface px-6 py-4 text-chip font-medium text-fg"
+            >
+              {quote}
+            </p>
+          )),
+        )}
       </div>
     </div>
   );

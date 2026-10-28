@@ -48,6 +48,10 @@
   --home-card: #1c1c1c; /* About photo cards (4506:83551) */
   --home-rule: rgba(255, 255, 255, 0.19); /* Connect list rules */
   --home-shadow: rgba(13, 13, 13, 0.17); /* About card shadow */
+  /* MISS BLISS illustration cards (4506:82878): the colours of its earlier
+   * flat render, darker than the file's #212121 / #373737. */
+  --case-card: #1c1c1c;
+  --case-card-edge: #282828;
   --home-shadow-deep: rgba(13, 13, 13, 0.85); /* Leftmost card's shadow */
   /* The tab bars as liquid glass (home 4506:84854, ELEMENTS 4506:85515), in
    * their Figma colours: the bar's #1f1f1f and the selected tab's #2d2d2d,
@@ -113,6 +117,8 @@
   --color-quote-rule: var(--quote-rule);
   --color-fg-quote: var(--fg-quote);
   --color-footer-red: var(--footer-red);
+  --color-case-card: var(--case-card);
+  --color-case-card-edge: var(--case-card-edge);
   --color-footer-face: var(--footer-face);
   --color-footer-edge: var(--footer-edge);
   --color-footer-edge-hover: var(--footer-edge-hover);
@@ -144,7 +150,8 @@
 
   /* The DM Sans page title (Miss Bliss 4506:82855): SemiBold 80px,
    * tightened 4%, at DM Sans's normal leading — Figma's box is 104px. */
-  --text-brand-title: clamp(2.75rem, 2.0079rem + 3.1662vw, 5rem); /* 80px */
+  /* The case studies' page titles: 64px (the file's 80). */
+  --text-brand-title: clamp(2.75rem, 2.3378rem + 1.759vw, 4rem); /* 64px */
   --text-brand-title--line-height: 1.3;
   --text-brand-title--letter-spacing: -0.04em;
   --text-brand-title--font-weight: 600;
@@ -163,6 +170,10 @@
    * 77, so a two-line title is 174 tall, not 173.6. */
   --text-title--line-height: 1.2031; /* 64 -> 77 */
   --text-title--letter-spacing: 0.06em;
+  /* A smaller chapter break (Hotstuff's THE PRODUCT, BEYOND THE FEATURES). */
+  --text-title-sm: clamp(1.5rem, 1.0877rem + 1.759vw, 2.75rem); /* 44px */
+  --text-title-sm--line-height: 1.2031;
+  --text-title-sm--letter-spacing: 0.06em;
 
   --text-lead: clamp(1.5rem, 1.0877rem + 1.759vw, 2.75rem); /* 44px */
   --text-lead--line-height: 1.25;
@@ -243,6 +254,8 @@
   /* Footer (4506:83422): DM Sans Black 80px set solid and tightened 4%,
    * a 36px tagline at 1.6, and fixed 26.636px Josefin button labels. */
   --text-footer-name: clamp(2.75rem, 2.0079rem + 3.1662vw, 5rem); /* 80px */
+  /* The footer name on a phone (`max-md:text-footer-name-sm`). */
+  --text-footer-name-sm: 2.5rem; /* 40px */
   --text-footer-name--line-height: 1;
   --text-footer-name--letter-spacing: -0.04em;
   --text-footer-name--font-weight: 900;
@@ -262,12 +275,20 @@
   --text-home-title: clamp(1.875rem, 1.4215rem + 1.9349vw, 3.25rem); /* 52px */
   --text-home-title--line-height: 1.2031;
   /* The same titles on a phone, below md (`max-md:text-home-title-sm`). */
-  --text-home-title-sm: 1.75rem; /* 28px */
+  --text-home-title-sm: 1.5rem; /* 24px */
   /* A case study's title and subtitle on a phone (PageTitleBlock). */
   --text-case-title-sm: 1.75rem; /* 28px */
   --text-case-subtitle-sm: 1.25rem; /* 20px */
+  /* A case study's large headings on a phone (HeadingBlock, size "lg"). */
+  --text-case-heading-sm: 1.75rem; /* 28px */
   /* The values under Project / Role / Timeline / Scope on a phone. */
   --text-case-meta-sm: 1.125rem; /* 18px */
+  /* The phone notice over the home page as it opens (WebNotice): DM Sans
+   * Black 28px in capitals, tracked -6%. */
+  --text-web-notice: 1.75rem; /* 28px */
+  --text-web-notice--line-height: 1.2;
+  --text-web-notice--letter-spacing: -0.06em;
+  --text-web-notice--font-weight: 900;
   --text-home-title--letter-spacing: -0.04em;
   --text-home-title--font-weight: 900;
   /* Work titles: DM Sans SemiBold 32px (the file's 40), 20px on a phone, at
@@ -393,6 +414,9 @@
   --ease-reveal: cubic-bezier(0.42, 0, 0.58, 1);
   /* The curtain transition's strong ease in-out (as arunkumarrs.com's). */
   --ease-curtain: cubic-bezier(0.76, 0, 0.24, 1);
+  /* The ELEMENTS feature carousel's cards (FeatureCarousel): fast off the
+   * mark, soft landing. */
+  --ease-card: cubic-bezier(0.22, 1, 0.36, 1);
   /* Figma's "Ease in" transition curve. */
   --ease-figma-in: cubic-bezier(0.42, 0, 1, 1);
   /* The pixel arrow's dots and head each dip to 25% and back on a 2s loop
@@ -400,6 +424,39 @@
    * 180ms down, lowest at 360ms, back by 620ms, ease-in-out; Figma staggers
    * the five parts 140ms apart, which is each one's delay. */
   --animate-arrow-dot-quick: arrow-dot-quick 2s ease-in-out infinite;
+  /* The ELEMENTS quote chips' rows on a phone (QuoteClusterBlock): each
+   * slides one set of its chips along, endlessly; the duration is set per
+   * row. */
+  /* The feature carousel's caption, coming in under each new centre card. */
+  --animate-caption-in: caption-in 0.5s ease-out both;
+
+  @keyframes caption-in {
+    from {
+      opacity: 0;
+      translate: 0 8px;
+    }
+  }
+
+  --animate-marquee-right: marquee-right 28s linear infinite;
+  --animate-marquee-left: marquee-left 28s linear infinite;
+
+  @keyframes marquee-right {
+    from {
+      translate: -50% 0;
+    }
+    to {
+      translate: 0 0;
+    }
+  }
+
+  @keyframes marquee-left {
+    from {
+      translate: 0 0;
+    }
+    to {
+      translate: -50% 0;
+    }
+  }
 
   @keyframes arrow-dot-quick {
     0%,
@@ -744,12 +801,12 @@
 }
 
 /* The Let's Connect rows' pixel arrow (DottedArrow): 20px (the file's 24,
- * taken down as asked), 16px on a phone. */
+ * taken down as asked), 14px on a phone. */
 @utility connect-arrow {
   --arrow-size: 20px;
 
   @media (width < 48rem) {
-    --arrow-size: 16px;
+    --arrow-size: 14px;
   }
 }
 
@@ -757,6 +814,14 @@
  * whole 320px badge, sparkle and all, drawn at 134px. */
 @utility pager-mark-compact {
   zoom: 0.41875;
+}
+
+/* A heading's memoji mark from md up, scaled to its `markWebSize`
+ * (HeadingBlock; --mark-zoom = that width / the mark's own). */
+@utility mark-web-zoom {
+  @media (width >= 48rem) {
+    zoom: var(--mark-zoom);
+  }
 }
 
 /* The pager arrows' glyph on a phone, in their 44px circles: 16px across
@@ -775,8 +840,8 @@
 
 /* A case study's copy on a phone: labels, body text and paragraphs at
  * 16px — not its headings (some are paragraphs), the title block's
- * subtitle, nor the meta values (18px, MetaBlock) — and list items at
- * 12px. */
+ * subtitle, nor the meta values (18px, MetaBlock) — and list items, and
+ * copy marked `phone-copy-sm`, at 12px. */
 @media (width < 48rem) {
   [data-case-study]
     :is(
@@ -795,8 +860,33 @@
     font-size: 1rem;
   }
 
-  [data-case-study] li:not(nav li) {
+  [data-case-study] li:not(nav li),
+  [data-case-study] p.phone-copy-sm {
     font-size: 0.75rem;
+  }
+}
+
+/* The room under the footer's buttons (4506:83422). On a phone's case
+ * study, where no tab bar floats over the page's foot, only 48px. */
+@utility footer-bottom {
+  padding-bottom: 147.94px;
+}
+
+@media (width < 48rem) {
+  body:has([data-case-study]) .footer-bottom {
+    padding-bottom: 3rem;
+  }
+}
+
+/* From md up, on every page, the footer's name, status and buttons sit in
+ * the middle of the solid red: between the brush's last stroke
+ * (--footer-brush) and the footer's foot, at least 3rem from each. */
+@media (width >= 48rem) {
+  .footer-centred {
+    justify-content: center;
+    min-height: calc(var(--footer-min-h) - var(--footer-brush) - 6rem);
+    padding-top: calc(var(--footer-brush) + 3rem);
+    padding-bottom: 3rem;
   }
 }
 
@@ -1047,8 +1137,72 @@
 }
 
 /* The new page's reveals hold under the cover, then play as it opens. */
-:root[data-page-transition="cover"] [data-revealed] {
+:root:is([data-page-transition="cover"], [data-web-notice="cover"])
+  [data-revealed] {
   animation-play-state: paused;
+}
+
+/* The phone notice (WebNotice): the home page opened on a phone opens on
+ * its hero's red and polka dots, with a line suggesting the web; after
+ * 800ms the pager arrows' black curtain rises over it (0.6s) and, once the
+ * page is ready, carries on up and off (0.7s). The head script marks <html>
+ * `data-web-notice="cover"` before the page paints; WebNotice turns it to
+ * "reveal", then clears it. Without the mark it never shows. */
+.web-notice {
+  display: none;
+}
+
+@media (width < 48rem) {
+  :root[data-web-notice] .web-notice {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 101;
+  }
+}
+
+.web-notice-field {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-inline: 1.5rem;
+  /* The hero's dots (4506:83779), black at 17% blended in overlay mode as
+   * there, at the size the home hero draws them (1/1512 of the width per
+   * Figma px): a seamless tile cut from the grid, repeated over the
+   * screen. A background, so only a phone that shows the notice fetches
+   * it. */
+  background: url("/ui/web-notice/dots-tile.svg") 0 0 /
+    calc(100vw * 558.54 / 1512) auto repeat var(--footer-red);
+  background-blend-mode: overlay;
+}
+
+.web-notice-curtain {
+  position: absolute;
+  inset: 0;
+  background: var(--curtain);
+  translate: 0 100%;
+  animation: curtain-cover 0.6s var(--ease-curtain) 800ms both;
+}
+
+:root[data-web-notice="reveal"] .web-notice {
+  pointer-events: none;
+}
+
+:root[data-web-notice="reveal"] .web-notice-field {
+  visibility: hidden;
+}
+
+:root[data-web-notice="reveal"] .web-notice-curtain {
+  animation: curtain-reveal 0.7s var(--ease-curtain) both;
+}
+
+/* Reduced motion: the red alone, for its moment. */
+@media (prefers-reduced-motion: reduce) {
+  .web-notice-curtain {
+    display: none;
+  }
 }
 
 /* The about-me photo fan (4506:83538) opens once, when it scrolls into view

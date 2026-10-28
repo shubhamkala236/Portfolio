@@ -8,6 +8,7 @@ export const siteConfig = {
     "Portfolio of Kriti Kumari Singh, a product and visual designer with an artist’s eye: trading, fashion and expense-tracking apps, design systems and visual identity.",
   email: "kriti.singh92@gmail.com",
   emailCopied: "Email copied",
+  webNotice: "Better experience on Web",
   socials: [
     {
       label: "LinkedIn",

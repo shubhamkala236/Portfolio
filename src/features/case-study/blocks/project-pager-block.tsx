@@ -20,7 +20,7 @@ type ProjectPagerBlockProps = Extract<
  *
  * Figma draws only the desktop row. On a phone the row keeps its order,
  * smaller: 44px arrows either side of the badge, drawn at 134px, and the
- * heading 24px below.
+ * heading 20px below.
  */
 export function ProjectPagerBlock({
   previous,
@@ -36,7 +36,7 @@ export function ProjectPagerBlock({
     <div
       // data-pager: where the phone's back button stands down (CaseStudyBack).
       data-pager
-      className="mx-auto flex w-full flex-wrap items-center justify-between gap-y-(--pager-gap) max-md:gap-y-6"
+      className="mx-auto flex w-full flex-wrap items-center justify-between gap-y-(--pager-gap) max-md:gap-y-5"
       style={
         { maxWidth: width, "--pager-gap": `${figureGap}px` } as CSSProperties
       }

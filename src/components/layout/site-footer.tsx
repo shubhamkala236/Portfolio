@@ -7,13 +7,12 @@ import { newTabProps } from "@/lib/links";
 
 /** The footer frame (Figma 4506:83007), 721 tall in the 1512 page. */
 const FRAME = { width: 1512, height: 721 };
-/** Where the content starts (4506:83422), and the room left below it. */
-const CONTENT_TOP = 231.64;
-const CONTENT_BOTTOM = 147.94;
 /**
- * On a phone the field is drawn whole across the screen (the brush's last
- * stroke ends 146 down the frame), and the content starts this far below
- * the brush.
+ * The brush's last stroke ends 146 down the frame: below it the field is
+ * solid red. On a phone the field is drawn whole across the screen and the
+ * content starts PHONE_GAP below the brush, with `footer-bottom` below it
+ * (less on a case study); from md up the content is centred in the solid
+ * red (`footer-centred`, globals.css).
  */
 const BRUSH_BOTTOM = 146;
 const PHONE_GAP = "3rem";
@@ -166,17 +165,19 @@ export function SiteFooter() {
 
       <Container
         data-reveal-group
-        className="relative flex flex-col gap-16 pt-(--footer-top) text-fg-strong max-md:pt-(--footer-top-phone)"
+        className="footer-centred relative flex flex-col gap-16 footer-bottom text-fg-strong max-md:pt-(--footer-top-phone)"
         style={
           {
-            "--footer-top": scaled(CONTENT_TOP),
+            "--footer-brush": scaled(BRUSH_BOTTOM),
             "--footer-top-phone": `calc(${((BRUSH_BOTTOM / FRAME.width) * 100).toFixed(4)}vw + ${PHONE_GAP})`,
-            paddingBottom: CONTENT_BOTTOM,
           } as CSSProperties
         }
       >
-        <div className="flex flex-col gap-6 font-brand font-opsz-14">
-          <p className="text-footer-name">{footer.name}</p>
+        {/* On a phone: a 40px name, 16px over the tagline. */}
+        <div className="flex flex-col gap-6 font-brand font-opsz-14 max-md:gap-4">
+          <p className="text-footer-name max-md:text-footer-name-sm">
+            {footer.name}
+          </p>
           <p className="text-footer-tagline">{footer.tagline}</p>
         </div>
 

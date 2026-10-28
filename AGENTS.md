@@ -23,9 +23,13 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
   (currently the case-study section nav, the home tab bar, the about-me
   photo fan's scroll trigger, the site-wide scroll reveal, the page
   transition, the route memory, the pager's previous arrow, the
-  "Email copied" notice, the phone's case-study back button and the tap
-  feedback). Mark an element `data-press` and a tap shows its hover look
-  (style it with `data-pressed:`).
+  "Email copied" notice, the phone's case-study back button, the tap
+  feedback, the ELEMENTS feature carousel and the phone web notice). Mark
+  an element `data-press` and a tap shows its hover look (style it with
+  `data-pressed:`).
+- The fan (`FanStage`, components/ui): cards marked `data-fan-card` wait
+  stacked and spring out once when scrolled into view — the home about-me
+  photos and the MISS BLISS illustration cards (`card-fan` block).
 - Scroll reveal: mark a container `data-reveal-group` and its direct children
   fade and rise in, staggered, as they scroll into view; nested groups
   cascade. Skip a child with `data-reveal-skip` (e.g. anything sticky).
@@ -35,4 +39,9 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
   to read) it plays the curtain. `data-page-transition="curtain"` (the
   pager arrows, the way home included) plays the black curtain wipe; a
   bare `data-page-transition`, the blob cover-and-window.
+- Web notice (`WebNotice`): the home page loaded fresh on a phone opens on
+  the hero's red and dots with "Better experience on Web" for 800ms, then
+  the curtain lifts onto the page. A head script in the root layout marks
+  <html> `data-web-notice` before the page paints; client navigation never
+  shows it.
 - Before finishing: `npm run typecheck && npm run lint && npm run build`.

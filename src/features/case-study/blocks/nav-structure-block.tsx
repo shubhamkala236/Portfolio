@@ -15,7 +15,8 @@ const SEPARATOR_WIDTH = 31;
  *
  * Each card is as wide as its content and indented by its Figma offset
  * (0 / 126 / 0 / 176px), 24px apart, with a "•" between items. Below `lg`
- * the cards drop the indent and let their items wrap.
+ * the cards drop the indent and let their items wrap; on a phone commas
+ * separate them.
  */
 export function NavStructureBlock({
   eyebrow,
@@ -54,6 +55,7 @@ export function NavStructureBlock({
             <DotList
               items={row.items}
               gap={SEPARATOR_WIDTH}
+              phoneCommas
               className="font-medium text-muted lg:flex-nowrap lg:whitespace-nowrap"
             />
           </section>

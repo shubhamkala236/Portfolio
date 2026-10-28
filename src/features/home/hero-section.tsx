@@ -126,7 +126,11 @@ export function HeroSection({ hero }: HeroSectionProps) {
               letterSpacing: "-0.04em",
             }}
           >
-            {hero.headline}
+            {hero.headline.map((line) => (
+              <span key={line} className="block">
+                {line}
+              </span>
+            ))}
           </h1>
         </div>
 

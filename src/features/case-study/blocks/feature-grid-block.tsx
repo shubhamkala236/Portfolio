@@ -1,6 +1,7 @@
 import Image from "next/image";
 
 import { SectionHeader } from "@/components/ui/section-header";
+import { FeatureCarousel } from "@/features/case-study/feature-carousel";
 import { cn } from "@/lib/cn";
 import type { CaseStudyBlock } from "@/content/types";
 
@@ -23,7 +24,8 @@ const percent = (value: number, of: number) => `${(value / of) * 100}%`;
  * that alternate across it: the first pair sits in columns 1–2 with its
  * caption above the art, the next in columns 2–3 with the caption below. The
  * remaining cell of each row is an empty spacer in the file too. Below `lg`
- * it collapses to one column with every caption above its art.
+ * it collapses to one column with every caption above its art; on a phone
+ * the cards come as a stacked, self-running carousel (FeatureCarousel).
  *
  * The illustrations are exported with their own rounded card background, so
  * they are shown as-is at their natural size — no extra frame.
@@ -37,14 +39,23 @@ export function FeatureGridBlock({
   frame = DEFAULT_FRAME,
 }: FeatureGridBlockProps) {
   return (
-    <div data-reveal-group className="relative flex flex-col gap-20">
+    // On a phone the header sits 44px over the cards.
+    <div
+      data-reveal-group
+      className="relative flex flex-col gap-20 max-md:gap-11"
+    >
       <SectionHeader
         eyebrow={eyebrow}
         title={title}
         description={description}
       />
 
-      <div data-reveal-group className="grid gap-9 lg:grid-cols-3">
+      {/* On a phone the cards come as a stacked carousel instead. */}
+      <FeatureCarousel label={title} items={items} />
+      <div
+        data-reveal-group
+        className="grid gap-9 max-md:hidden lg:grid-cols-3"
+      >
         {items.map((item, index) => {
           const isOffsetPair = Math.floor(index / 2) % 2 === 1;
           const column = (index % 2) + 1 + (isOffsetPair ? 1 : 0);

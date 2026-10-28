@@ -61,7 +61,8 @@ export const missBliss = {
             "A platform for adult creators to connect, express, and grow",
           ],
           subtitleSize: "md",
-          subtitleGap: 20,
+          // 12px under the title (the file's 20).
+          subtitleGap: 12,
         },
         {
           type: "meta",
@@ -83,72 +84,216 @@ export const missBliss = {
       face: "brand",
       tone: "strong",
     },
-    // 4506:82875
+    // The introduction, its cards and the six screens: 200px apart in the
+    // file, 64px on a phone.
     {
-      type: "prose",
-      eyebrow: "Introduction",
-      paragraphs: [
-        "Miss Bliss is a social platform for adult content creators and their audiences. I created custom UI illustrations for empty states, notifications, and other in-app experiences, adding personality to functional screens while keeping the interface clear and consistent.",
+      type: "group",
+      gap: 200,
+      phoneGap: 64,
+      blocks: [
+        // 4506:82875
+        {
+          type: "prose",
+          eyebrow: "Introduction",
+          paragraphs: [
+            "Miss Bliss is a social platform for adult content creators and their audiences. I created custom UI illustrations for empty states, notifications, and other in-app experiences, adding personality to functional screens while keeping the interface clear and consistent.",
+          ],
+        },
+        // 4506:82878 — six illustration cards across the full 1512px frame,
+        // 127px past the column each side, fanning out as on the home page.
+        {
+          type: "card-fan",
+          label:
+            "Six tilted cards, each with a line illustration from the set: a stretch, photo frames, a sofa, a cocktail, a selfie and a box",
+          frame: { width: 1258, height: 380.93 },
+          bleed: { x: -127, y: 0 },
+          card: {
+            width: 218.576,
+            height: 278.779,
+            border: 1.085,
+            radius: 21.695,
+          },
+          // In the file's stacking order (4506:82879 … 4506:82889).
+          cards: [
+            {
+              box: {
+                left: 729.48,
+                top: 62.95,
+                width: 250.924,
+                height: 303.341,
+              },
+              tilt: 7,
+              image: {
+                src: "/case-studies/miss-bliss/cards/stretch.png",
+                size: 3500,
+                width: 201.762,
+                height: 111.186,
+                dx: -0.27,
+                dy: 0.27,
+                crop: {
+                  left: "-9.51%",
+                  top: "-35.17%",
+                  width: "117.25%",
+                  height: "214.07%",
+                },
+              },
+            },
+            {
+              box: {
+                left: 297.12,
+                top: 69.26,
+                width: 263.222,
+                height: 312.187,
+              },
+              tilt: 9.89,
+              image: {
+                src: "/case-studies/miss-bliss/cards/frames.png",
+                size: 3500,
+                width: 172.474,
+                height: 186.034,
+                dx: -0.27,
+                dy: 0.27,
+                crop: {
+                  left: "-46.88%",
+                  top: "-42.31%",
+                  width: "189.02%",
+                  height: "175%",
+                },
+              },
+            },
+            {
+              box: {
+                left: 512.44,
+                top: 22.07,
+                width: 249.578,
+                height: 302.354,
+              },
+              tilt: -6.69,
+              image: {
+                src: "/case-studies/miss-bliss/cards/sofa.png",
+                size: 3500,
+                width: 174.644,
+                height: 204.474,
+                dx: -0.27,
+                dy: 0.27,
+                crop: {
+                  left: "-31.85%",
+                  top: "-14.01%",
+                  width: "159.24%",
+                  height: "134.72%",
+                },
+              },
+            },
+            {
+              box: {
+                left: 1151.77,
+                top: 18.88,
+                width: 284.582,
+                height: 326.698,
+              },
+              tilt: 15.35,
+              image: {
+                src: "/case-studies/miss-bliss/cards/cocktail.png",
+                size: 3500,
+                width: 141.017,
+                height: 178.44,
+                dx: -0.27,
+                dy: 0.27,
+                crop: {
+                  left: "-62.41%",
+                  top: "-51.26%",
+                  width: "242.72%",
+                  height: "191.68%",
+                },
+              },
+            },
+            {
+              box: { left: 74.74, top: 10.68, width: 252.896, height: 304.78 },
+              tilt: -7.45,
+              image: {
+                src: "/case-studies/miss-bliss/cards/selfie.png",
+                size: 3500,
+                width: 187.661,
+                height: 123.118,
+                dx: -0.27,
+                dy: 0.27,
+                crop: {
+                  left: "-11.26%",
+                  top: "-41.81%",
+                  width: "130.55%",
+                  height: "199.09%",
+                },
+              },
+            },
+            {
+              box: { left: 959.65, top: 0, width: 222.324, height: 281.708 },
+              tilt: -0.77,
+              image: {
+                src: "/case-studies/miss-bliss/cards/box.png",
+                size: 3500,
+                width: 203.389,
+                height: 165.423,
+                dx: 0,
+                dy: 0.27,
+                crop: {
+                  left: "-21.14%",
+                  top: "-35.38%",
+                  width: "135.37%",
+                  height: "166.15%",
+                },
+              },
+            },
+          ],
+        },
+        // 4506:82891
+        {
+          type: "render",
+          render: render(
+            "no-results",
+            "Collab search with no results: an illustration of a figure with an open box above “No Results Found!”",
+          ),
+        },
+        // 4506:82896
+        {
+          type: "render",
+          render: render(
+            "chat-room",
+            "The messages screen with an empty chat pane, illustrated with two figures on a sofa above “Miss Bliss Chat Room”",
+          ),
+        },
+        // 4506:82901
+        {
+          type: "render",
+          render: render(
+            "link-expired",
+            "An expired project link, illustrated with a figure holding a cocktail above “Oops, this link has expired!”",
+          ),
+        },
+        // 4506:82906
+        {
+          type: "render",
+          render: render(
+            "no-followers",
+            "An empty followers list on a creator profile, illustrated with a figure taking a selfie above “No followers yet!”",
+          ),
+        },
+        // 4506:82911
+        {
+          type: "render",
+          render: render(
+            "caught-up",
+            "The notifications panel ending with an illustration above “You are all caught up!”",
+          ),
+        },
+        // 4506:82916
+        {
+          type: "render",
+          render: render(
+            "no-posts",
+            "A profile with no posts, illustrated with four photo frames above “No Posts Yet!”",
+          ),
+        },
       ],
-    },
-    // 4506:82878 — six illustration cards across the full 1512px frame. Its
-    // render starts 4px above the 380.93px frame and hangs 12px below it.
-    {
-      type: "render",
-      render: render(
-        "illustrations",
-        "Six tilted cards, each with a line illustration from the set: figures with a phone, photo frames, a sofa, a stretch, a box and a cocktail",
-        { width: 1258, height: 380.93 },
-        { x: -127, y: -4, width: 1512, height: 397 },
-      ),
-    },
-    // 4506:82891
-    {
-      type: "render",
-      render: render(
-        "no-results",
-        "Collab search with no results: an illustration of a figure with an open box above “No Results Found!”",
-      ),
-    },
-    // 4506:82896
-    {
-      type: "render",
-      render: render(
-        "chat-room",
-        "The messages screen with an empty chat pane, illustrated with two figures on a sofa above “Miss Bliss Chat Room”",
-      ),
-    },
-    // 4506:82901
-    {
-      type: "render",
-      render: render(
-        "link-expired",
-        "An expired project link, illustrated with a figure holding a cocktail above “Oops, this link has expired!”",
-      ),
-    },
-    // 4506:82906
-    {
-      type: "render",
-      render: render(
-        "no-followers",
-        "An empty followers list on a creator profile, illustrated with a figure taking a selfie above “No followers yet!”",
-      ),
-    },
-    // 4506:82911
-    {
-      type: "render",
-      render: render(
-        "caught-up",
-        "The notifications panel ending with an illustration above “You are all caught up!”",
-      ),
-    },
-    // 4506:82916
-    {
-      type: "render",
-      render: render(
-        "no-posts",
-        "A profile with no posts, illustrated with four photo frames above “No Posts Yet!”",
-      ),
     },
     // 4506:82921 — the sign-off between arrows to the neighbouring case
     // studies; the row is 1254px wide, 2px in from each side.

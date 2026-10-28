@@ -44,11 +44,12 @@ export const elements = {
         {
           type: "page-title",
           title: "ELEMENTS",
-          // 4506:85293 — DM Sans SemiBold, -4%; the subtitle is 40px, 20px under.
+          // 4506:85293 — DM Sans SemiBold, -4%; the subtitle is 40px, 12px under
+          // (the file's 20).
           titleStyle: "brand",
           subtitle: ["Fashion, Simplified: Organize, Style, and Shop Smarter"],
           subtitleSize: "md",
-          subtitleGap: 20,
+          subtitleGap: 12,
         },
         {
           type: "meta",
@@ -262,6 +263,8 @@ export const elements = {
       figureGap: 16,
       // 4506:85514 — Figma's normal line box (64 -> 83), not the tight one
       leading: "normal",
+      // 240px wide from md up (the file's 134).
+      markWebSize: 240,
       // Group 50 (4127:17259): circle 4127:17260, sparkle 4127:17261
       mark: {
         box: { width: 134, height: 135 },
@@ -374,10 +377,12 @@ export const elements = {
           id: "wardrobe",
           label: "Wardrobe",
           icon: "app-wardrobe",
-          // 4286:7258 — two 1100px figures, centred, 80px apart
+          // 4286:7258 — two 1100px figures, centred, 80px apart (44 on a
+          // phone)
           block: {
             type: "group",
             gap: 80,
+            phoneGap: 44,
             blocks: [
               {
                 type: "annotated-figure",
@@ -427,6 +432,7 @@ export const elements = {
               },
               {
                 type: "annotated-figure",
+                phoneGap: 20,
                 subtitle: "OOTD- Outfit of the day",
                 subtitleSize: "lg",
                 width: 1100,

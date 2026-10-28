@@ -140,11 +140,12 @@ export const hotstuff = {
         {
           type: "page-title",
           title: "HOTSTUFF",
-          // 4506:86240 — DM Sans SemiBold, -4%; the subtitle is 40px, 20px under.
+          // 4506:86240 — DM Sans SemiBold, -4%; the subtitle is 40px, 12px under
+          // (the file's 20).
           titleStyle: "brand",
           subtitle: ["Home for all capital that actually trades and invests."],
           subtitleSize: "md",
-          subtitleGap: 20,
+          subtitleGap: 12,
         },
         {
           type: "meta",
@@ -184,11 +185,18 @@ export const hotstuff = {
     {
       type: "heading",
       text: "THE PRODUCT",
+      // 44px (the file's 64), the description 8px under it in the muted
+      // grey (the file's 16px, white).
+      size: "sm",
+      descriptionGap: 8,
+      descriptionTone: "muted",
       maxWidth: 932,
       figureGap: 16,
       // Figma's normal line box (64 -> 83), not the tight one
       leading: "normal",
+      // 240px wide from md up (the file's 134).
       mark: starEyesMark,
+      markWebSize: 240,
       description:
         "Hotstuff grew into several connected experiences. I worked across the product, from its core financial tools to the more playful systems around progression and rewards.",
     },
@@ -383,11 +391,17 @@ export const hotstuff = {
     {
       type: "heading",
       text: "BEYOND THE FEATURES",
+      // As THE PRODUCT: 44px, the description 8px under, muted.
+      size: "sm",
+      descriptionGap: 8,
+      descriptionTone: "muted",
       maxWidth: 932,
       figureGap: 16,
       // Figma's normal line box (64 -> 83), not the tight one
       leading: "normal",
+      // 240px wide from md up (the file's 134).
       mark: starEyesMark,
+      markWebSize: 240,
       // 4506:86616 — Figma's first line stops short of "systems,": at 932px
       // it just misses fitting, where the browser fits it.
       description: [

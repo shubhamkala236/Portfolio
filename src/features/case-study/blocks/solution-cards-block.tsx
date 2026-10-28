@@ -33,9 +33,13 @@ export function SolutionCardsBlock({
         style={{ maxWidth: width }}
       >
         {items.map((item) => (
-          <li key={item.title} className="flex flex-col items-center gap-10">
+          <li
+            key={item.title}
+            className="flex flex-col items-center gap-10 max-md:gap-6"
+          >
             <FigmaRender render={item.icon} />
-            <div className="flex w-full flex-col gap-4 lg:h-card-text">
+            {/* On a phone: 24px under the art, 4px from title to text. */}
+            <div className="flex w-full flex-col gap-4 max-md:gap-1 lg:h-card-text">
               {/* `capitalize` as in Figma: "Track everything" renders
                   "Track Everything". */}
               <h3 className="font-display text-card-title text-fg-strong capitalize">

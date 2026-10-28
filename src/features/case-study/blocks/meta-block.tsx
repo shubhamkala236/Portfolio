@@ -30,7 +30,14 @@ export function MetaBlock({
         <div key={item.label} className="flex flex-col gap-3">
           <dt className={eyebrowStyles}>{item.label}</dt>
           <dd className="text-body text-fg-strong max-md:text-case-meta-sm lg:whitespace-nowrap">
-            {item.value}
+            {item.phoneValue === undefined ? (
+              item.value
+            ) : (
+              <>
+                <span className="max-md:hidden">{item.value}</span>
+                <span className="md:hidden">{item.phoneValue}</span>
+              </>
+            )}
           </dd>
         </div>
       ))}

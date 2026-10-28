@@ -2,7 +2,7 @@ import Image from "next/image";
 import type { CSSProperties } from "react";
 
 import type { HomeContent } from "@/content/types";
-import { FanStage } from "@/features/home/fan-stage";
+import { FanStage } from "@/components/ui/fan-stage";
 import { a } from "@/features/home/stage";
 
 /** The strip (4506:83538): 1258 × 360.359. */

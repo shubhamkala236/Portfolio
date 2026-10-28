@@ -1,8 +1,9 @@
-import { Fragment } from "react";
+import { Fragment, type CSSProperties } from "react";
 
 import { cn } from "@/lib/cn";
 import type { CaseStudyBlock } from "@/content/types";
 import { AnnotatedFigureBlock } from "@/features/case-study/blocks/annotated-figure-block";
+import { CardFanBlock } from "@/features/case-study/blocks/card-fan-block";
 import { ChapterBlock } from "@/features/case-study/blocks/chapter-block";
 import { PageTitleBlock } from "@/features/case-study/blocks/page-title-block";
 import { ProjectPagerBlock } from "@/features/case-study/blocks/project-pager-block";
@@ -34,7 +35,13 @@ const ROOT_GAP = 200;
 function renderBlock(block: CaseStudyBlock) {
   switch (block.type) {
     case "group":
-      return <BlockStack blocks={block.blocks} gap={block.gap} />;
+      return (
+        <BlockStack
+          blocks={block.blocks}
+          gap={block.gap}
+          phoneGap={block.phoneGap}
+        />
+      );
     case "heading":
       return <HeadingBlock {...block} />;
     case "feature-grid":
@@ -75,6 +82,8 @@ function renderBlock(block: CaseStudyBlock) {
       return <WalkthroughBlock {...block} />;
     case "page-title":
       return <PageTitleBlock {...block} />;
+    case "card-fan":
+      return <CardFanBlock {...block} />;
     case "render":
       return <RenderBlock {...block} />;
     case "project-pager":
@@ -100,16 +109,28 @@ type BlockStackProps = {
   blocks: readonly CaseStudyBlock[];
   /** Gap in Figma pixels. Scaled down on narrower viewports. */
   gap: number;
+  /** The gap on a phone, px, in place of the scaled one. */
+  phoneGap?: number;
   className?: string;
 };
 
-function BlockStack({ blocks, gap, className }: BlockStackProps) {
+function BlockStack({ blocks, gap, phoneGap, className }: BlockStackProps) {
   return (
     // Each block scrolls into view on its own (ScrollReveal).
     <div
       data-reveal-group
-      className={cn("flex flex-col", className)}
-      style={{ gap: `calc(var(--gap-scale) * ${gap}px)` }}
+      className={cn(
+        "flex flex-col gap-(--stack-gap)",
+        phoneGap !== undefined && "max-md:gap-(--stack-phone-gap)",
+        className,
+      )}
+      style={
+        {
+          "--stack-gap": `calc(var(--gap-scale) * ${gap}px)`,
+          "--stack-phone-gap":
+            phoneGap === undefined ? undefined : `${phoneGap}px`,
+        } as CSSProperties
+      }
     >
       {blocks.map((block, index) => (
         <Fragment key={`${block.type}-${index}`}>{renderBlock(block)}</Fragment>

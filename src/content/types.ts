@@ -47,6 +47,11 @@ export type SiteConfig = {
    * too, for visitors with no mail app set up.
    */
   emailCopied: string;
+  /**
+   * Shown on a red screen when the home page is opened on a phone, before
+   * the curtain lifts onto the page.
+   */
+  webNotice: string;
   socials: readonly SocialLink[];
   /** The site footer (Figma 4506:83007). */
   footer: {
@@ -133,13 +138,20 @@ export type WalkthroughFlow = {
   width: number;
   /** Figma gap between steps, in px. */
   stepGap: number;
+  /** The gap between steps on a phone, px, in place of the scaled one. */
+  phoneStepGap?: number;
   /** Numbered list titles ("1. …"). Defaults to true. */
   numbered?: boolean;
   steps: readonly {
     title: string;
     figure: FigmaRender;
     /** Text under the canvas, optionally led by a bold phrase. */
-    note?: { lead?: string; text: string };
+    note?: {
+      lead?: string;
+      text: string;
+      /** 12px on a phone, in place of the 16px copy. */
+      phoneSmall?: boolean;
+    };
     annotations: readonly Annotation[];
   }[];
 };
@@ -192,12 +204,53 @@ export type CaseStudyBlock =
   | {
       type: "group";
       gap: number;
+      /** The gap on a phone, px, where it isn't the scaled-down `gap`. */
+      phoneGap?: number;
       blocks: readonly CaseStudyBlock[];
+    }
+  /**
+   * A row of tilted cards that fan out from a stack as they scroll into view
+   * (MISS BLISS 4506:82878, after the home page's photo fan). Lengths are
+   * Figma px of `frame`; `bleed` is where the frame sits against the column.
+   */
+  | {
+      type: "card-fan";
+      /** The whole row's description, for screen readers. */
+      label: string;
+      frame: { width: number; height: number };
+      bleed: { x: number; y: number };
+      /** Every card's size, edge and corner. */
+      card: { width: number; height: number; border: number; radius: number };
+      cards: readonly {
+        /** The turned card's bounding box in the frame. */
+        box: { left: number; top: number; width: number; height: number };
+        /** Its turn, °. */
+        tilt: number;
+        /** The illustration's crop box, centred in the card (offset by dx/dy). */
+        image: {
+          src: string;
+          /** The source's square size, px. */
+          size: number;
+          width: number;
+          height: number;
+          dx: number;
+          dy: number;
+          /** Where the image sits in its crop box, as Figma's percentages. */
+          crop: { left: string; top: string; width: string; height: string };
+        };
+      }[];
+      /** The card the others wait stacked on (index; 0 by default). */
+      front?: number;
     }
   /** The PROJECT / ROLE / TIMELINE / SCOPE row, framed by hairline rules. */
   | {
       type: "meta";
-      items: readonly { label: string; value: string }[];
+      items: readonly {
+        label: string;
+        value: string;
+        /** On a phone, shown in place of `value`. */
+        phoneValue?: string;
+      }[];
       /**
        * "gap" puts 80px between columns; "spread" spaces them across the full
        * width (justify-between), as Hotstuff's row does. Defaults to "gap".
@@ -344,18 +397,26 @@ export type CaseStudyBlock =
       type: "heading";
       /** One string, or one per line where Figma breaks the text explicitly. */
       text: string | readonly string[];
+      /**
+       * On a phone, the lines a one-string `text` breaks into (together the
+       * same text, space-separated); elsewhere it wraps as usual.
+       */
+      phoneLines?: readonly string[];
       /** Extra space between explicit lines, in Figma px. */
       lineGap?: number;
       figure?: ImageAsset;
       /** A rebuilt memoji badge, used instead of `figure`. */
       mark?: MemojiMark;
+      /** From md up, the mark scaled to this width, px (its own below md). */
+      markWebSize?: number;
       /** Rendered size of the figure in px. Defaults to 134. */
       figureSize?: number;
       /** Figma gap between figure and text, in px. Defaults to 16. */
       figureGap?: number;
       /** Figma text width in px, so line breaks fall where they do in the file. */
       maxWidth?: number;
-      size?: "lg" | "md";
+      /** "lg" 64px (the default), "md" 52px, "sm" 44px; 28px on a phone. */
+      size?: "lg" | "md" | "sm";
       /**
        * "normal" is Figma's default line box for the face (DM Sans 64 -> 83)
        * where the file leaves the line height unset; the default is the tight
@@ -379,6 +440,10 @@ export type CaseStudyBlock =
        * one per line where Figma's wrap differs from the browser's.
        */
       description?: string | readonly string[];
+      /** From md up, title → description in Figma px, in place of `figureGap`. */
+      descriptionGap?: number;
+      /** "muted" sets the description in the muted grey at every size. */
+      descriptionTone?: "muted";
     }
   /**
    * The app's tab bar as in-page navigation: it floats under the site header
@@ -456,6 +521,10 @@ export type CaseStudyBlock =
    */
   | {
       type: "annotated-figure";
+      /** Subtitle → image → notes on a phone, px (40 otherwise). */
+      phoneGap?: number;
+      /** Header → figure on a phone, px (80 otherwise). */
+      phoneHeaderGap?: number;
       eyebrow?: string;
       title?: string;
       description?: string;
@@ -587,7 +656,8 @@ export type HomeContent = {
   };
   hero: {
     greeting: string;
-    headline: string;
+    /** One entry per line, as Figma breaks it; the lines hold on a phone. */
+    headline: readonly string[];
     /** The line set along the curve, read as one sentence. */
     pathText: string;
   };

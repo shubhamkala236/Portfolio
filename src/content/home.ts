@@ -147,7 +147,7 @@ export const home = {
   },
   hero: {
     greeting: "HI, I’M KRITI",
-    headline: "PRODUCT DESIGNER WITH AN ARTIST’S EYE",
+    headline: ["PRODUCT DESIGNER WITH", "AN ARTIST’S EYE"],
     pathText: "too many ideas. good decisions. lachimolala energy.",
   },
   works: {
